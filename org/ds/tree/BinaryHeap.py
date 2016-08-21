@@ -21,10 +21,16 @@ class BinaryHeapUsingArray:
     def __init__(self, treeType):
         self.treeTpye = treeType;
         self.binaryHeap = [];
+    
+    def getHeap(self):
+        return self.binaryHeap;
 
     def traverseTree(self):
         for value in self.binaryHeap:
             print(value);
+        
+    def getHeapSize(self):
+        return len(self.binaryHeap);
 
     def heapifyDown(self, index):
         length = len(self.binaryHeap);
@@ -107,7 +113,7 @@ class BinaryHeapUsingArray:
             self.heapifyDown(0);
             return data;
     
-    def findMin(self):
+    def extractMin(self):
         if len(self.binaryHeap) == 0:
             return None;
         if "MIN_HEAP" is self.treeTpye:

@@ -53,10 +53,28 @@ for s in l[:]:
 print(l)
 
 m = {};
-m[0] = 0;
-m[1] = 1;
-m[2] = 2;
+m["V0"] = 0;
+m["V1"] = 1;
+m["V2"] = 2;
 
 for key in m.iterkeys():
     print(key);
 
+print("\nadasd");
+
+print(m.keys()[0]);
+
+if __name__ == '__main__':
+    class Test:
+        def abc(self, m=None):
+            if m is None:
+                m = {};
+                m["V1"] = "1";
+                
+            for key, value in m.iteritems():
+                print(key);
+                print(value);
+            
+    
+    t = Test({'V2':'2'});
+    t.abc();

@@ -10,7 +10,7 @@ class StackUsingLinkedList:
     def __init__(self):
         self.top = None;
         self.size = 0;
-    
+
     def push(self, data):
         node = SingleLinkedNode(data);
         if self.top is None:
@@ -28,7 +28,7 @@ class StackUsingLinkedList:
             return data;
         else:
             print("Stack is Empty");
-        
+
     def getSize(self):
         return self.size;
 

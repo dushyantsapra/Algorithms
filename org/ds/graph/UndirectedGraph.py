@@ -4,7 +4,7 @@ Created on Aug 14, 2016
 @author: Dushyant sapra
 '''
 
-from org.ds.graph.DisjointSet import DisjointSet
+from org.ds.graph.common.Edge import Edge
 from org.ds.queue.Queue import Queue
 from org.ds.stack.Stack import StackUsingLinkedList
 
@@ -43,45 +43,7 @@ class Vertex:
     def getName(self):
         return self.name;
     
-class Edge:
-    def __init__(self, fromVertex, toVertex, name=None, weight=0):
-        self.fromVertex = fromVertex;
-        self.toVertex = toVertex;
-        self.name = name;
-        self.weight = weight;
-        
-    def __gt__(self, other):
-        return self.weight > other.weight;
-    
-    def __ge__(self, other):
-        return self.weight >= other.weight;
-
-    def __lt__(self, other):
-        return self.weight < other.weight;
-    
-    def __le__(self, other):
-        return self.weight <= other.weight;
-
-    def __eq__(self, other):
-        return (self.fromVertex == other.getFromVertex()) and (self.toVertex == other.getToVertex());
-
-    def __str__(self):
-        return "Edge With Name : " + self.name + " And Weight : " + str(self.weight);
-#         return "Edge With Starting Vertex : " + self.fromVertex.getName() + ", End Vertex : " + self.toVertex.getName() + ", Name : " + self.name + " And Weight : " + str(self.weight);
-    
-    def getFromVertex(self):
-        return self.fromVertex;
-
-    def getToVertex(self):
-        return self.toVertex;
-    
-    def getName(self):
-        return self.name;
-
-    def getWeight(self):
-        return self.weight;
-
-class Graph:
+class UnDirectedGraph:
     def __init__(self):
         self.vertexMap = {};
         self.edgeMap = {};
@@ -118,7 +80,7 @@ class Graph:
 
         edge = Edge(fromVertex, toVertex, name, weight);
 
-        if edge in self.edgeMap:
+        if name in self.edgeMap:
             print("Edge from start Vertex \"" + fromVertexName + "\" & end Vertex \"" + toVertexName + "\" is Present"); 
             return False;
 
@@ -142,7 +104,7 @@ class Graph:
         else:
             print("Vertex Doesn't Exists");
             
-    def bfs(self, vertexName):
+    """def bfs(self, vertexName):
         if vertexName not in self.vertexMap:
             print("Vertex Doesn't Exists");
             return False;
@@ -164,9 +126,35 @@ class Graph:
                     continue;
 
                 visitedVertexList.append(tempVertex);
-                queue.enQueue(tempVertex);
+                queue.enQueue(tempVertex);"""
+        
+    def bfs(self, vertexName, visitedVertexMap=None):
+        if vertexName not in self.vertexMap:
+            print("Vertex Doesn't Exists");
+            return False;
+
+        vertex = self.vertexMap[vertexName];
     
-    def dfsUsingStack(self, vertexName):
+        if visitedVertexMap is None:
+            visitedVertexMap = {};
+
+        queue = Queue();
+
+        queue.enQueue(vertex);
+        visitedVertexMap[vertex] = 1;
+
+        while queue.getSize() > 0:
+            v = queue.deQueue();
+            print(v.getName());
+
+            for tempVertex in v.getAdjacentVertex():
+                if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
+                    continue;
+
+                visitedVertexMap[tempVertex] = 1;
+                queue.enQueue(tempVertex);
+            
+    """def dfsUsingStack(self, vertexName):
         if vertexName not in self.vertexMap:
             print("Vertex Doesn't Exists");
             return False;
@@ -188,112 +176,80 @@ class Graph:
                     continue;
 
                 visitedVertexList.append(tempVertex);
+                stack.push(tempVertex);"""
+            
+    def dfsUsingStack(self, vertexName, visitedVertexMap=None):
+        if vertexName not in self.vertexMap:
+            print("Vertex Doesn't Exists");
+            return False;
+
+        vertex = self.vertexMap[vertexName];
+    
+        if visitedVertexMap is None:
+            visitedVertexMap = {};
+
+        stack = StackUsingLinkedList();
+
+        stack.push(vertex);
+        visitedVertexMap[vertex] = 1;
+
+        while stack.getSize() > 0:
+            v = stack.pop();
+            print(v.getName());
+
+            for tempVertex in v.getAdjacentVertex():
+                if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
+                    continue;
+
+                visitedVertexMap[tempVertex] = 1;
                 stack.push(tempVertex);
 
-    def defUsingRecursionHelper(self, vertex, visitedVertexList):
+    """def defUsingRecursionHelper(self, vertex, visitedVertexList):
         print(vertex.getName());
         visitedVertexList.append(vertex);
-        
-        for v in vertex.getOutVerticesList():
+
+        for v in vertex.getAdjacentVertex():
             if v in visitedVertexList:
                 continue;
-            
-            self.dfsUsingRecursionHelper(v, visitedVertexList);
+
+            self.defUsingRecursionHelper(v, visitedVertexList);"""
+
+    def defUsingRecursionHelper(self, vertex, arrivalMap, departureMap, visitedVertexMap=None, currentCount=0):
+#         print(vertex.getName());
+        if visitedVertexMap is None:
+            visitedVertexMap = {};
+
+        visitedVertexMap[vertex] = 1;
+        currentCount += 1;
+        arrivalMap[vertex] = currentCount;
+
+        print("Vertex Name: " + vertex.getName() + ", Arrival Time: " + str(currentCount));
+
+        for tempVertex in vertex.getAdjacentVertex():
+            if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
+                continue;
+
+            currentCount = self.defUsingRecursionHelper(tempVertex, arrivalMap, departureMap, visitedVertexMap, currentCount);
+        currentCount += 1;
+        departureMap[vertex] = currentCount;
+        print("Vertex Name: " + vertex.getName() + ", Departure Time: " + str(currentCount));
+        return currentCount;
 
     def dfsUsingRecursion(self, vertexName):
         if vertexName not in self.vertexMap:
             print("Vertex Doesn't Exists");
             return False;
-        
-        vertex = self.vertexMap[vertexName];
-        self.dfsUsingRecursionHelper(vertex, []);
-
-    def dfsUsingStackForConnectedComponent(self, vertexName, visitedVertexMap, counterValue):
-        if vertexName not in self.vertexMap:
-            print("Vertex Doesn't Exists");
-            return False;
 
         vertex = self.vertexMap[vertexName];
 
-        stack = StackUsingLinkedList();
-        visitedVertexList = [];
-
-        stack.push(vertex);
-        visitedVertexList.append(vertex);
-        visitedVertexMap[vertex] = counterValue;
-
-        while stack.getSize() > 0:
-            v = stack.pop();
-            print(v.getName());
-
-            for tempVertex in v.getAdjacentVertex():
-                if tempVertex in visitedVertexList:
-                    continue;
-
-                visitedVertexList.append(tempVertex);
-                visitedVertexMap[tempVertex] = counterValue;
-                stack.push(tempVertex);
-
-    def bfsForConnectedComponent(self, vertexName, visitedVertexMap, counterValue):
-        vertex = self.getVertexWithName(vertexName);
-
-        queue = Queue();
-        visitedVertexList = [];
-
-        queue.enQueue(vertex);
-        visitedVertexList.append(vertex);
-        visitedVertexMap[vertex] = counterValue;
-
-        while queue.getSize() > 0:
-            v = queue.deQueue();
-            print(v.getName());
-
-            for tempVertex in v.getAdjacentVertex():
-                if tempVertex in visitedVertexList:
-                    continue;
-
-                visitedVertexList.append(tempVertex);
-                visitedVertexMap[tempVertex] = counterValue;
-                queue.enQueue(tempVertex);
-
-    def countAndPrintconnectedComponents(self):
-        visitedVertexMap = {};
-        counter = 0;
-        for key, value in self.vertexMap.iteritems():
-            visitedVertexMap[value] = 0;
-
-        for key, value in visitedVertexMap.iteritems():
-            if value == 0:
-                counter += 1;
-                print("Connected Component Number " + str(counter) + " Vertices are:");
-                self.dfsUsingStackForConnectedComponent(key.getName(), visitedVertexMap, counter);
-            else:
-                continue;
-
-        print("Total Connected Components are : %d", counter);
-        
-    def checkForCycleInGraph(self):
-        disjoinSet = DisjointSet();
-        for key in self.vertexMap.iterkeys():
-            disjoinSet.makeSet(key);
-
-        for value in self.edgeMap.itervalues():
-            fromParentNode = disjoinSet.findSet(value.getFromVertex().getName());
-            toParentNode = disjoinSet.findSet(value.getToVertex().getName());
-            
-            if fromParentNode is toParentNode:
-                print("Graph Contains A Cycle");
-                return False;
-        
-            disjoinSet.union(value.getFromVertex().getName(), value.getToVertex().getName());
-
-        print("Graph Doesn't have a Cycle");
-        return False;
+        arrivalMap = {};
+        departureMap = {};
+#         self.defUsingRecursionHelper(vertex, []);
+        self.defUsingRecursionHelper(vertex, arrivalMap, departureMap, {});
 
 if __name__ == '__main__': 
-
-    """# Test Case 1
-    g = Graph();
+    # Test Case 1
+    g = UnDirectedGraph();
     g.addVertex("V1");
     g.addVertex("V2");
     g.addVertex("V3");
@@ -315,66 +271,11 @@ if __name__ == '__main__':
     
     g.addEdge("V5", "V6", "E9");
     
-    print("\n*****BFS*****");Graph
+    print("\n*****BFS*****");
     g.bfs("V1");
     
     print("\n*****DFS Using Stack*****");
     g.dfsUsingStack("V2");
     
     print("\n*****DFS Using Recursion*****");
-    g.dfsUsingStack("V2");"""
-    
-    
-    """# Test Case 2, Checking For Connected Component's in a graph
-    g = Graph();
-    g.addVertex("V1");
-    g.addVertex("V2");
-    g.addVertex("V3");
-    g.addVertex("V4");
-    g.addVertex("V5");
-    g.addVertex("V6");
-    g.addVertex("V7");
-    g.addVertex("V8");
-    g.addVertex("V9");
-    g.addVertex("V10");
-    g.addVertex("V11");
-    g.addVertex("V12");
-    g.addVertex("V13");
-    g.addVertex("V14");
-    
-    g.addEdge("V1", "V2", "E1");
-    g.addEdge("V1", "V5", "E2");
-    g.addEdge("V2", "V3", "E3");
-    g.addEdge("V3", "V4", "E4");
-    g.addEdge("V4", "V5", "E5");
-    
-    g.addEdge("V6", "V7", "E6");
-    g.addEdge("V6", "V8", "E7");
-    g.addEdge("V7", "V8", "E8");
-    
-    g.addEdge("V9", "V10", "E9");
-    g.addEdge("V9", "V12", "E10");
-    g.addEdge("V10", "V11", "E11");
-    g.addEdge("V11", "V12", "E12");
-    
-    g.countAndPrintconnectedComponents();"""
-    
-    g = Graph();
-    g.addVertex("V1");
-    g.addVertex("V2");
-    g.addVertex("V3");
-    g.addVertex("V4");
-    g.addVertex("V5");
-    g.addVertex("V6");
-    
-    g.addEdge("V1", "V2", "E1");
-    g.addEdge("V1", "V4", "E2");
-    
-    g.addEdge("V2", "V5", "E3");
-    # g.addEdge("V2", "V3", "E4");
-    
-    g.addEdge("V3", "V6", "E5");
-    
-    g.addEdge("V5", "V6", "E6");
-    
-    g.checkForCycleInGraph();
+    g.dfsUsingRecursion("V2");

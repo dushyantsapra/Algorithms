@@ -1,0 +1,128 @@
+1. A Graph G(V, E) is composed of:
+	i)	Set of Vertices
+	ii)	Set of edges connecting the vertices of V
+2. An Edge e=(u, v) is a pair of vertices.
+3. Adjacent Vertices : Vertices connected by an edge.
+4. Degree of a Vertex : Number of adjacent vertices.
+ 
+Q: What is the sum of degrees of all vertices.
+A: Twice the number of edges. Because a edge have 2 vertices, so every edge add's 2 degree in the graph. So twice the number of total edges.
+ 
+5. Path: A path in a graph is a sequence of vertices V1, V2, ..., Vk, Such that consecutive vertex Vi and Vi+1 are adjacent.
+6. Simple Path: A path have no vertex which is repeated.
+7. Cycle: Simple Path, except that the last vertex is same as the first vertex.
+
+Note: n is for Vertices and m for edges.
+
+8. Connected Graph: A graph is said to be connected, iff(if and only if) any two vertices are connected by some path. For a graph to be
+	connected min. number of edges must be n.
+
+Q: Minimum and Maximum Number of edges in Connected UnDirected Graph.
+A: 0 and nC2.
+Q: Minimum and Maximum Number of edges in Connected Directed Graph.
+A: 0 and 2*nC2.
+Q: Minimum Edges needed to form a Cycle in Directed/Undirected Graph.
+A: n
+
+
+9. Subgraph: Subset of vertices and edges which also forms a graph.
+10. Connected Components: Maximal Connected subgraph(Implemented under Undirected Graph).
+11. Complete Graph: one in which all pairs of vertices are adjacent. This Graph have n(n-1)/2 edges, i.e (nC2).
+12. A Tree is a connected graph which doesn't have a cycle in it. So Number of edge would be n-1.
+13. Spanning Tree: A spanning tree of G is a subgraph which is a tree and which contains all vertices of G.
+
+14. Data Structure for Graphs:
+	i)	Edge List.
+	ii)	Adjacency Lists.
+	iii)Adjacency Matrix.
+
+15. Graph Searching Algorithm's:
+	i)	Breath First Search(For Undirected Graph Only).
+	ii)	Depth First Search(For Directed and Undirected Graph Only).
+	
+	Applications:
+	i) Compilers
+	ii) Maze Solving
+	iii) Mapping
+	iv) Networks, routing, clustering etc.
+
+Note: While applying Searching Algo, we have have divide edges in following type:
+	i) Forward/Tree Edge: Which goes from one level to another, but these type of edges doesn't jumps levels.
+	ii) Back Edge: which goes from a level to a vertex in level above the current level OR an edge which end vertex is ancestor vertex defined while searching in a graph.
+	iii) Same Level Edge: Edge which exists with in same level. 
+
+16. Breath First Search: A BFS traverses a connected component of a graph, and in doing so defines a Spanning tree.
+	Outcome:
+		i) We can't have a back edge because that edge would already be include in its respective level while traversing any of its two vertices.
+		ii) We can have Same Level Edge but that would not be part of BFS edges.
+		iii) In a BFS starting from vertex v, the level number of vertex u is the length of the shortest path from v to u(Video 26, at 40:01).
+
+17. Application's of BFS:
+	i) Connected Component
+	ii) Bipartite Graph
+
+17(ii). Bipartite Graph: G is bipartite if and only if a partition of V(vertices) into U and W such that V=U union W and U intersection W is Null.
+		i.e every edge has one end point in U and the other in W.
+		
+		Logic: Start a BFS starting from any arbitrary vertex, If there is an edge from with in the same level then G is not bipartite.
+		Assumption: suppose graph is a connected graph having connected component count 1.
+		Proof: Do BFS and store Level Number with Every Vertex and check if both the end point of a edge have same Level, then G is not bipartite.
+
+18. Depth First Search For Undirected Graph: In DFS we start from a vertex and print all the vertex in a single path and then back tracks to print the remaining vertices.
+	OutCome:
+		i) If Every DfS we visit n-1 edges.
+		ii) The Visited edges form a connected subgraph which is also called as DFS Tree.
+		iii) DFS classifies every edge as:
+			a) Tree/Front Edge: Which specifies parent child relationship in the DFS tree.
+			b) Back Edge: A edge from a vertex to ancestor(parent not included).
+		iv) There is no LEVEL Edge in DFS Tree.
+
+19. Application's of DFS in Undirected Graph(Lecture 28):
+	i) 2 Edge Connected Graph: A G is 2 edge connected iff(if and only if) it remains connected after the removal of any one edge.
+	ii) 2 Vertex Connected(Cut Vertex/Articulation Point) Graph:
+	iii) Check if a Graph is a Planar Graph.
+	iv) Check for Cycle in the Graph.
+
+Note: A Complete Graph is not a planar graph.
+Note: If a Graph has a Cut Vertex then that Graph is not 2 Vertex Connected.
+
+19(i). 2 Edge Connected Graph: A G is 2 edge connected iff(if and only if) it remains connected after the removal of any one edge.
+			A 2 edge connected graph doesn't have a bridge edge.
+
+		Logic: When Backtracking from a vertex v we need to ensure that there is a back edge from some descendant(including v) of vertex v to ancestor of v.
+
+19(ii). 2 Vertex Connected Graph: 
+
+19(iii). Planar Graph:
+
+19(iv). Connected Graph: To check if there is a path b/w every pair of vertices
+
+20. Depth First Search For Directed Graph(Lecture 29): 
+		DFS on Directed Graph classifies edges(u, v) as:
+			i) Forward Edge: arr[u] < arr[v] and dep[u] > dep[v] 
+			ii) Cross Edge: arr[u] > arr[v] and dep[u] < dep[v]
+			iii) Back Edge: arr[u] > arr[v] and dep[u] < dep[v]
+			iv) Tree Edge:
+Note: We have to check whether every vertex is visited or not, if a vertex is not visited we have to start DFS from that vertex and repeat this procedure until all vertex are visited.
+Note: Forward Edge is same as Tree edge, only difference is for forward edge the end vertex is already visited.
+	 
+21. Application's of DFS in Undirected Graph(Lecture 29 and Lecture 30):
+	i) Check For Cycle in Graph.
+	ii) Strongly Connected
+	iii) Weakly Connected
+		 
+21(i). Check For Cycle in Graph:
+		Logic: Check if a Graph G(V, E) has a back edge, if back edge is found i.e G has a cycle. Because every edge apart from Back Edge moves in forward direction.
+				So, Given a acyclic Graph G, we can order the vertices of G so that every edge goes from Left to Right(i.e edge start vertex would have higher departure time then end vertex)
+				This ordering is also called as Topological Sort.
+
+21(ii). Strongly Connected: A Graph is strongly connected if there is a path b/w every ordered pair of vertices.
+			Logic: 1. For Every Vertex do DFS, if all the vertices are visited for every DFS then Graph is strongly connected.
+				   2. 
+				   		a). If DFS(v) visits all vertices in G then there exists a path from vertex v to every vertex in G
+				   		b). If There exists a path from every vertex in to vertex v.
+				   			Proof: To Find a path b/w vertex x and y, we will go from x to v and from v to y
+				   				i.e x----->v----->y
+				   					  (b)    (a)
+				   		Logic: Pick any arbitrary vertex(v) do DFS(v) with outedges and inedges. If all vertices are visited in oth the DFS then G is strongly connected else G is not strongly connected. 
+21(iii). Weakly Connected: A Graph G(V, E) is weakly connected if for every pair of vertices(u, v) there is a path from u to v OR a path from v to u OR both.
