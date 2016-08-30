@@ -4,7 +4,7 @@ Created on Aug 14, 2016
 @author: Dushyant Sapra
 '''
 from org.ds.graph.DisjointSet import DisjointSet
-from org.ds.graph.UndirectedGraph import Graph
+from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
 
 
@@ -132,7 +132,7 @@ if __name__ == '__main__':
 #     mst = MinimumSpanningTree();
 #     mst.kruskalsAlgo(g);
 
-    g = Graph();
+    g = UnDirectedGraph();
     g.addVertex("V0");
     g.addVertex("V1");
     g.addVertex("V2");

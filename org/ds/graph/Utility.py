@@ -4,8 +4,7 @@ Created on Aug 19, 2016
 @author: Dushyant Sapra
 '''
 from org.ds.graph.DisjointSet import DisjointSet
-from org.ds.graph.UndirectedGraph import Graph
-
+from org.ds.graph.UndirectedGraph import UnDirectedGraph
 
 class Utility:
     @staticmethod
@@ -26,10 +25,9 @@ class Utility:
 
         print("Graph Doesn't have a Cycle");
         return False;
-    
 if __name__ == '__main__':
     # Test Case 2, Checking For Cycle in a graph
-    g = Graph();
+    g = UnDirectedGraph();
     g.addVertex("V1");
     g.addVertex("V2");
     g.addVertex("V3");

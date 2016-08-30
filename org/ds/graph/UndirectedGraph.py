@@ -5,44 +5,10 @@ Created on Aug 14, 2016
 '''
 
 from org.ds.graph.common.Edge import Edge
+from org.ds.graph.common.Vertex import Vertex
 from org.ds.queue.Queue import Queue
 from org.ds.stack.Stack import StackUsingLinkedList
 
-
-class Vertex:
-    def __init__(self, name):
-        self.name = name;
-        self.edgeList = [];
-        self.adjacentVertex = [];
-        
-    def __eq__(self, other):
-        return self.name is other.name;
-
-    def __hash__(self):
-        return hash(self.name);
-
-    def __str__(self):
-        return "Vertex Name is " + self.name;
-
-    def setAdjacentVertexAndEdge(self, edge, vertex):
-        self.edgeList.append(edge);
-        self.adjacentVertex.append(vertex);
-
-    def removeEdge(self, edge):
-        return self.edgeList.remove(edge);
-
-    def removeVertex(self, vertex):
-        return self.adjacentVertex.remove(vertex);
-    
-    def getEdgeList(self):
-        return self.edgeList;
-
-    def getAdjacentVertex(self):
-        return self.adjacentVertex;
-    
-    def getName(self):
-        return self.name;
-    
 class UnDirectedGraph:
     def __init__(self):
         self.vertexMap = {};
@@ -93,8 +59,8 @@ class UnDirectedGraph:
             vertex = self.vertexMap[vertexName];
             for key, value in self.edgeMap.iteritems()[:]:
                 if value.getFromVertex() == vertex or value.getToVertex() == vertex:
-                    value.getFromVertex().removeEdge(value);
-                    value.getToVertex().removeEdge(value);
+                    value.getFromVertex().removeUndirectedEdge(value);
+                    value.getToVertex().removeUndirectedEdge(value);
 
                     value.getFromVertex().removeVertex(vertex);
                     value.getToVertex().removeVertex(vertex);
@@ -103,31 +69,7 @@ class UnDirectedGraph:
             del self.vertexMap[vertexName];
         else:
             print("Vertex Doesn't Exists");
-            
-    """def bfs(self, vertexName):
-        if vertexName not in self.vertexMap:
-            print("Vertex Doesn't Exists");
-            return False;
 
-        vertex = self.vertexMap[vertexName];
-
-        queue = Queue();
-        visitedVertexList = [];
-
-        queue.enQueue(vertex);
-        visitedVertexList.append(vertex);
-
-        while queue.getSize() > 0:
-            v = queue.deQueue();
-            print(v.getName());
-
-            for tempVertex in v.getAdjacentVertex():
-                if tempVertex in visitedVertexList:
-                    continue;
-
-                visitedVertexList.append(tempVertex);
-                queue.enQueue(tempVertex);"""
-        
     def bfs(self, vertexName, visitedVertexMap=None):
         if vertexName not in self.vertexMap:
             print("Vertex Doesn't Exists");
@@ -153,30 +95,6 @@ class UnDirectedGraph:
 
                 visitedVertexMap[tempVertex] = 1;
                 queue.enQueue(tempVertex);
-            
-    """def dfsUsingStack(self, vertexName):
-        if vertexName not in self.vertexMap:
-            print("Vertex Doesn't Exists");
-            return False;
-
-        vertex = self.vertexMap[vertexName];
-
-        stack = StackUsingLinkedList();
-        visitedVertexList = [];
-
-        stack.push(vertex);
-        visitedVertexList.append(vertex);
-
-        while stack.getSize() > 0:
-            v = stack.pop();
-            print(v.getName());
-
-            for tempVertex in v.getAdjacentVertex():
-                if tempVertex in visitedVertexList:
-                    continue;
-
-                visitedVertexList.append(tempVertex);
-                stack.push(tempVertex);"""
             
     def dfsUsingStack(self, vertexName, visitedVertexMap=None):
         if vertexName not in self.vertexMap:
@@ -204,18 +122,7 @@ class UnDirectedGraph:
                 visitedVertexMap[tempVertex] = 1;
                 stack.push(tempVertex);
 
-    """def defUsingRecursionHelper(self, vertex, visitedVertexList):
-        print(vertex.getName());
-        visitedVertexList.append(vertex);
-
-        for v in vertex.getAdjacentVertex():
-            if v in visitedVertexList:
-                continue;
-
-            self.defUsingRecursionHelper(v, visitedVertexList);"""
-
-    def defUsingRecursionHelper(self, vertex, arrivalMap, departureMap, visitedVertexMap=None, currentCount=0):
-#         print(vertex.getName());
+    def dfsUsingRecursionHelper(self, vertex, arrivalMap, departureMap, isPrint=True, visitedVertexMap=None, currentCount=0):
         if visitedVertexMap is None:
             visitedVertexMap = {};
 
@@ -223,19 +130,21 @@ class UnDirectedGraph:
         currentCount += 1;
         arrivalMap[vertex] = currentCount;
 
-        print("Vertex Name: " + vertex.getName() + ", Arrival Time: " + str(currentCount));
+        if isPrint:
+            print("Vertex Name: " + vertex.getName() + ", Arrival Time: " + str(currentCount));
 
         for tempVertex in vertex.getAdjacentVertex():
             if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
                 continue;
 
-            currentCount = self.defUsingRecursionHelper(tempVertex, arrivalMap, departureMap, visitedVertexMap, currentCount);
+            currentCount = self.dfsUsingRecursionHelper(tempVertex, arrivalMap, departureMap, isPrint, visitedVertexMap, currentCount);
         currentCount += 1;
         departureMap[vertex] = currentCount;
-        print("Vertex Name: " + vertex.getName() + ", Departure Time: " + str(currentCount));
+        if isPrint:
+            print("Vertex Name: " + vertex.getName() + ", Departure Time: " + str(currentCount));
         return currentCount;
 
-    def dfsUsingRecursion(self, vertexName):
+    def dfsUsingRecursion(self, vertexName, isPrint=True):
         if vertexName not in self.vertexMap:
             print("Vertex Doesn't Exists");
             return False;
@@ -244,8 +153,9 @@ class UnDirectedGraph:
 
         arrivalMap = {};
         departureMap = {};
-#         self.defUsingRecursionHelper(vertex, []);
-        self.defUsingRecursionHelper(vertex, arrivalMap, departureMap, {});
+        visitedVertexMap = {};
+        self.dfsUsingRecursionHelper(vertex, arrivalMap, departureMap, isPrint, visitedVertexMap);
+        return visitedVertexMap;
 
 if __name__ == '__main__': 
     # Test Case 1
@@ -260,9 +170,9 @@ if __name__ == '__main__':
     g.addEdge("V1", "V3", "E1");
     g.addEdge("V1", "V4", "E2");
     
+    g.addEdge("V2", "V3", "E5");
     g.addEdge("V2", "V4", "E3");
     g.addEdge("V2", "V5", "E4");
-    g.addEdge("V2", "V3", "E5");
     
     g.addEdge("V3", "V5", "E6");
     

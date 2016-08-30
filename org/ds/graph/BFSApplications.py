@@ -3,10 +3,11 @@ Created on Aug 17, 2016
 
 @author: Dushyant Sapra
 '''
-# For Undirected Graph
+# For Undirected Graph Only
+
+
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.queue.Queue import Queue
-
 
 class BFSApplication:
 #     Logic
@@ -45,6 +46,16 @@ class BFSApplication:
                         print("Graph has a Cycle having odd number of edges OR edge in same Level");
                         print("From Vertex " + edge.getFromVertex().getName() + " To Vertex " + edge.getToVertex().getName()); 
                         return;
+
+#     Logic: Do BFS From any arbitrary vertex, if BFS visits all the vertices then G(V, E) is connected
+    def checkIfGraphIsConnected(self, graph):
+        visitedVertexMap = {};
+        graph.bfs(graph.getVertexMap().keys()[0], visitedVertexMap);
+
+        if len(visitedVertexMap) == len(graph.getVertexMap()):
+            print("Graph is Connected");
+        else:
+            print("Graph is Not Connected");
 
     """def dfsUsingStackForConnectedComponent(self, vertexName, graph, visitedVertexMap, counterValue):
         if vertexName not in graph.vertexMap:
@@ -135,7 +146,7 @@ if __name__ == '__main__':
     obj = BFSApplication();
     obj.checkIfGraphIsBipartite(g);"""
     
-    # Test Case 2, Checking For Connected Component's in a graph
+    """# Test Case 2, Checking For Connected Component's in a graph
     g = UnDirectedGraph();
     g.addVertex("V1");
     g.addVertex("V2");
@@ -168,4 +179,18 @@ if __name__ == '__main__':
     g.addEdge("V11", "V12", "E12");
     
     obj = BFSApplication();
-    obj.countAndPrintconnectedComponents(g);
+    obj.countAndPrintconnectedComponents(g);"""
+    
+#     Test Case 3, Check If Graph is connected
+    g = UnDirectedGraph();
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+
+
+    g.addEdge("V1", "V2", "E1");
+    g.addEdge("V1", "V2", "E2");
+    g.addEdge("V2", "V3", "E3");
+    
+    obj = BFSApplication();
+    obj.checkIfGraphIsConnected(g);

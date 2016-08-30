@@ -6,7 +6,7 @@ Created on Aug 14, 2016
 
 # DisjointSets are used For Kruskal's Algo, Prims Algo, Minimum spanning tree, To check if there a cycle in undirected graph etc
 # in this we have 3 operations
-#     i) Makeset
+#     i) makeset
 #     ii) union
 #     iii) findset
 
@@ -32,11 +32,11 @@ class DisjointSet:
     def makeSet(self, data):
         node = DisjointSetNode(data);
         self.disjointSetNodeMap[data] = node;
-        
+
     def union(self, data1, data2):
         parent1 = self.findSet(data1);
         parent2 = self.findSet(data2);
-        
+       
         if parent1.getRank() >= parent2.getRank():
             if parent1.getRank() == parent2.getRank():
                 parent1.rank += 1;

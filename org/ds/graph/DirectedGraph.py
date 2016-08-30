@@ -4,89 +4,19 @@ Created on Jul 29, 2016
 '''
 
 from org.ds.graph.common.Edge import Edge
+from org.ds.graph.common.Vertex import Vertex
+
+
 from org.ds.queue.Queue import Queue;
 from org.ds.stack.Stack import StackUsingLinkedList;
-
-class Vertex:
-    def __init__(self, name):
-        self.outEdges = [];
-        self.inEdges = [];
-        self.outVertices = [];
-        self.inVertices = [];
-        self.name = name;
-        
-    def __hash__(self):
-        return hash(self.name);
-
-    def __eq__(self, other):
-        return self.name == other.name;
-
-    def __str__(self):
-        return "Vertex Name is " + self.name;
-
-    def getName(self):
-        return self.name;
-
-    def getOutEdgeList(self):
-        return self.outEdges;
-
-    def getInEdgeList(self):
-        return self.inEdges;
-    
-    def getOutVerticesList(self):
-        return self.outVertices;
-
-    def getInVerticesList(self):
-        return self.inVertices;
-
-    def addEdge(self, edge):
-        if edge.getFromVertex() is self:
-            self.outEdges.append(edge);
-            self.outVertices.append(edge.getToVertex());
-        else:
-            self.inEdges.append(edge);
-            self.inVertices.append(edge.getFromVertex());
-
-    def removeEdge(self, edge):
-        if edge.getFromVertex() == self:
-            self.removeOutEdge(edge);
-        elif edge.getToVertex() == self:
-            self.removeInEdge(edge);
-
-    def removeOutEdge(self, edge):
-        if edge in self.outEdges:
-            self.outEdges.remove(edge);
-            self.outVertices.remove(edge.getToVertex());
-
-    def removeInEdge(self, edge):
-        if edge in self.inEdges:
-            self.inEdges.remove(edge);
-            self.inVertices.remove(edge.getFromVertex());
-
-    def listOutEdges(self):
-        print("Out Edge From Vertex " + self.name + " are : ");
-        for e in self.outEdges:
-            print(e.getName());
-
-    def listInEdges(self):
-        print("In Edge From Vertex " + self.name + " are : ");
-        for e in self.inEdges:
-            print(e.getName());
-            
-    def listOutVertices(self):
-        print("Out Vertices From Vertex " + self.name + " are : ");
-        for v in self.outVertices:
-            print(v.name);
-
-    def listInVertices(self):
-        print("In Vertices From Vertex " + self.name + " are : ");
-        for v in self.inVertices:
-            print(v.name);
 
 class DirectedGraph:
     def __init__(self):
         self.vertexMap = {};
         self.edgeMap = {};
+
+    def getVertexMap(self):
+        return self.vertexMap;
 
     def addVertex(self, vertexName):
         if vertexName in self.vertexMap:
@@ -100,7 +30,7 @@ class DirectedGraph:
         if fromVertexName not in self.vertexMap:
             print("From Vertex \"" + fromVertexName + "\" is Absent");
             return False;
-        
+
         if toVertexName not in self.vertexMap:
             print("To Vertex \"" + toVertexName + "\" is Absent");
             return False;
@@ -269,7 +199,7 @@ class DirectedGraph:
         self.dfsUsingRecursionHelper(vertex, []);"""
         
     
-    def dfsUsingRecursionHelper(self, vertex, arrivalMap, departureMap, visitedVertexMap=None, currentCount=0):
+    def dfsUsingRecursionHelper(self, vertex, arrivalMap, departureMap, isReverse=False, isPrint=True, visitedVertexMap=None, currentCount=0):
         if visitedVertexMap is None:
             visitedVertexMap = {};
 
@@ -277,27 +207,39 @@ class DirectedGraph:
         currentCount += 1;
         arrivalMap[vertex] = currentCount;
 
-        print("Vertex Name: " + vertex.getName() + ", Arrival Time: " + str(currentCount));
+        if isPrint:
+            print("Vertex Name: " + vertex.getName() + ", Arrival Time: " + str(currentCount));
 
-        for tempVertex in vertex.getOutVerticesList():
-            if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
-                continue;
-            
-            currentCount = self.dfsUsingRecursionHelper(tempVertex, arrivalMap, departureMap, visitedVertexMap, currentCount);
+        if isReverse:
+            for tempVertex in vertex.getInVerticesList():
+                if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
+                    continue;
+                
+                currentCount = self.dfsUsingRecursionHelper(tempVertex, arrivalMap, departureMap, isReverse, isPrint, visitedVertexMap, currentCount);
+        else:
+            for tempVertex in vertex.getOutVerticesList():
+                if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
+                    continue;
+                
+                currentCount = self.dfsUsingRecursionHelper(tempVertex, arrivalMap, departureMap, isReverse, isPrint, visitedVertexMap, currentCount);
         currentCount += 1;
         departureMap[vertex] = currentCount;
-        print("Vertex Name: " + vertex.getName() + ", Departure Time: " + str(currentCount));
+        if isPrint:
+            print("Vertex Name: " + vertex.getName() + ", Departure Time: " + str(currentCount));
         return currentCount;
 
-    def dfsUsingRecursion(self, vertexName):
+    def dfsUsingRecursion(self, vertexName, isReverse=False, isPrint=True):
         if vertexName not in self.vertexMap:
             print("Vertex Doesn't Exists");
             return False;
 
         vertex = self.vertexMap[vertexName];
+
         arrivalMap = {};
         departureMap = {};
-        self.dfsUsingRecursionHelper(vertex, arrivalMap, departureMap, {});
+        visitedVertexMap = {};
+        self.dfsUsingRecursionHelper(vertex, arrivalMap, departureMap, isReverse, isPrint, visitedVertexMap);
+        return visitedVertexMap;
 
 if __name__ == '__main__':
     # Test Case 1
@@ -324,6 +266,8 @@ if __name__ == '__main__':
     g.addEdge("V6", "V5", "E8");
 
     g.dfsUsingRecursion("V1");
+    
+    g.dfsUsingStack("V1");
 
     """# Test Case 2
     g = DirectedGraph();

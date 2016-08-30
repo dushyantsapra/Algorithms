@@ -1,7 +1,7 @@
 '''
 Created on 21-Jun-2016
 
-@author: Dushyant
+@author: Dushyant Sapra
 '''
 
 #                        _oo0oo_
@@ -23,8 +23,7 @@ Created on 21-Jun-2016
 #      =====`-.____`.___ \_____/___.-`___.-'=====
 #                        `=---='
 # 
-#      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+#      ~~~~~~~~~~~~~~~~~~~~~PEACE~~~~~~~~~~~~~~~~~~~~~~
 
 
 class Utility:
@@ -107,3 +106,7 @@ class Utility:
         if (remainder) != 0:
             groupList.append(maxsize % groupSize);
         return groupList;
+
+    @staticmethod
+    def transposeOfMatrix(matrix):
+        print()

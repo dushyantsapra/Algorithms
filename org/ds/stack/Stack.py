@@ -95,6 +95,17 @@ class StackUsingLinkedList:
                         headNode = headNode.next;
             else:
                 print("Stack is Empty");
+        
+    def contains(self, data):
+        if self.top:
+            tempNode = self.top;
+
+            while tempNode is not None:
+                if tempNode.data == data:
+                    return True;
+                tempNode = tempNode.next;
+        else:
+            return False;
 
     def reverseStackByNode(self, parent=None, head=None):
         if head:

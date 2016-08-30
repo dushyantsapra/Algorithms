@@ -21,6 +21,7 @@ class BinaryHeapUsingArray:
     def __init__(self, treeType):
         self.treeTpye = treeType;
         self.binaryHeap = [];
+        self.dataPositionMap = {};
     
     def getHeap(self):
         return self.binaryHeap;
@@ -81,7 +82,7 @@ class BinaryHeapUsingArray:
             else:
                 return;
 
-    def heapifyUp(self, index):
+    def heapifyUp(self, data, index):
         if index <= 0:
             return;
 
@@ -89,18 +90,22 @@ class BinaryHeapUsingArray:
 
         if "MIN_HEAP" is self.treeTpye:
             if self.binaryHeap[parentIndex] > self.binaryHeap[index]:
+                self.dataPositionMap[data] = parentIndex;
                 Utility.swapUsingTempVariable(parentIndex, index, self.binaryHeap);
         elif "MAX_HEAP" is self.treeTpye:
             if self.binaryHeap[parentIndex] < self.binaryHeap[index]:
+                self.dataPositionMap[data] = parentIndex;
                 Utility.swapUsingTempVariable(parentIndex, index, self.binaryHeap);
 
         return self.heapifyUp(parentIndex);
 
     def insert(self, data):
         self.binaryHeap.append(data);
-        self.heapifyUp(len(self.binaryHeap) - 1);
+        index = len(self.binaryHeap) - 1;
+        self.dataPositionMap[data] = index;
+        self.heapifyUp(data, len(self.binaryHeap) - 1);
 
-    def delete(self):
+    def findMin(self):
         length = len(self.binaryHeap);
         if length == 0:
             return None;
@@ -112,15 +117,24 @@ class BinaryHeapUsingArray:
             self.binaryHeap[0] = self.binaryHeap.pop();
             self.heapifyDown(0);
             return data;
-    
-    def extractMin(self):
-        if len(self.binaryHeap) == 0:
+
+    def delete(self, data):
+        if data not in self.dataPositionMap:
+            print("Data Given is not Present in Binary Heap");
             return None;
-        if "MIN_HEAP" is self.treeTpye:
-            data = self.delete();
-        elif "MAX_HEAP" is self.treeTpye:
-            data = self.binaryHeap.pop();
-        return data; 
+
+        index = self.dataPositionMap[data];
+
+        self.binaryHeap[index] = self.binaryHeap.pop();
+        self.heapifyDown(index);
+        
+    def changePriority(self, data, newPriority):
+        if data not in self.dataPositionMap:
+            print("Data Given is not Present in Binary Heap");
+            return None;
+        
+        index = self.dataPositionMap[data];
+
 
 if __name__ == '__main__':
     binaryHeapUsingArray = BinaryHeapUsingArray("MIN_HEAP");
@@ -148,7 +162,7 @@ if __name__ == '__main__':
     
     
     print("\n");
-    print(binaryHeapUsingArray.delete());
+    print(binaryHeapUsingArray.findMin());
     print("Deleted");
     binaryHeapUsingArray.traverseTree();
     

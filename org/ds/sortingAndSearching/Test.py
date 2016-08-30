@@ -67,14 +67,11 @@ print(m.keys()[0]);
 if __name__ == '__main__':
     class Test:
         def abc(self, m=None):
-            if m is None:
-                m = {};
-                m["V1"] = "1";
-                
-            for key, value in m.iteritems():
-                print(key);
-                print(value);
+            print(m.keys()[0]);
             
     
-    t = Test({'V2':'2'});
-    t.abc();
+    m = {};
+    m["V1"] = "1";
+    m["V2"] = "2";
+    t = Test();
+    t.abc(m);
