@@ -10,16 +10,16 @@ class Edge:
         self.toVertex = toVertex;
         self.name = name;
         self.weight = weight;
-        
+
     def __gt__(self, other):
         return self.weight > other.weight;
-    
+
     def __ge__(self, other):
         return self.weight >= other.weight;
 
     def __lt__(self, other):
         return self.weight < other.weight;
-    
+
     def __le__(self, other):
         return self.weight <= other.weight;
 
@@ -29,13 +29,16 @@ class Edge:
     def __str__(self):
         return "Edge With Starting Vertex : " + self.fromVertex.getName() + ", End Vertex : " + self.toVertex.getName() + ", Name : " + self.name + " And Weight : " + str(self.weight);
 #         return "Edge With Name : " + self.name + " And Weight : " + str(self.weight);
-    
+
+    def __hash__(self):
+        return hash(self.name);
+
     def getFromVertex(self):
         return self.fromVertex;
 
     def getToVertex(self):
         return self.toVertex;
-    
+
     def getName(self):
         return self.name;
 

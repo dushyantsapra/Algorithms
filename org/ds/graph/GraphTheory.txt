@@ -146,4 +146,10 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 21(iv). Strongly Connected Components:
 
 
-22. Minimum Spanning Tree: A spanning tree of G is a subgraph which is a tree and which contains all vertices of G and doesn't have a cycle. Number of edges are |V| - 1(i.e one less then number of vertices). 
+22. Spanning Tree: A spanning tree of G is a subgraph which is a tree and which contains all vertices of G and doesn't have a cycle. Number of edges are |V| - 1(i.e one less then number of vertices).
+
+23. Minimum Spanning Tree: A Minimum spanning tree is a spanning tree of minimum weight/lengthF
+
+24. Minimum Spanning Tree Algo:
+		i) Kruskal's Algo
+		ii) Prim's Algo.

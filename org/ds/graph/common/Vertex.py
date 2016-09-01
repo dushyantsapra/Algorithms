@@ -16,7 +16,7 @@ class Vertex:
         self.adjacentVertex = [];
 #         Common
         self.name = name;
-    
+
 #     Common Methods Starts
     def __eq__(self, other):
         return self.name is other.name;

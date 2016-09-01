@@ -1,8 +1,10 @@
 '''
 Created on 17-Jun-2016
 
-@author: Dushyant
+@author: Dushyant Sapra
 '''
+from compiler.ast import Node
+
 """A binary heap is a heap data structure created using a binary tree. 
     It can be seen as a binary tree with two additional constraints:
 i) The shape property: the tree is a complete binary tree; that is, all levels of the tree, 
@@ -17,19 +19,38 @@ Note - while Deleting Heapify Down to Only subtree whose value is less/greater t
 
 from org.competitiveProgramming.Utility import Utility
 
+class BinaryHeapNode:
+    def __init__(self, data, priority):
+        self.data = data;
+        self.priority = priority;
+        
+    def getData(self):
+        return self.data;
+    
+    def setPriority(self, newPriority):
+        self.priority = newPriority;
+    
+    def getPriority(self):
+        return self.priority;
+
+    def __str__(self):
+        return "Data is " + self.data + ", And Priority is " + str(self.priority); 
+
 class BinaryHeapUsingArray:
     def __init__(self, treeType):
         self.treeTpye = treeType;
+#         Will Store Binary Heap Node
         self.binaryHeap = [];
-        self.dataPositionMap = {};
-    
+#         Will Store Actual Data with its binary heap Node index in binaryHeap array/List
+        self.binaryNodePositionMap = {};
+
     def getHeap(self):
         return self.binaryHeap;
 
     def traverseTree(self):
         for value in self.binaryHeap:
             print(value);
-        
+
     def getHeapSize(self):
         return len(self.binaryHeap);
 
@@ -51,14 +72,16 @@ class BinaryHeapUsingArray:
 
         if "MIN_HEAP" is self.treeTpye:
             if hasLeft and hasRight:
-                minIndex = leftIndex if self.binaryHeap[leftIndex] < self.binaryHeap[rightIndex] else rightIndex;
+                minIndex = leftIndex if self.binaryHeap[leftIndex].getPriority() < self.binaryHeap[rightIndex].getPriority() else rightIndex;
             elif hasLeft:
                 minIndex = leftIndex;
             elif hasRight:
                 minIndex = rightIndex;
-            
+
             if minIndex != -1:
-                if self.binaryHeap[minIndex] < self.binaryHeap[index]:
+                if self.binaryHeap[minIndex].getPriority() < self.binaryHeap[index].getPriority():
+                    self.binaryNodePositionMap[self.binaryHeap[index].getData()] = minIndex;
+                    self.binaryNodePositionMap[self.binaryHeap[minIndex].getData()] = index;
                     Utility.swapUsingTempVariable(minIndex, index, self.binaryHeap);
                     return  self.heapifyDown(minIndex);
                 else:
@@ -67,14 +90,16 @@ class BinaryHeapUsingArray:
                 return;
         elif "MAX_HEAP" is self.treeTpye:
             if hasLeft and hasRight:
-                maxIndex = leftIndex if self.binaryHeap[leftIndex] > self.binaryHeap[rightIndex] else rightIndex;
+                maxIndex = leftIndex if self.binaryHeap[leftIndex].getPriority() > self.binaryHeap[rightIndex].getPriority() else rightIndex;
             elif hasLeft:
                 maxIndex = leftIndex;
             elif hasRight:
                 maxIndex = rightIndex;
 
             if maxIndex != -1:
-                if self.binaryHeap[maxIndex] > self.binaryHeap[index]:
+                if self.binaryHeap[maxIndex].getPriority() > self.binaryHeap[index].getPriority():
+                    self.binaryNodePositionMap[self.binaryHeap[index].getData()] = maxIndex;
+                    self.binaryNodePositionMap[self.binaryHeap[maxIndex].getData()] = index;
                     Utility.swapUsingTempVariable(maxIndex, index, self.binaryHeap);
                     return self.heapifyDown(maxIndex);
                 else:
@@ -82,101 +107,123 @@ class BinaryHeapUsingArray:
             else:
                 return;
 
-    def heapifyUp(self, data, index):
+    def heapifyUp(self, index):
         if index <= 0:
             return;
 
         parentIndex = (index + 1) / 2 - 1;
 
         if "MIN_HEAP" is self.treeTpye:
-            if self.binaryHeap[parentIndex] > self.binaryHeap[index]:
-                self.dataPositionMap[data] = parentIndex;
+            if self.binaryHeap[parentIndex].getPriority() > self.binaryHeap[index].getPriority():
+                self.binaryNodePositionMap[self.binaryHeap[index].getData()] = parentIndex;
+                self.binaryNodePositionMap[self.binaryHeap[parentIndex].getData()] = index;
                 Utility.swapUsingTempVariable(parentIndex, index, self.binaryHeap);
         elif "MAX_HEAP" is self.treeTpye:
-            if self.binaryHeap[parentIndex] < self.binaryHeap[index]:
-                self.dataPositionMap[data] = parentIndex;
+            if self.binaryHeap[parentIndex].getPriority() < self.binaryHeap[index].getPriority():
+                self.binaryNodePositionMap[self.binaryHeap[index].getData()] = parentIndex;
+                self.binaryNodePositionMap[self.binaryHeap[parentIndex].getData()] = index;
                 Utility.swapUsingTempVariable(parentIndex, index, self.binaryHeap);
 
         return self.heapifyUp(parentIndex);
 
-    def insert(self, data):
-        self.binaryHeap.append(data);
+    def insert(self, data, priority):
+        node = BinaryHeapNode(data, priority);
+        self.binaryHeap.append(node);
         index = len(self.binaryHeap) - 1;
-        self.dataPositionMap[data] = index;
-        self.heapifyUp(data, len(self.binaryHeap) - 1);
+        self.binaryNodePositionMap[data] = index;
+        self.heapifyUp(len(self.binaryHeap) - 1);
 
     def findMin(self):
         length = len(self.binaryHeap);
         if length == 0:
             return None;
         if length == 1 or length == 2:
-            data = self.binaryHeap.pop(0);
-            return data;
+            node = self.binaryHeap.pop(0);
+            del self.binaryNodePositionMap[node.getData()];
+            return node.getData();
         else:
-            data = self.binaryHeap[0];
+            node = self.binaryHeap[0];
+            del self.binaryNodePositionMap[node.getData()];
             self.binaryHeap[0] = self.binaryHeap.pop();
             self.heapifyDown(0);
-            return data;
+            return node.getData();
 
     def delete(self, data):
-        if data not in self.dataPositionMap:
+        if data not in self.binaryNodePositionMap:
             print("Data Given is not Present in Binary Heap");
             return None;
 
-        index = self.dataPositionMap[data];
+        index = self.binaryNodePositionMap[data];
 
-        self.binaryHeap[index] = self.binaryHeap.pop();
-        self.heapifyDown(index);
+        length = len(self.binaryHeap);
+        if length == 1 or length == 2:
+            node = self.binaryHeap.pop(index);
+            del self.binaryNodePositionMap[node.getData()];
+            return node.getData();
+        elif index == length - 1:
+            node = self.binaryHeap.pop();
+            del self.binaryNodePositionMap[node.getData()];
+            return node.getData();
+        else:
+            del self.binaryNodePositionMap[self.binaryHeap[index].getData()];
+            self.binaryHeap[index] = self.binaryHeap.pop();
+            self.heapifyDown(index);
+
+#     HeapifyUp
+    def decreasePriority(self, data, newPriority):
+        index = self.binaryNodePositionMap[data];
+        node = self.binaryHeap[self.binaryNodePositionMap[data]];
         
+        if node.getPriority() > newPriority:
+            node.setPriority(newPriority);
+            self.heapifyUp(index);
+            return True;
+        else:
+            return False;
+
+#     HeapifyDown
+    def increasePriority(self, data, newPriority):
+        index = self.binaryNodePositionMap[data];
+        node = self.binaryHeap[self.binaryNodePositionMap[data]];
+
+        if node.getPriority() < newPriority:
+            node.setPriority(newPriority);
+            self.heapifyDown(index);
+        else:
+            return False;
+
     def changePriority(self, data, newPriority):
-        if data not in self.dataPositionMap:
+        if data not in self.binaryNodePositionMap:
             print("Data Given is not Present in Binary Heap");
-            return None;
-        
-        index = self.dataPositionMap[data];
-
+            return False;
+        currentPriority = self.binaryHeap[self.binaryNodePositionMap[data]].getPriority();
+        if currentPriority == newPriority:
+            print("New and Current Priority are same");
+            return False;
+        elif  currentPriority > newPriority:
+            self.decreasePriority(data, newPriority);
+        else:
+            self.increasePriority(data, newPriority);
+        return True;
 
 if __name__ == '__main__':
     binaryHeapUsingArray = BinaryHeapUsingArray("MIN_HEAP");
-    binaryHeapUsingArray.insert(11);
-    binaryHeapUsingArray.insert(6);
-    binaryHeapUsingArray.insert(8);
-    binaryHeapUsingArray.insert(19);
-    binaryHeapUsingArray.insert(4);
-    binaryHeapUsingArray.insert(10);
-    binaryHeapUsingArray.insert(5);
-    binaryHeapUsingArray.insert(17);
-    binaryHeapUsingArray.insert(43);
-    binaryHeapUsingArray.insert(49);
-    binaryHeapUsingArray.insert(31);
-    
-    # binaryHeapUsingArray.insert(30);
-    # binaryHeapUsingArray.insert(15);
-    # binaryHeapUsingArray.insert(20);
-    # binaryHeapUsingArray.insert(12);
-    # binaryHeapUsingArray.insert(9);
-    # binaryHeapUsingArray.insert(10);
-    # binaryHeapUsingArray.insert(18);
+    binaryHeapUsingArray.insert("E1", 8);
+    binaryHeapUsingArray.insert("E2", 4);
+    binaryHeapUsingArray.insert("E3", 3);
+    binaryHeapUsingArray.insert("E4", 10);
+    binaryHeapUsingArray.insert("E5", 5);
     
     binaryHeapUsingArray.traverseTree();
     
+    """print(binaryHeapUsingArray.findMin());
+    print("Traversing Again");
+    binaryHeapUsingArray.traverseTree();"""
     
-    print("\n");
-    print(binaryHeapUsingArray.findMin());
-    print("Deleted");
+    """binaryHeapUsingArray.changePriority("E5", 11);
+    print("Traversing Again");
+    binaryHeapUsingArray.traverseTree();"""
+    
+    binaryHeapUsingArray.delete("E3");
+    print("Traversing Again");
     binaryHeapUsingArray.traverseTree();
-    
-#     print("\n");
-#     print(binaryHeapUsingArray.delete());
-#     print("Deleted");
-#     binaryHeapUsingArray.traverseTree();
-#     
-#     print("\n");
-#     print(binaryHeapUsingArray.delete());
-#     print("Deleted");
-#     binaryHeapUsingArray.traverseTree();
-#     
-#     print("\n");
-#     print(binaryHeapUsingArray.delete());
-#     print("Deleted");
-#     binaryHeapUsingArray.traverseTree();

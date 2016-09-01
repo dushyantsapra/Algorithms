@@ -14,3 +14,14 @@ if temp.temp() == 1:
     print("1");
 else:
     print("0");
+    
+print(float("inf"))
+
+n = float("inf");
+
+if float("inf") > 0:
+    print("A")
+    n = 1;
+    print(n);
+else:
+    print("B");
