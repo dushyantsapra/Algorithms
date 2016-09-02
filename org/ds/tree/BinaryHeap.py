@@ -3,7 +3,6 @@ Created on 17-Jun-2016
 
 @author: Dushyant Sapra
 '''
-from compiler.ast import Node
 
 """A binary heap is a heap data structure created using a binary tree. 
     It can be seen as a binary tree with two additional constraints:
@@ -53,7 +52,7 @@ class BinaryHeapUsingArray:
 
     def getHeapSize(self):
         return len(self.binaryHeap);
-
+    
     def heapifyDown(self, index):
         length = len(self.binaryHeap);
         hasLeft = False;
@@ -140,6 +139,8 @@ class BinaryHeapUsingArray:
         if length == 1 or length == 2:
             node = self.binaryHeap.pop(0);
             del self.binaryNodePositionMap[node.getData()];
+            if len(self.binaryHeap) == 1:
+                self.binaryNodePositionMap[self.binaryNodePositionMap.keys()[0]] = 0;
             return node.getData();
         else:
             node = self.binaryHeap[0];
@@ -159,6 +160,8 @@ class BinaryHeapUsingArray:
         if length == 1 or length == 2:
             node = self.binaryHeap.pop(index);
             del self.binaryNodePositionMap[node.getData()];
+            if len(self.binaryHeap) == 1:
+                self.binaryNodePositionMap[self.binaryNodePositionMap.keys()[0]] = 0;
             return node.getData();
         elif index == length - 1:
             node = self.binaryHeap.pop();
