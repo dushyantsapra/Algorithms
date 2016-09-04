@@ -25,3 +25,7 @@ if float("inf") > 0:
     print(n);
 else:
     print("B");
+
+print("\n");
+for iLoop in range(1, 5):
+    print(iLoop);

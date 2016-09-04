@@ -3,10 +3,12 @@ Created on Aug 17, 2016
 
 @author: Dushyant Sapra
 '''
+
 from org.ds.graph.DirectedGraph import DirectedGraph
-from org.ds.graph.common.Edge import Edge
 from org.ds.graph.common.DFSApplicationUtil import DFSApplicationUtil
+from org.ds.graph.common.Edge import Edge
 from org.ds.stack.Stack import StackUsingLinkedList
+
 
 class DFSApplicationDirectedGraph:
 #     Logic:
@@ -37,16 +39,36 @@ class DFSApplicationDirectedGraph:
                 break;
 
         if isTrue:
+            print("Topological Sort is : ");
             for v in topologicalSortedVertexList:
                 print(v);
         else:
             print("Graph is not a Directed Acyclic Graph");
 
-    def topologicalSortUsingDFSHelper(self, vertex, visitedVertexList):
-        print(vertex.getName());
+    def topologicalSortUsingDFSHelper(self, vertex, visitedVertexMap, stack):
+        visitedVertexMap[vertex] = True;
 
-    def topologicalSortUsingDFS(self, directedGraph):
-        print()
+        for tempVertex in vertex.getOutVerticesList():
+            if visitedVertexMap[tempVertex] == True:
+                continue;
+
+            self.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack);
+
+        stack.push(vertex);
+
+    def topologicalSortUsingDFS(self, graph):
+        visitedVertexMap = {};
+        stack = StackUsingLinkedList();
+
+        for vertex in graph.getVertexMap().values():
+            visitedVertexMap[vertex] = False;
+
+        for vertex, value in visitedVertexMap:
+            if value == 0:
+                self.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack); 
+
+        while stack.getSize() > 0:
+            print(stack.pop());
 
     def checkIfGraphStronglyConnected(self, graph):
         visitedVertexMap = graph.dfsUsingRecursion(graph.getVertexMap().keys()[0], False, False);

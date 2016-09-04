@@ -98,17 +98,17 @@ class DFSApplicationUtil:
         return False;
 
     @staticmethod
-    def checkForCycleInDirectedGraphHelper(vertex, stack, visitedVertexMap=None):
+    def checkForCycleInDirectedGraphHelper(vertex, stack, visitedVertexMap):
         if visitedVertexMap is None:
             visitedVertexMap = {};
 
         visitedVertexMap[vertex] = 1;
         stack.push(vertex)
         for tempVertex in vertex.getOutVerticesList():
-            if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] == 0:
+            if visitedVertexMap[tempVertex] == 0:
                 if (DFSApplicationUtil.checkForCycleInDirectedGraphHelper(tempVertex, stack, visitedVertexMap)):
                     return True;
-            elif tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] == 1 and stack.contains(tempVertex):
+            elif visitedVertexMap[tempVertex] == 1 and stack.contains(tempVertex):
                 return True;
         stack.pop();
         return False;

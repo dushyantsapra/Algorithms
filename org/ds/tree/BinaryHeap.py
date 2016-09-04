@@ -174,6 +174,8 @@ class BinaryHeapUsingArray:
 
 #     HeapifyUp
     def decreasePriority(self, data, newPriority):
+        if data not in self.binaryNodePositionMap:
+            return False;
         index = self.binaryNodePositionMap[data];
         node = self.binaryHeap[self.binaryNodePositionMap[data]];
         
@@ -186,6 +188,8 @@ class BinaryHeapUsingArray:
 
 #     HeapifyDown
     def increasePriority(self, data, newPriority):
+        if data not in self.binaryNodePositionMap:
+            return False;
         index = self.binaryNodePositionMap[data];
         node = self.binaryHeap[self.binaryNodePositionMap[data]];
 

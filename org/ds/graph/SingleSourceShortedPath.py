@@ -6,13 +6,13 @@ Created on Sep 2, 2016
 
 import copy
 
+from org.ds.graph.DirectedGraph import DirectedGraph
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
 
 
 class ShortestPath:
-    def dijsktraAlgo(self, graph):
-        visitedVertexMap = {};
+    def dijsktraAlgo(self, graph, graphType="UNDIRECTED"):
         binaryHeap = BinaryHeapUsingArray("MIN_HEAP");
 
         sourceShortedPathVerticesMap = {};
@@ -29,30 +29,75 @@ class ShortestPath:
             if tempVertex == vertex:
                 continue;
 
-            visitedVertexMap[tempVertex] = 0;
             binaryHeap.insert(tempVertex, float("inf"));
+#             Check For this Condition
             sourceShortedPathWeightMap[vertex] = 0;
             sourceShortedPathVerticesMap[tempVertex] = [];
 
         while binaryHeap.getHeapSize() > 0:
             vertex = binaryHeap.findMin();
             sourceShortedPathVerticesMap[vertex].append(vertex);
-            for edge in vertex.getEdgeList():
-                endVertex = edge.getToVertex() if edge.getFromVertex() == vertex else edge.getFromVertex();
+            if graphType is "UNDIRECTED":
+                for edge in vertex.getEdgeList():
+                    endVertex = edge.getToVertex() if edge.getFromVertex() == vertex else edge.getFromVertex();
+    
+                    if binaryHeap.decreasePriority(endVertex, sourceShortedPathWeightMap[vertex] + edge.getWeight()):
+                        sourceShortedPathWeightMap[endVertex] = sourceShortedPathWeightMap[vertex] + edge.getWeight();
+                        sourceShortedPathVerticesMap[endVertex] = copy.deepcopy(sourceShortedPathVerticesMap[vertex]);
+            elif graphType is "DIRECTED":
+                for edge in vertex.getOutEdgeList():
+                    endVertex = edge.getToVertex() if edge.getFromVertex() == vertex else edge.getFromVertex();
 
-                if visitedVertexMap[endVertex] == 1:
-                    continue;
+                    if binaryHeap.decreasePriority(endVertex, sourceShortedPathWeightMap[vertex] + edge.getWeight()):
+                        sourceShortedPathWeightMap[endVertex] = sourceShortedPathWeightMap[vertex] + edge.getWeight();
+                        sourceShortedPathVerticesMap[endVertex] = copy.deepcopy(sourceShortedPathVerticesMap[vertex])
 
-                if binaryHeap.decreasePriority(endVertex, sourceShortedPathWeightMap[vertex] + edge.getWeight()):
-                    sourceShortedPathWeightMap[endVertex] = sourceShortedPathWeightMap[vertex] + edge.getWeight();
-                    sourceShortedPathVerticesMap[endVertex] = copy.deepcopy(sourceShortedPathVerticesMap[vertex])
-            visitedVertexMap[vertex] = 1;
-        
         for key, value in sourceShortedPathWeightMap.iteritems():
             print("Source Vertex : " + rootVertex.getName() + ", To Vertex : " + key.getName() + ", with length : " + str(value) + " and path is : ");
-            
+
             for vertex in sourceShortedPathVerticesMap[key]:
                 print(vertex.getName()); 
+
+    def relax(self, sourceDistanceMap, sourceShortedPathParentMap, edge):
+        newDistance = sourceDistanceMap[edge.getFromVertex()] + edge.getWeight()
+        if sourceDistanceMap[edge.getToVertex()] > newDistance:
+            sourceDistanceMap[edge.getToVertex()] = newDistance;
+            sourceShortedPathParentMap[edge.getToVertex()] = edge.getFromVertex();
+
+    def bellmanFordAlgo(self, graph):
+        sourceDistanceMap = {};
+        sourceShortedPathParentMap = {};
+    
+        rootVertex = graph.getVertexMap().values()[0];
+        vertex = rootVertex;
+
+        sourceDistanceMap[vertex] = 0;
+    
+        for tempVertex in graph.getVertexMap().values():
+            if tempVertex == vertex:
+                continue;
+    
+            sourceDistanceMap[tempVertex] = float("inf");
+            sourceShortedPathParentMap[vertex] = None;
+    
+        for iLoop in range(1, len(graph.getVertexMap())):
+            iLoop += 1;
+    
+            for edge in graph.getEdgeMap().values():
+                self.relax(sourceDistanceMap, sourceShortedPathParentMap, edge);
+    
+        isNegativeCycle = False;
+        for edge in graph.getEdgeMap().values():
+            if sourceDistanceMap[edge.getToVertex()] > sourceDistanceMap[edge.getFromVertex()] + edge.getWeight():
+                print("Graph contains -ve Edge cycle");
+                isNegativeCycle = True;
+                break;
+    
+        if not isNegativeCycle:
+            print("Vertex        Distance From Source");
+            for key, value in sourceDistanceMap.iteritems():
+                print(key.getName(), str(value));
+
 
 if __name__ == '__main__':
     g = UnDirectedGraph();
@@ -90,3 +135,26 @@ if __name__ == '__main__':
 
     sp = ShortestPath();
     sp.dijsktraAlgo(g);
+    
+    g = DirectedGraph();
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    g.addVertex("V5");
+    
+    g.addEdge("V1", "V2", "E1", -1);
+    
+    g.addEdge("V2", "V3", "E2", 2);
+    g.addEdge("V2", "V4", "E3", 2);
+    g.addEdge("V2", "V5", "E4", 3);
+
+    g.addEdge("V3", "V4", "E5", -3);
+
+    g.addEdge("V4", "V2", "E6", 1);
+    g.addEdge("V4", "V5", "E7", 5);
+    
+    g.addEdge("V5", "V1", "E8", 4);
+    
+    sp = ShortestPath();
+    sp.bellmanFordAlgo(g);

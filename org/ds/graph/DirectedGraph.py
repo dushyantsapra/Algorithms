@@ -17,6 +17,9 @@ class DirectedGraph:
 
     def getVertexMap(self):
         return self.vertexMap;
+    
+    def getEdgeMap(self):
+        return self.edgeMap;
 
     def addVertex(self, vertexName):
         if vertexName in self.vertexMap:
