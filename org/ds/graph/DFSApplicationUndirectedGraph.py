@@ -78,8 +78,18 @@ class DFSApplicationUndirectedGraph:
         if len(visitedVertexMap) == len(graph.getVertexMap()):
             print("Graph is Connected");
         else:
-            print("Graph is Not Connected")
-            
+            print("Graph is Not Connected");
+
+#     Remove all vertex with Degree less then kCore value
+    def findKCoreGraph(self, graph, kCore):
+        for vertex in graph.getVertexMap().values():
+            DFSApplicationUtil.findKCoreGraphHelper(vertex, graph, kCore);
+
+        for vertexName, vertex in graph.getVertexMap().iteritems():
+            if len(vertex.getEdgeList()) > 0:
+                graph.dfsUsingRecursion(vertexName);
+                break;
+
 if __name__ == '__main__':
 #     Test Case 2(Undirected Graph), CHeck if Graph is 2 Edge Connected and check for Articulation Point(Cut Vertex) in Graph
     g = UnDirectedGraph();
@@ -154,3 +164,42 @@ if __name__ == '__main__':
 #     obj = DFSApplicationUndirectedGraph();
 #     obj.checkForCycleInGraphUsing2EdgeConnected(g);
 #     obj.checkForCycleInUnDirectedGraphUsingDFS(g);
+
+
+    g = UnDirectedGraph();
+    g.addVertex("0");
+    g.addVertex("1");
+    g.addVertex("2");
+    g.addVertex("3");
+    g.addVertex("4");
+    g.addVertex("5");
+    g.addVertex("6");
+    g.addVertex("7");
+    g.addVertex("8");
+    
+    g.addEdge("0", "1", "E1");
+    g.addEdge("0", "2", "E2");
+    
+    g.addEdge("1", "2", "E3");
+    g.addEdge("1", "5", "E4");
+    
+    g.addEdge("2", "3", "E5");
+    g.addEdge("2", "4", "E6");
+    g.addEdge("2", "5", "E7");
+    g.addEdge("2", "6", "E8");
+    
+    g.addEdge("3", "4", "E9");
+    g.addEdge("3", "6", "E10");
+    g.addEdge("3", "7", "E11");
+    
+    g.addEdge("4", "6", "E12");
+    g.addEdge("4", "7", "E13");
+    
+    g.addEdge("5", "6", "E14");
+    g.addEdge("5", "8", "E15");
+    
+    g.addEdge("6", "7", "E16");
+    g.addEdge("6", "8", "E17");
+    
+    obj = DFSApplicationUndirectedGraph();
+    obj.findKCoreGraph(g, 3);

@@ -29,3 +29,10 @@ else:
 print("\n");
 for iLoop in range(1, 5):
     print(iLoop);
+    
+g = [[0 for y in range(2)] for x in range(2)];
+
+print("\n");
+for iValue in range(0, len(g)):
+    for jValue in range(0, len(g[iValue])):
+        print(g[iValue][jValue]);

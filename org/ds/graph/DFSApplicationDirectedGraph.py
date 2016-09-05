@@ -39,7 +39,7 @@ class DFSApplicationDirectedGraph:
                 break;
 
         if isTrue:
-            print("Topological Sort is : ");
+            print("Topological Sort Using khan's Algo is : ");
             for v in topologicalSortedVertexList:
                 print(v);
         else:
@@ -49,26 +49,30 @@ class DFSApplicationDirectedGraph:
         visitedVertexMap[vertex] = True;
 
         for tempVertex in vertex.getOutVerticesList():
-            if visitedVertexMap[tempVertex] == True:
+            if visitedVertexMap[tempVertex]:
                 continue;
 
-            self.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack);
+            self.topologicalSortUsingDFSHelper(tempVertex, visitedVertexMap, stack);
 
         stack.push(vertex);
 
-    def topologicalSortUsingDFS(self, graph):
+    def topologicalSortUsingDFS(self, graph, isPrint=True):
         visitedVertexMap = {};
         stack = StackUsingLinkedList();
 
         for vertex in graph.getVertexMap().values():
             visitedVertexMap[vertex] = False;
 
-        for vertex, value in visitedVertexMap:
-            if value == 0:
+        for vertex, value in visitedVertexMap.iteritems():
+            if not value:
                 self.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack); 
 
-        while stack.getSize() > 0:
-            print(stack.pop());
+        if isPrint:
+            print("Topological Sort Using DFS is : ");
+            while stack.getSize() > 0:
+                print(stack.pop());
+        else:
+            return stack;
 
     def checkIfGraphStronglyConnected(self, graph):
         visitedVertexMap = graph.dfsUsingRecursion(graph.getVertexMap().keys()[0], False, False);
@@ -112,31 +116,68 @@ class DFSApplicationDirectedGraph:
         else:
             print("Directed Graph is ACyclic");
 
+    def printStronglyConnectedCommponentUsingKosarajusAlgo(self, graph):
+        connectedComponentCount = 0;
+
+        visitedVertexMap = {};
+        for vertex in graph.vertexMap.values():
+            visitedVertexMap[vertex] = False;
+
+        stack = StackUsingLinkedList();
+
+        for vertex in graph.getVertexMap().values():
+            if not visitedVertexMap[vertex]:
+                DFSApplicationUtil.stronglyConnectedCommponentUsingKosarajusAlgoHelper(vertex, visitedVertexMap, False, stack);
+
+        sccVertexMap = {};
+        visitedVertexMap = {};
+        for vertex in graph.vertexMap.values():
+            visitedVertexMap[vertex] = False;
+
+        while stack.getSize() > 0:
+            vertex = stack.pop();
+            if not visitedVertexMap[vertex]:
+                tempStack = StackUsingLinkedList();
+                DFSApplicationUtil.stronglyConnectedCommponentUsingKosarajusAlgoHelper(vertex, visitedVertexMap, True, tempStack);
+                tempStack.push(vertex);
+                sccVertexMap[vertex] = tempStack;
+                connectedComponentCount += 1;
+
+        print("\nTotal Strongly Connected Components are : " + str(connectedComponentCount));
+        iLoop = 1;
+        for key in sccVertexMap.keys():
+            stack = sccVertexMap[key];
+            print("Strongly Connected Component Number : " + str(iLoop) + ", Vertices are : ");
+            while stack.getSize() > 0:
+                print(stack.pop());
+            print("\n");
+
+    def iterativeDeepeningDFS(self, graph):
+        print()
+
 if __name__ == '__main__':
 #     Test Case 1(Directed Graph), Topological Sort Using Khan's Algo
     g = DirectedGraph();
+    g.addVertex("V0");
     g.addVertex("V1");
     g.addVertex("V2");
     g.addVertex("V3");
     g.addVertex("V4");
     g.addVertex("V5");
-    g.addVertex("V6");
-    g.addVertex("V7");
  
-    g.addEdge("V1", "V2", "E1");
-    g.addEdge("V1", "V3", "E2");
-    g.addEdge("V1", "V4", "E3");
+    g.addEdge("V2", "V3", "E1");
+    
+    g.addEdge("V3", "V1", "E2");
+    
+    g.addEdge("V4", "V0", "E3");
+    g.addEdge("V4", "V1", "E4");
  
-    g.addEdge("V2", "V5", "E4");
+    g.addEdge("V5", "V0", "E5");
+    g.addEdge("V5", "V2", "E6");
  
-    g.addEdge("V5", "V6", "E5");
-    g.addEdge("V3", "V6", "E6");
-    g.addEdge("V4", "V6", "E7");
-
-    g.addEdge("V6", "V7", "E8");
-
     obj = DFSApplicationDirectedGraph();
     obj.topologicalSortUsingKhanAlgo(g);
+    obj.topologicalSortUsingDFS(g);
 
 #     Test Case 2(Directed Graph), Check if Given Graph is Strongly Connected
     g = DirectedGraph();
@@ -180,3 +221,54 @@ if __name__ == '__main__':
     obj = DFSApplicationDirectedGraph();
     print("\n");
     obj.checkForCycleInDirectedGraph(g);
+
+#     Test Case 4, Count and Print Strongly Connected Component using Kousraju Algo
+    g = DirectedGraph();
+    g.addVertex("A");
+    g.addVertex("B");
+    g.addVertex("C");
+    g.addVertex("D");
+    g.addVertex("E");
+    g.addVertex("F");
+    g.addVertex("G");
+    g.addVertex("H");
+    g.addVertex("I");
+    g.addVertex("J");
+    g.addVertex("K");
+
+    g.addEdge("A", "B", "E1");
+    
+    g.addEdge("B", "C", "E2");
+    g.addEdge("B", "D", "E3");
+    
+    g.addEdge("C", "A", "E4");
+    
+    g.addEdge("D", "E", "E5");
+    
+    g.addEdge("E", "F", "E6");
+    
+    g.addEdge("F", "D", "E7");
+    
+    g.addEdge("G", "F", "E8");
+    g.addEdge("G", "H", "E9");
+    
+    g.addEdge("H", "I", "E10");
+    
+    g.addEdge("I", "J", "E11");
+    
+    g.addEdge("J", "G", "E12");
+    g.addEdge("J", "K", "E13");
+    
+    obj = DFSApplicationDirectedGraph();
+    print("\n");
+    obj.printStronglyConnectedCommponentUsingKosarajusAlgo(g);
+    
+    
+    g = DirectedGraph();
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    g.addVertex("V5");
+    g.addVertex("V6");
+    g.addVertex("V7");

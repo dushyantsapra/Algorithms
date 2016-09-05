@@ -112,3 +112,30 @@ class DFSApplicationUtil:
                 return True;
         stack.pop();
         return False;
+    
+    @staticmethod
+    def stronglyConnectedCommponentUsingKosarajusAlgoHelper(vertex, visitedVertexMap, isReversed, stack=None):
+        visitedVertexMap[vertex] = True;
+
+        if not isReversed:
+            for tempVertex in vertex.getOutVerticesList():
+                if visitedVertexMap[tempVertex]:
+                    continue;
+                DFSApplicationUtil.stronglyConnectedCommponentUsingKosarajusAlgoHelper(tempVertex, visitedVertexMap, isReversed, stack);
+            stack.push(vertex);
+        else:
+            for tempVertex in vertex.getInVerticesList():
+                if visitedVertexMap[tempVertex]:
+                    continue;
+
+                stack.push(tempVertex);
+                DFSApplicationUtil.stronglyConnectedCommponentUsingKosarajusAlgoHelper(tempVertex, visitedVertexMap, isReversed, stack);
+    
+    @staticmethod
+    def findKCoreGraphHelper(vertex, graph, kCore):
+        if len(vertex.getAdjacentVertex()) < kCore:
+            for edge in vertex.getEdgeList()[:]:
+                otherVertex = edge.getToVertex() if edge.getFromVertex() == vertex else edge.getFromVertex();
+                graph.removeEdge(edge);
+
+                DFSApplicationUtil.findKCoreGraphHelper(otherVertex, graph, kCore);

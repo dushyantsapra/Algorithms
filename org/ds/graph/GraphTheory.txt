@@ -139,7 +139,7 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 				   				i.e x----->v----->y
 				   					  (b)    (a)
 				   		Logic: Pick any arbitrary vertex(v) do DFS(v) with outedges and inedges. If all vertices are visited in both the DFS then G is strongly 
-								connected else G is not strongly connected. 
+								connected else G is not strongly connected.
 					3. Check For edge's which are going from a sub-tree. If any of the subtree doesn't have a edge going out then that G(V, E) is not strongly connected. Edge going out can be Cross/Back edge
 21(iii). Weakly Connected: A Graph G(V, E) is weakly connected if for every pair of vertices(u, v) there is a path from u to v OR a path from v to u OR both.
 
