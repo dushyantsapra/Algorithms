@@ -29,12 +29,6 @@ class StackUsingLinkedList:
         else:
             print("Stack is Empty");
 
-    def peek(self):
-        if self.top:
-            return self.top.data;
-        else:
-            return None;
-
     def getSize(self):
         return self.size;
 

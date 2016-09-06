@@ -3,6 +3,8 @@ Created on Aug 22, 2016
 
 @author: Dushyant Sapra
 '''
+from org.ds.graph.common import Vertex
+
 
 class DFSApplicationUtil:
 
@@ -130,12 +132,16 @@ class DFSApplicationUtil:
 
                 stack.push(tempVertex);
                 DFSApplicationUtil.stronglyConnectedCommponentUsingKosarajusAlgoHelper(tempVertex, visitedVertexMap, isReversed, stack);
-    
-    @staticmethod
-    def findKCoreGraphHelper(vertex, graph, kCore):
-        if len(vertex.getAdjacentVertex()) < kCore:
-            for edge in vertex.getEdgeList()[:]:
-                otherVertex = edge.getToVertex() if edge.getFromVertex() == vertex else edge.getFromVertex();
-                graph.removeEdge(edge);
 
-                DFSApplicationUtil.findKCoreGraphHelper(otherVertex, graph, kCore);
+    @staticmethod
+    def checkForCycleInGraphUsingVertexColorHelper(vertex, parentVertex, visitedVertexColorMap):
+        visitedVertexColorMap[vertex] = "GREY";
+        print(vertex);
+        for tempVertex in vertex.getAdjacentVertex():
+            if visitedVertexColorMap[tempVertex] is "WHITE":
+                if DFSApplicationUtil.checkForCycleInGraphUsingVertexColorHelper(tempVertex, vertex, visitedVertexColorMap):
+                    return True;
+            if visitedVertexColorMap[tempVertex] is "GREY" and tempVertex != parentVertex:
+                return True;
+
+        visitedVertexColorMap[vertex] = "BLACK";

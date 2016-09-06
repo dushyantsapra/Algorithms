@@ -28,7 +28,7 @@ class UnDirectedGraph:
             vertex = Vertex(vertexName);
             self.vertexMap[vertexName] = vertex;
             return True;
-
+    
     def addEdge(self, fromVertexName, toVertexName, name=None, weight=0):
         fromVertex = None;
         toVertex = None;
@@ -53,17 +53,6 @@ class UnDirectedGraph:
         self.edgeMap[name] = edge;
         fromVertex.setAdjacentVertexAndEdge(edge, toVertex);
         toVertex.setAdjacentVertexAndEdge(edge, fromVertex);
-
-    def removeEdge(self, edge):
-        del self.edgeMap[edge.getName()];
-
-        edge.getFromVertex().getAdjacentVertex().remove(edge.getToVertex());
-        edge.getToVertex().getAdjacentVertex().remove(edge.getFromVertex());
-
-        edge.getFromVertex().getEdgeList().remove(edge);
-        edge.getToVertex().getEdgeList().remove(edge);
-
-        del edge;
 
     def removeVertex(self, vertexName):
         if vertexName in self.vertexMap:

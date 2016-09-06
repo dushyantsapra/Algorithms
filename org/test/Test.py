@@ -36,3 +36,5 @@ print("\n");
 for iValue in range(0, len(g)):
     for jValue in range(0, len(g[iValue])):
         print(g[iValue][jValue]);
+        
+matrix = [][];

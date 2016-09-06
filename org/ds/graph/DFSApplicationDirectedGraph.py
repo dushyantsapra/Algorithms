@@ -5,6 +5,7 @@ Created on Aug 17, 2016
 '''
 
 from org.ds.graph.DirectedGraph import DirectedGraph
+from org.ds.graph.GraphMatrixImplementation import GraphMatrixImplementation
 from org.ds.graph.common.DFSApplicationUtil import DFSApplicationUtil
 from org.ds.graph.common.Edge import Edge
 from org.ds.stack.Stack import StackUsingLinkedList
@@ -39,7 +40,7 @@ class DFSApplicationDirectedGraph:
                 break;
 
         if isTrue:
-            print("Topological Sort Using khan's Algo is : ");
+            print("Topological Sort is : ");
             for v in topologicalSortedVertexList:
                 print(v);
         else:
@@ -49,30 +50,26 @@ class DFSApplicationDirectedGraph:
         visitedVertexMap[vertex] = True;
 
         for tempVertex in vertex.getOutVerticesList():
-            if visitedVertexMap[tempVertex]:
+            if visitedVertexMap[tempVertex] == True:
                 continue;
 
-            self.topologicalSortUsingDFSHelper(tempVertex, visitedVertexMap, stack);
+            self.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack);
 
         stack.push(vertex);
 
-    def topologicalSortUsingDFS(self, graph, isPrint=True):
+    def topologicalSortUsingDFS(self, graph):
         visitedVertexMap = {};
         stack = StackUsingLinkedList();
 
         for vertex in graph.getVertexMap().values():
             visitedVertexMap[vertex] = False;
 
-        for vertex, value in visitedVertexMap.iteritems():
-            if not value:
+        for vertex, value in visitedVertexMap:
+            if value == 0:
                 self.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack); 
 
-        if isPrint:
-            print("Topological Sort Using DFS is : ");
-            while stack.getSize() > 0:
-                print(stack.pop());
-        else:
-            return stack;
+        while stack.getSize() > 0:
+            print(stack.pop());
 
     def checkIfGraphStronglyConnected(self, graph):
         visitedVertexMap = graph.dfsUsingRecursion(graph.getVertexMap().keys()[0], False, False);
@@ -152,32 +149,53 @@ class DFSApplicationDirectedGraph:
                 print(stack.pop());
             print("\n");
 
-    def iterativeDeepeningDFS(self, graph):
-        print()
+    def transitiveClosureOfGraphUsingDFSHelper(self, parentIndex, index, graph, visitedVertexList, transitiveClosureMatrix):
+        visitedVertexList[index] = True;
+        transitiveClosureMatrix[parentIndex][index] = 1;
+        for iLoop in range(graph.getVertexCount()):
+            if graph.getGraphMatrix()[index][iLoop] == 1 and not visitedVertexList[iLoop]:
+                self.transitiveClosureOfGraphUsingDFSHelper(parentIndex, iLoop, graph, visitedVertexList, transitiveClosureMatrix);
+
+#     Given a directed graph, find out if a vertex v is reachable from another vertex u for all vertex pairs (u, v) in the given graph. Here reachable mean that there is a path from vertex u to v. The reach-ability matrix is called transitive closure of a graph.
+    def transitiveClosureOfGraphUsingDFS(self, graph):
+        transitiveClosureMatrix = [[0 for jLoop in range(graph.getVertexCount())] for iLoop in range(graph.getVertexCount())];
+
+        for iLoop in range(graph.getVertexCount()):
+            visitedVertexList = [False] * (graph.getVertexCount());
+            self.transitiveClosureOfGraphUsingDFSHelper(iLoop, iLoop, graph, visitedVertexList, transitiveClosureMatrix);
+
+        for iLoop in range(graph.getVertexCount()):
+            fromVertex = graph.getIndexVertexMap()[iLoop];
+            for jLoop in range(graph.getVertexCount()):
+                subString = "Available" if transitiveClosureMatrix[iLoop][jLoop] else "Not Available";
+                print("Path From Vertex " + fromVertex + " To Vertex " + graph.getIndexVertexMap()[jLoop] + " is : " + subString);
+            print("\n");
 
 if __name__ == '__main__':
 #     Test Case 1(Directed Graph), Topological Sort Using Khan's Algo
     g = DirectedGraph();
-    g.addVertex("V0");
     g.addVertex("V1");
     g.addVertex("V2");
     g.addVertex("V3");
     g.addVertex("V4");
     g.addVertex("V5");
+    g.addVertex("V6");
+    g.addVertex("V7");
  
-    g.addEdge("V2", "V3", "E1");
-    
-    g.addEdge("V3", "V1", "E2");
-    
-    g.addEdge("V4", "V0", "E3");
-    g.addEdge("V4", "V1", "E4");
+    g.addEdge("V1", "V2", "E1");
+    g.addEdge("V1", "V3", "E2");
+    g.addEdge("V1", "V4", "E3");
  
-    g.addEdge("V5", "V0", "E5");
-    g.addEdge("V5", "V2", "E6");
+    g.addEdge("V2", "V5", "E4");
  
+    g.addEdge("V5", "V6", "E5");
+    g.addEdge("V3", "V6", "E6");
+    g.addEdge("V4", "V6", "E7");
+
+    g.addEdge("V6", "V7", "E8");
+
     obj = DFSApplicationDirectedGraph();
     obj.topologicalSortUsingKhanAlgo(g);
-    obj.topologicalSortUsingDFS(g);
 
 #     Test Case 2(Directed Graph), Check if Given Graph is Strongly Connected
     g = DirectedGraph();
@@ -222,7 +240,7 @@ if __name__ == '__main__':
     print("\n");
     obj.checkForCycleInDirectedGraph(g);
 
-#     Test Case 4, Count and Print Strongly Connected Component using Kousraju Algo
+#     Test Case 4, Count and Print Strongly Connected Commponent using Kousraju Algo
     g = DirectedGraph();
     g.addVertex("A");
     g.addVertex("B");
@@ -264,11 +282,22 @@ if __name__ == '__main__':
     obj.printStronglyConnectedCommponentUsingKosarajusAlgo(g);
     
     
-    g = DirectedGraph();
+    g = GraphMatrixImplementation(4);
+    g.addVertex("V0");
     g.addVertex("V1");
     g.addVertex("V2");
     g.addVertex("V3");
-    g.addVertex("V4");
-    g.addVertex("V5");
-    g.addVertex("V6");
-    g.addVertex("V7");
+    
+    g.addEdge("V0", "V1");
+    g.addEdge("V0", "V2");
+    
+    g.addEdge("V1", "V2");
+    
+    g.addEdge("V2", "V0");
+    g.addEdge("V2", "V3");
+    
+    g.addEdge("V3", "V3");
+    
+    obj = DFSApplicationDirectedGraph();
+    print("\n");
+    obj.transitiveClosureOfGraphUsingDFS(g);

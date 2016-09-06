@@ -29,6 +29,12 @@ class DisjointSet:
     def __init__(self):
         self.disjointSetNodeMap = {};
 
+    def getParent(self, data):
+        if data in self.disjointSetNodeMap:
+            return self.disjointSetNodeMap[data].getParent();
+        else:
+            return None;
+
     def makeSet(self, data):
         node = DisjointSetNode(data);
         self.disjointSetNodeMap[data] = node;
@@ -36,13 +42,18 @@ class DisjointSet:
     def union(self, data1, data2):
         parent1 = self.findSet(data1);
         parent2 = self.findSet(data2);
-       
+
+        if parent1 == parent2:
+            return False;
+
         if parent1.getRank() >= parent2.getRank():
             if parent1.getRank() == parent2.getRank():
                 parent1.rank += 1;
             parent2.parent = parent1;
         else:
             parent1.parent = parent2;
+
+        return True;
 
     def findSet(self, data):
         disjointSetNode = self.disjointSetNodeMap[data];

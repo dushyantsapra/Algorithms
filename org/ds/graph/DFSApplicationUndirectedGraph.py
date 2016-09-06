@@ -5,6 +5,7 @@ Created on Aug 23, 2016
 '''
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.graph.common.DFSApplicationUtil import DFSApplicationUtil
+from org.ds.graph.DisjointSet import DisjointSet
 
 class DFSApplicationUndirectedGraph:
 #     Application: Check If G(V, E) are 2 Edge connected
@@ -57,6 +58,42 @@ class DFSApplicationUndirectedGraph:
                 else:
                     print("Graph is ACyclic");
 
+    def checkForCycleInGraphUsingDisjointSet(self, graph):
+        ds = DisjointSet();
+        
+        for vertex in graph.getVertexMap().itervalues():
+            ds.makeSet(vertex);
+        
+        isCyclePresent = False;
+        for edge in graph.getEdgeMap().values():
+            if not ds.union(edge.getFromVertex(), edge.getToVertex()):
+                isCyclePresent = True;
+                break;
+
+        if isCyclePresent:
+            print("Graph contains Cycle(Using Disjoint Set's)");
+        else:
+            print("Graph Doesn't contains Cycle(Using Disjoint Set's)");
+    
+    def checkForCycleInGraphUsingVertexColor(self, graph):
+        visitedVertexColorMap = {};
+        
+        for vertex in graph.getVertexMap().values():
+            visitedVertexColorMap[vertex] = "WHITE";
+        
+        isCyclePresent = False;
+        for vertex in visitedVertexColorMap.iterkeys():
+            if visitedVertexColorMap[vertex] is 'WHITE':
+                print("\n");
+                isCyclePresent = DFSApplicationUtil.checkForCycleInGraphUsingVertexColorHelper(vertex, vertex, visitedVertexColorMap);
+                if isCyclePresent:
+                    break;
+        
+        if isCyclePresent:
+            print("Graph contains Cycle(Using Vertex Color)");
+        else:
+            print("Graph Doesn't contains Cycle(Using Vertex Color)");
+
 #     To check for Cycle at every Vertex
     def checkForCycleInGraphUsing2EdgeConnected(self, graph):
         vertex = graph.vertexMap.values()[0];
@@ -78,18 +115,8 @@ class DFSApplicationUndirectedGraph:
         if len(visitedVertexMap) == len(graph.getVertexMap()):
             print("Graph is Connected");
         else:
-            print("Graph is Not Connected");
-
-#     Remove all vertex with Degree less then kCore value
-    def findKCoreGraph(self, graph, kCore):
-        for vertex in graph.getVertexMap().values():
-            DFSApplicationUtil.findKCoreGraphHelper(vertex, graph, kCore);
-
-        for vertexName, vertex in graph.getVertexMap().iteritems():
-            if len(vertex.getEdgeList()) > 0:
-                graph.dfsUsingRecursion(vertexName);
-                break;
-
+            print("Graph is Not Connected")
+            
 if __name__ == '__main__':
 #     Test Case 2(Undirected Graph), CHeck if Graph is 2 Edge Connected and check for Articulation Point(Cut Vertex) in Graph
     g = UnDirectedGraph();
@@ -167,39 +194,19 @@ if __name__ == '__main__':
 
 
     g = UnDirectedGraph();
-    g.addVertex("0");
-    g.addVertex("1");
-    g.addVertex("2");
-    g.addVertex("3");
-    g.addVertex("4");
-    g.addVertex("5");
-    g.addVertex("6");
-    g.addVertex("7");
-    g.addVertex("8");
+    g.addVertex("V0");
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+
+    g.addEdge("V0", "V1", "E1");
+    g.addEdge("V0", "V2", "E2");
+    g.addEdge("V0", "V3", "E3");
     
-    g.addEdge("0", "1", "E1");
-    g.addEdge("0", "2", "E2");
+    g.addEdge("V1", "V2", "E4");
     
-    g.addEdge("1", "2", "E3");
-    g.addEdge("1", "5", "E4");
-    
-    g.addEdge("2", "3", "E5");
-    g.addEdge("2", "4", "E6");
-    g.addEdge("2", "5", "E7");
-    g.addEdge("2", "6", "E8");
-    
-    g.addEdge("3", "4", "E9");
-    g.addEdge("3", "6", "E10");
-    g.addEdge("3", "7", "E11");
-    
-    g.addEdge("4", "6", "E12");
-    g.addEdge("4", "7", "E13");
-    
-    g.addEdge("5", "6", "E14");
-    g.addEdge("5", "8", "E15");
-    
-    g.addEdge("6", "7", "E16");
-    g.addEdge("6", "8", "E17");
+    g.addEdge("V3", "V4", "E5");
     
     obj = DFSApplicationUndirectedGraph();
-    obj.findKCoreGraph(g, 3);
+    obj.checkForCycleInGraphUsingDisjointSet(g);
+    obj.checkForCycleInGraphUsingVertexColor(g);

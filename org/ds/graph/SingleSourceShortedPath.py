@@ -10,7 +10,7 @@ from org.ds.graph.DirectedGraph import DirectedGraph
 from org.ds.graph.GraphMatrixImplementation import GraphMatrixImplementation
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
-from org.ds.graph.DFSApplicationDirectedGraph import DFSApplicationDirectedGraph
+
 
 class ShortestPath:
     def dijsktraAlgo(self, graph, graphType="UNDIRECTED"):
@@ -59,45 +59,6 @@ class ShortestPath:
             for vertex in sourceShortedPathVerticesMap[key]:
                 print(vertex.getName()); 
 
-
-#     Find Shortest/Longest Single Source path in Direct Acyclic Graph(Having -ve edges, but no -ve weight cycle)
-#     Complexity = O(V+E)
-    def pathInDirectedAcyclicGraph(self, graph, isShortest=True):
-        parentVertexMap = {};
-        shortedPathMap = {};
-
-        if isShortest:
-            for vertex in graph.getVertexMap().values():
-                shortedPathMap[vertex] = float("inf");
-        else:
-            for vertex in graph.getVertexMap().values():
-                shortedPathMap[vertex] = float("-inf");
-
-        vertexStack = DFSApplicationDirectedGraph().topologicalSortUsingDFS(graph, False);
-
-        sourceVertex = vertexStack.peek();
-        shortedPathMap[sourceVertex] = 0;
-
-        if isShortest:
-            while vertexStack.getSize() > 0:
-                vertex = vertexStack.pop();
-    
-                for edge in vertex.getOutEdgeList():
-                    if shortedPathMap[edge.getToVertex()] > shortedPathMap[edge.getFromVertex()] + edge.getWeight():
-                        shortedPathMap[edge.getToVertex()] = shortedPathMap[edge.getFromVertex()] + edge.getWeight();
-                        parentVertexMap[edge.getToVertex()] = edge.getFromVertex();
-        else:
-            while vertexStack.getSize() > 0:
-                vertex = vertexStack.pop();
-    
-                for edge in vertex.getOutEdgeList():
-                    if shortedPathMap[edge.getToVertex()] < shortedPathMap[edge.getFromVertex()] + edge.getWeight():
-                        shortedPathMap[edge.getToVertex()] = shortedPathMap[edge.getFromVertex()] + edge.getWeight();
-                        parentVertexMap[edge.getToVertex()] = edge.getFromVertex();
-
-        for key, value in shortedPathMap.iteritems():
-            print("Distance From Source Vertex : " + sourceVertex.getName() + ", To Vertex : " + key.getName() + " is : " + str(value));
-
     def relax(self, sourceDistanceMap, sourceShortedPathParentMap, edge):
         newDistance = sourceDistanceMap[edge.getFromVertex()] + edge.getWeight()
         if sourceDistanceMap[edge.getToVertex()] > newDistance:
@@ -138,7 +99,6 @@ class ShortestPath:
             for key, value in sourceDistanceMap.iteritems():
                 print(key.getName(), str(value));
 
-#     Prints/Calculate All pair shorted path
     def floydWarshalls(self, graph):
         print()
 
@@ -202,7 +162,7 @@ if __name__ == '__main__':
     sp = ShortestPath();
     sp.bellmanFordAlgo(g);
     
-    """g = GraphMatrixImplementation(4);
+    g = GraphMatrixImplementation(4);
     g.addEdge(0, 1);
     g.addEdge(0, 2);
     g.addEdge(0, 3);
@@ -211,31 +171,4 @@ if __name__ == '__main__':
     for iLoop in range(len(g)):
         for jLoop in range(len(g[iLoop])):
             print(g[iLoop][jLoop]);
-        print("\n");"""
-
-
-    g = DirectedGraph();
-    g.addVertex("A");
-    g.addVertex("B");
-    g.addVertex("C");
-    g.addVertex("D");
-    g.addVertex("E");
-    g.addVertex("F");
-    
-    g.addEdge("A", "B", "E1", 3);
-    g.addEdge("A", "D", "E2", 5);
-    
-    g.addEdge("B", "C", "E3", 7);
-    g.addEdge("B", "E", "E4", 2);
-    g.addEdge("B", "F", "E5", 4);
-    
-    g.addEdge("C", "E", "E6", 1);
-    g.addEdge("C", "F", "E7", -1);
-    
-    g.addEdge("D", "B", "E8", 2);
-    g.addEdge("D", "C", "E9", 6);
-    
-    g.addEdge("F", "E", "E10", -2);
-    
-    sp = ShortestPath();
-    sp.pathInDirectedAcyclicGraph(g, False);
+        print("\n");
