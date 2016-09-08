@@ -7,35 +7,32 @@ Created on Aug 17, 2016
 from org.ds.graph.DirectedGraph import DirectedGraph
 from org.ds.graph.GraphMatrixImplementation import GraphMatrixImplementation
 from org.ds.graph.common.DFSApplicationUtil import DFSApplicationUtil
-from org.ds.graph.common.Edge import Edge
 from org.ds.stack.Stack import StackUsingLinkedList
 
 
 class DFSApplicationDirectedGraph:
-#     Logic:
     def topologicalSortUsingKhanAlgo(self, directedGraph):
-        zeroInEdgeVertexList = [];
+        zeroInVertexList = [];
         topologicalSortedVertexList = [];
 
-        vertexInEdgeListMap = {};
+        inVertexCountMap = {};
 
         for vertex in directedGraph.vertexMap.itervalues():
-            vertexInEdgeListMap[vertex] = vertex.getInEdgeList();
-            if len(vertex.getInEdgeList()) == 0:
-                zeroInEdgeVertexList.append(vertex);
+            inVertexCountMap[vertex] = len(vertex.getInVerticesList());
+            if len(vertex.getInVerticesList()) == 0:
+                zeroInVertexList.append(vertex);
 
-        while len(zeroInEdgeVertexList) > 0:
-            vertex = zeroInEdgeVertexList.pop(0);
+        while len(zeroInVertexList) > 0:
+            vertex = zeroInVertexList.pop(0);
             topologicalSortedVertexList.append(vertex);
-            for outVertex in vertex.getOutVerticesList():
-                edge = Edge(vertex, outVertex);
-                vertexInEdgeListMap[outVertex].remove(edge);
-                if len(vertexInEdgeListMap[outVertex]) == 0:
-                    zeroInEdgeVertexList.append(outVertex);
+            for inVertex in vertex.getOutVerticesList():
+                inVertexCountMap[inVertex] = inVertexCountMap[inVertex] - 1;
+                if inVertexCountMap[inVertex] == 0:
+                    zeroInVertexList.append(inVertex);
 
         isTrue = True;
-        for lt in vertexInEdgeListMap.itervalues():
-            if len(lt) > 0:
+        for lt in inVertexCountMap.itervalues():
+            if lt > 0:
                 isTrue = False;
                 break;
 
@@ -46,17 +43,6 @@ class DFSApplicationDirectedGraph:
         else:
             print("Graph is not a Directed Acyclic Graph");
 
-    def topologicalSortUsingDFSHelper(self, vertex, visitedVertexMap, stack):
-        visitedVertexMap[vertex] = True;
-
-        for tempVertex in vertex.getOutVerticesList():
-            if visitedVertexMap[tempVertex] == True:
-                continue;
-
-            self.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack);
-
-        stack.push(vertex);
-
     def topologicalSortUsingDFS(self, graph):
         visitedVertexMap = {};
         stack = StackUsingLinkedList();
@@ -64,9 +50,9 @@ class DFSApplicationDirectedGraph:
         for vertex in graph.getVertexMap().values():
             visitedVertexMap[vertex] = False;
 
-        for vertex, value in visitedVertexMap:
+        for vertex, value in visitedVertexMap.iteritems():
             if value == 0:
-                self.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack); 
+                DFSApplicationUtil.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack); 
 
         while stack.getSize() > 0:
             print(stack.pop());
@@ -195,6 +181,28 @@ if __name__ == '__main__':
     g.addEdge("V6", "V7", "E8");
 
     obj = DFSApplicationDirectedGraph();
+    
+    
+    g = DirectedGraph();
+    g.addVertex("V0");
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    g.addVertex("V5");
+ 
+    g.addEdge("V2", "V3", "E1");
+    
+    g.addEdge("V3", "V1", "E2");
+    
+    g.addEdge("V4", "V0", "E3");
+    g.addEdge("V4", "V1", "E4");
+ 
+    g.addEdge("V5", "V0", "E5");
+    g.addEdge("V5", "V2", "E6");
+    
+    print("\nT.S using DFS");
+    obj.topologicalSortUsingDFS(g);
     obj.topologicalSortUsingKhanAlgo(g);
 
 #     Test Case 2(Directed Graph), Check if Given Graph is Strongly Connected

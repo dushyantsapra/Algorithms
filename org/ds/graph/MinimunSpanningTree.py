@@ -35,14 +35,8 @@ class MinimumSpanningTree:
             disjointSet.makeSet(key);
 
         for edge in sortedEdgeList:
-            fromParentNode = disjointSet.findSet(edge.getFromVertex().getName());
-            toParentNode = disjointSet.findSet(edge.getToVertex().getName());
-
-            if fromParentNode is toParentNode:
-                continue;
-
-            mstEdgeList.append(edge);
-            disjointSet.union(edge.getFromVertex().getName(), edge.getToVertex().getName());
+            if disjointSet.union(edge.getFromVertex().getName(), edge.getToVertex().getName()):
+                mstEdgeList.append(edge);
 
         print("Minimum Spanning Tree(kruskalsAlgo) Edges  are : ");
         for edge in mstEdgeList:
@@ -54,7 +48,7 @@ class MinimumSpanningTree:
         vertexEdgeMap = {};
         mstEdgeList = [];
 
-        vertex = graph.getVertexMap().values()[0];
+        vertex = graph.getVertexMap().values()[3];
 
 #         visitedVertexMap[vertex] = 1;
         for tempVertex in graph.getVertexMap().values():
@@ -88,6 +82,7 @@ class MinimumSpanningTree:
         visitedVertexMap = {};
         binaryHeap = BinaryHeapUsingArray("MIN_HEAP");
         mstEdgeList = [];
+
         for vertex in graph.getVertexMap().values():
             visitedVertexMap[vertex] = 0;
 
@@ -102,7 +97,7 @@ class MinimumSpanningTree:
             edge = binaryHeap.findMin();
             mstEdgeList.append(edge);
 
-            if visitedVertexMap[edge.getFromVertex()] and visitedVertexMap[edge.getToVertex()] == 1:
+            if visitedVertexMap[edge.getFromVertex()] == 1 and visitedVertexMap[edge.getToVertex()] == 1:
                 continue;
 
             vertex = edge.getFromVertex() if visitedVertexMap[edge.getFromVertex()] == 0 else edge.getToVertex();
@@ -129,25 +124,25 @@ class MinimumSpanningTree:
             self.primsAlgoUsingEdge(graph);
 
 if __name__ == '__main__':
-#     g = Graph();
-#     g.addVertex("V1");
-#     g.addVertex("V2");
-#     g.addVertex("V3");
-#     g.addVertex("V4");
-#     g.addVertex("V5");
-#     g.addVertex("V6");
-#     
-#     g.addEdge("V1", "V2", "E1", 6);
-#     g.addEdge("V1", "V4", "E2", 2);
-#     
-#     g.addEdge("V2", "V5", "E3", 5);
-#     g.addEdge("V2", "V3", "E4", 1);
-#      
-#     g.addEdge("V3", "V6", "E5", 3);
-#      
-#     g.addEdge("V5", "V6", "E6", 4);
-# 
-#     mst = MinimumSpanningTree();
+    g = UnDirectedGraph();
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    g.addVertex("V5");
+    g.addVertex("V6");
+     
+    g.addEdge("V1", "V2", "E1", 6);
+    g.addEdge("V1", "V4", "E2", 2);
+     
+    g.addEdge("V2", "V5", "E3", 5);
+    g.addEdge("V2", "V3", "E4", 1);
+      
+    g.addEdge("V3", "V6", "E5", 3);
+      
+    g.addEdge("V5", "V6", "E6", 4);
+ 
+    mst = MinimumSpanningTree();
 #     mst.kruskalsAlgo(g);
 
     g = UnDirectedGraph();
@@ -180,4 +175,5 @@ if __name__ == '__main__':
     g.addEdge("V6", "V8", "E13", 11);
 
     mst = MinimumSpanningTree();
+    mst.kruskalsAlgo(g);
     mst.primsAlgo(g);

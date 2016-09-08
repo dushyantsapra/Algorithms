@@ -3,8 +3,6 @@ Created on Aug 22, 2016
 
 @author: Dushyant Sapra
 '''
-from org.ds.graph.common import Vertex
-
 
 class DFSApplicationUtil:
 
@@ -145,3 +143,15 @@ class DFSApplicationUtil:
                 return True;
 
         visitedVertexColorMap[vertex] = "BLACK";
+    
+    @staticmethod
+    def topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack):
+        visitedVertexMap[vertex] = True;
+
+        for tempVertex in vertex.getOutVerticesList():
+            if visitedVertexMap[tempVertex] == True:
+                continue;
+
+            DFSApplicationUtil.topologicalSortUsingDFSHelper(tempVertex, visitedVertexMap, stack);
+
+        stack.push(vertex);
