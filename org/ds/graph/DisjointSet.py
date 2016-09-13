@@ -42,7 +42,7 @@ class DisjointSet:
     def union(self, data1, data2):
         parent1 = self.findSet(data1);
         parent2 = self.findSet(data2);
-
+        
         if parent1 == parent2:
             return False;
 

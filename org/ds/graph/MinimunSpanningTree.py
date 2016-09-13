@@ -13,7 +13,7 @@ from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
 # If edge weight are distinct then we will have unique MST(minimum Spanning Tree) else we can have n number of MST with same lenght/weight/
 # Number of MST can be n power (n-2), where n is vertices
 class MinimumSpanningTree:
-#     For Sort Edges Based upon there lenght/weight
+#     First Sort Edges Based upon there lenght/weight
 #     Iterate over all the sorted Edges
 #     Use DisjointSet function
 #         i) MakeSet

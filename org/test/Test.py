@@ -37,4 +37,15 @@ for iValue in range(0, len(g)):
     for jValue in range(0, len(g[iValue])):
         print(g[iValue][jValue]);
         
-matrix = [][];
+m = {};
+str = "Hello";
+str1 = "Bye";
+
+m[str] = 1;
+m[str1] = 2;
+
+print(m)
+
+del m[str];
+print(m);
+print(str);

@@ -243,6 +243,34 @@ class DirectedGraph:
         visitedVertexMap = {};
         self.dfsUsingRecursionHelper(vertex, arrivalMap, departureMap, isReverse, isPrint, visitedVertexMap);
         return visitedVertexMap;
+    
+    def printAllDFSHelper(self, vertex, destinationVertex, visitedVertexMap, pathList):
+        visitedVertexMap[vertex] = True;
+        pathList.append(vertex);
+
+        if vertex == destinationVertex:
+            print("Path");
+            for vertex in pathList:
+                print(vertex);
+        else:
+            for tempVertex in vertex.getOutVerticesList():
+                if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex]:
+                    continue;
+                self.printAllDFSHelper(tempVertex, destinationVertex, visitedVertexMap, pathList);
+        visitedVertexMap[vertex] = False;
+        pathList.pop();
+
+    def printAllDFS(self, sourceVertexName, destinationVertexName):
+        visitedVertexMap = {};
+
+        for vertex in self.vertexMap.values():
+            visitedVertexMap[vertex] = False;
+
+        sourceVertex = self.vertexMap[sourceVertexName];
+        destinationVertex = self.vertexMap[destinationVertexName];
+        pathList = [];
+
+        self.printAllDFSHelper(sourceVertex, destinationVertex, visitedVertexMap, pathList);
 
 if __name__ == '__main__':
     # Test Case 1
@@ -255,7 +283,7 @@ if __name__ == '__main__':
     g.addVertex("V6");
 
     g.addEdge("V1", "V2", "E1");
-    g.addEdge("V1", "V6", "E2");
+    g.addEdge("V1", "V5", "E2");
     
     g.addEdge("V2", "V3", "E3");
     
@@ -379,3 +407,30 @@ if __name__ == '__main__':
     g.addEdge("V11", "V12", "E12");
     
     g.countAndPrintconnectedComponents();"""
+
+    g = DirectedGraph();
+    
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    g.addVertex("V5");
+    g.addVertex("V6");
+    g.addVertex("V7");
+    
+    g.addEdge("V1", "V2", "E1");
+    g.addEdge("V1", "V3", "E2");
+    
+    g.addEdge("V2", "V3", "E3");
+
+    g.addEdge("V3", "V4", "E4");
+    g.addEdge("V3", "V6", "E5");
+
+    g.addEdge("V4", "V5", "E6");
+
+    g.addEdge("V6", "V7", "E7");
+    
+    g.addEdge("V7", "V4", "E8");
+
+    print("\n");
+    g.printAllDFS("V1", "V5");

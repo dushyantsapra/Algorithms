@@ -9,7 +9,6 @@ from org.ds.graph.GraphMatrixImplementation import GraphMatrixImplementation
 from org.ds.graph.common.DFSApplicationUtil import DFSApplicationUtil
 from org.ds.stack.Stack import StackUsingLinkedList
 
-
 class DFSApplicationDirectedGraph:
     def topologicalSortUsingKhanAlgo(self, directedGraph):
         zeroInVertexList = [];
@@ -51,11 +50,14 @@ class DFSApplicationDirectedGraph:
             visitedVertexMap[vertex] = False;
 
         for vertex, value in visitedVertexMap.iteritems():
-            if value == 0:
+            if not value:
                 DFSApplicationUtil.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack); 
 
         while stack.getSize() > 0:
             print(stack.pop());
+
+    def printAllTopologicalSort(self, graph):
+        print();
 
     def checkIfGraphStronglyConnected(self, graph):
         visitedVertexMap = graph.dfsUsingRecursion(graph.getVertexMap().keys()[0], False, False);

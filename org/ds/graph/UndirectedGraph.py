@@ -157,6 +157,34 @@ class UnDirectedGraph:
         self.dfsUsingRecursionHelper(vertex, arrivalMap, departureMap, isPrint, visitedVertexMap);
         return visitedVertexMap;
 
+    def printAllDFSHelper(self, vertex, destinationVertex, visitedVertexMap, pathList):
+        visitedVertexMap[vertex] = True;
+        pathList.append(vertex);
+
+        if vertex == destinationVertex:
+            print("Path");
+            for vertex in pathList:
+                print(vertex);
+        else:
+            for tempVertex in vertex.getAdjacentVertex():
+                if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex]:
+                    continue;
+                self.printAllDFSHelper(tempVertex, destinationVertex, visitedVertexMap, pathList);
+        visitedVertexMap[vertex] = False;
+        pathList.pop();
+
+    def printAllDFS(self, sourceVertexName, destinationVertexName):
+        visitedVertexMap = {};
+
+        for vertex in self.vertexMap.values():
+            visitedVertexMap[vertex] = False;
+
+        sourceVertex = self.vertexMap[sourceVertexName];
+        destinationVertex = self.vertexMap[destinationVertexName];
+        pathList = [];
+
+        self.printAllDFSHelper(sourceVertex, destinationVertex, visitedVertexMap, pathList);
+
 if __name__ == '__main__': 
     # Test Case 1
     g = UnDirectedGraph();
@@ -189,3 +217,35 @@ if __name__ == '__main__':
     
     print("\n*****DFS Using Recursion*****");
     g.dfsUsingRecursion("V2");
+    
+    g = UnDirectedGraph();
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    g.addVertex("V5");
+    g.addVertex("V6");
+    g.addVertex("V7");
+    g.addVertex("V8");
+    g.addVertex("V9");
+
+    g.addEdge("V1", "V2", "E1");
+    g.addEdge("V1", "V3", "E2");
+    
+    g.addEdge("V2", "V3", "E3");
+
+    g.addEdge("V3", "V4", "E4");
+    
+    g.addEdge("V4", "V5", "E5");
+    g.addEdge("V4", "V6", "E6");
+    
+    g.addEdge("V5", "V6", "E7");
+    
+    g.addEdge("V6", "V7", "E8");
+    
+    g.addEdge("V7", "V8", "E9");
+    g.addEdge("V7", "V9", "E10");
+    
+    g.addEdge("V8", "V9", "E11");
+    
+    g.printAllDFS("V1", "V9");
