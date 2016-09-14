@@ -5,26 +5,37 @@ Created on Sep 14, 2016
 '''
 
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
-from copy import deepcopy
 from org.ds.graph.DisjointSet import DisjointSet
 from random import randint
 
 class KargersAlgoForMinimumCut:
     def kargersAlgo(self, graph):
-        contractedGraph = deepcopy(graph);
         disjointSet = DisjointSet();
 
         for vertex in graph.getVertexMap().itervalues():
             disjointSet.makeSet(vertex);
 
-        while len(contractedGraph.getVertexMap()) > 2:
-            edge = graph.getEdgeMap().values()[randint(0, len(graph.getEdgeMap()))];
+        minCutEdges = [];
+        vertexCount = len(graph.getVertexMap());
+
+        while vertexCount > 2:
+            randonIndex = randint(0, len(graph.getEdgeMap()) - 1);
+            edge = graph.getEdgeMap().values()[randonIndex];
             if disjointSet.union(edge.getFromVertex(), edge.getToVertex()):
-                print()
+                vertexCount -= 1;
+
+        for edge in graph.getEdgeMap().itervalues():
+            if disjointSet.getParent(edge.getFromVertex()) == disjointSet.getParent(edge.getToVertex()):
+                continue;
+            else:
+                minCutEdges.append(edge);
+
+        for edge in minCutEdges:
+            print(edge);
 
 if __name__ == '__main__':
     g = UnDirectedGraph();
-    
+
     g.addVertex("V0");
     g.addVertex("V1");
     g.addVertex("V2");
@@ -37,6 +48,6 @@ if __name__ == '__main__':
     g.addEdge("V1", "V3", "D");
 
     g.addEdge("V2", "V3", "E");
-    
+
     obj = KargersAlgoForMinimumCut();
     obj.kargersAlgo(g);
