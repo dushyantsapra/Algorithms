@@ -18,20 +18,25 @@ class KargersAlgoForMinimumCut:
         minCutEdges = [];
         vertexCount = len(graph.getVertexMap());
 
+        iValue = 1;
+
         while vertexCount > 2:
-            randonIndex = randint(0, len(graph.getEdgeMap()) - 1);
+            randonIndex = randint(0, len(graph.getEdgeMap()) - iValue);
             edge = graph.getEdgeMap().values()[randonIndex];
             if disjointSet.union(edge.getFromVertex(), edge.getToVertex()):
                 vertexCount -= 1;
+                iValue += 1;
 
         for edge in graph.getEdgeMap().itervalues():
-            if disjointSet.getParent(edge.getFromVertex()) == disjointSet.getParent(edge.getToVertex()):
+            if disjointSet.findSet(edge.getFromVertex()) == disjointSet.findSet(edge.getToVertex()):
                 continue;
             else:
                 minCutEdges.append(edge);
 
-        for edge in minCutEdges:
-            print(edge);
+        if len(minCutEdges) > 0:
+            print("Minimum Cut Edge To Disconnect the Graph is : ");
+            for edge in minCutEdges:
+                print(edge);
 
 if __name__ == '__main__':
     g = UnDirectedGraph();

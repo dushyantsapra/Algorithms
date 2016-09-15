@@ -29,20 +29,38 @@ class DFSApplicationUndirectedGraph:
                 print("From Vertex : " + key.getName() + ", To Vertex : " + value.getName());
 
 #     Assuming Graph is Connected with no connected components. If (V, E) has connected component then check for every vertex which are not visited in single run 
-    def checkForArticulationPointInGraph(self, graph):
+    def checkForArticulationPointInGraph(self, graph, isPrint=True):
         visitedVertexMap = {};
 
         cutVertexList = [];
         vertex = graph.getVertexMap().values()[0];
         DFSApplicationUtil.checkForArticulationPointInGraphHelper(vertex, vertex, {}, {}, cutVertexList, visitedVertexMap);
         
+        
+        if isPrint:
+            if len(cutVertexList) == 0:
+                print("\nNo Articulation Point(Cut Vertex) Exists in Graph");
+            else:
+                print("\nGraph Contains Articulation Point(Cut Vertex)");
+                print("Articulation Point(Cut Vertex) are");
+                for vertex in cutVertexList:
+                    print(vertex);
+        return cutVertexList;
+    
+    def checkIfGraphIsBiconnected(self, graph):
+        isBiconnected = True;
+        cutVertexList = self.checkForArticulationPointInGraph(graph, False);
         if len(cutVertexList) == 0:
-            print("\nNo Articulation Point(Cut Vertex) Exists in Graph");
+            visitedVertexMap = graph.dfsUsingRecursion(graph.getVertexMap().keys()[1], False);
+            if len(visitedVertexMap) != len(graph.getVertexMap()):
+                isBiconnected = False;
         else:
-            print("\nGraph Contains Articulation Point(Cut Vertex)");
-            print("Articulation Point(Cut Vertex) are");
-            for vertex in cutVertexList:
-                print(vertex);
+            isBiconnected = False;
+
+        if isBiconnected:
+            print("Graph is Biconnected");
+        else:
+            print("Graph Contains Articulation point OR all Graph is not connected");
 
     def checkForCycleInUnDirectedGraphUsingDFS(self, graph):
         visitedVertexMap = {};
@@ -134,6 +152,8 @@ if __name__ == '__main__':
      
     g.addEdge("V3", "V4", "E5");
     
+    g.addEdge("V4", "V5", "E6");
+    
 #     g.addVertex("V1");
 #     g.addVertex("V2");
 #     g.addVertex("V3");
@@ -156,7 +176,7 @@ if __name__ == '__main__':
     obj = DFSApplicationUndirectedGraph();
     obj.checkIfGraphIs2EdgeConnected(g);
     obj.checkForArticulationPointInGraph(g);
-
+    
 #     Test Case 3(Undirected Graph), Check If Graph is Connected
 #     g = UnDirectedGraph();
 #     g.addVertex("V1");
@@ -210,3 +230,35 @@ if __name__ == '__main__':
     obj = DFSApplicationUndirectedGraph();
     obj.checkForCycleInGraphUsingDisjointSet(g);
     obj.checkForCycleInGraphUsingVertexColor(g);
+    
+    
+#     g = UnDirectedGraph();
+#     g.addVertex("V0");
+#     g.addVertex("V1");
+#     g.addVertex("V2");
+#     
+#     g.addEdge("V0", "V1", "E1");
+#     g.addEdge("V1", "V2", "E2");
+#     g.addEdge("V2", "V3", "E3");
+    
+    g = UnDirectedGraph();
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    g.addVertex("V5");
+
+    g.addEdge("V1", "V2", "E1");
+    g.addEdge("V1", "V5", "E2");
+ 
+    g.addEdge("V2", "V3", "E3");
+    g.addEdge("V2", "V5", "E4");
+     
+    g.addEdge("V3", "V4", "E5");
+    
+    g.addEdge("V4", "V5", "E6");
+    
+    print("\n");
+    obj = DFSApplicationUndirectedGraph();
+    obj.checkIfGraphIsBiconnected(g);
+    
