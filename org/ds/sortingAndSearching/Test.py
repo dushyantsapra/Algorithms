@@ -3,6 +3,8 @@ Created on 31-May-2016
 
 @author: Dushyant
 '''
+from __builtin__ import str
+from _ast import Str
 
 iValue = 10;
 fValue = float(10.00);
@@ -79,3 +81,7 @@ if __name__ == '__main__':
     print("\n\n\n");
     for iLoop in range(5):
         print(iLoop);
+
+print("\n");
+str = "Hello"
+print(str[0] + " " + str[len(str) - 1]);

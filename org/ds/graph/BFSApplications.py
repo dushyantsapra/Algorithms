@@ -57,52 +57,6 @@ class BFSApplication:
         else:
             print("Graph is Not Connected");
 
-    """def dfsUsingStackForConnectedComponent(self, vertexName, graph, visitedVertexMap, counterValue):
-        if vertexName not in graph.vertexMap:
-            print("Vertex Doesn't Exists");
-            return False;
-
-        vertex = graph.vertexMap[vertexName];
-
-        stack = StackUsingLinkedList();
-
-        stack.push(vertex);
-        visitedVertexMap[vertex] = counterValue;
-
-        while stack.getSize() > 0:
-            v = stack.pop();
-            print(v.getName());
-
-            for tempVertex in v.getAdjacentVertex():
-                if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
-                    continue;
-
-                visitedVertexMap[tempVertex] = counterValue;
-                stack.push(tempVertex);"""
-
-    """def bfsForConnectedComponent(self, vertexName, graph, visitedVertexMap, counterValue):
-        if vertexName not in graph.vertexMap:
-            print("Vertex Doesn't Exists");
-            return False;
-
-        vertex = graph.vertexMap[vertexName];
-
-        queue = Queue();
-
-        queue.enQueue(vertex);
-        visitedVertexMap[vertex] = counterValue;
-
-        while queue.getSize() > 0:
-            v = queue.deQueue();
-            print(v.getName());
-
-            for tempVertex in v.getAdjacentVertex():
-                if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
-                    continue;
-
-                visitedVertexMap[tempVertex] = counterValue;
-                queue.enQueue(tempVertex);"""
-
     def countAndPrintconnectedComponents(self, graph):
         visitedVertexMap = {};
         counter = 0;

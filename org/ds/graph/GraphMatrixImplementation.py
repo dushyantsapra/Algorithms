@@ -5,7 +5,6 @@ Created on Sep 4, 2016
 '''
 
 from org.ds.queue.Queue import Queue
-from curses.ascii import isprint
 
 class GraphMatrixImplementation:
     def __init__(self, vertexCount):

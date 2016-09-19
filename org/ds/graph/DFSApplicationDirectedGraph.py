@@ -101,7 +101,7 @@ class DFSApplicationDirectedGraph:
         else:
             print("Directed Graph is ACyclic");
 
-    def printStronglyConnectedCommponentUsingKosarajusAlgo(self, graph):
+    def printStronglyConnectedCommponentUsingKosarajusAlgo(self, graph, isPrint=True):
         connectedComponentCount = 0;
 
         visitedVertexMap = {};
@@ -128,14 +128,17 @@ class DFSApplicationDirectedGraph:
                 sccVertexMap[vertex] = tempStack;
                 connectedComponentCount += 1;
 
-        print("\nTotal Strongly Connected Components are : " + str(connectedComponentCount));
-        iLoop = 1;
-        for key in sccVertexMap.keys():
-            stack = sccVertexMap[key];
-            print("Strongly Connected Component Number : " + str(iLoop) + ", Vertices are : ");
-            while stack.getSize() > 0:
-                print(stack.pop());
-            print("\n");
+        if isPrint:
+            print("\nTotal Strongly Connected Components are : " + str(connectedComponentCount));
+            iLoop = 1;
+            for key in sccVertexMap.keys():
+                stack = sccVertexMap[key];
+                print("Strongly Connected Component Number : " + str(iLoop) + ", Vertices are : ");
+                while stack.getSize() > 0:
+                    print(stack.pop());
+                print("\n");
+
+        return sccVertexMap;
 
     def transitiveClosureOfGraphUsingDFSHelper(self, parentIndex, index, graph, visitedVertexList, transitiveClosureMatrix):
         visitedVertexList[index] = True;
