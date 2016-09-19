@@ -31,15 +31,16 @@ class DirectedGraph:
 
     def addEdge(self, fromVertexName, toVertexName, edgeName, weight=0):
         if fromVertexName not in self.vertexMap:
-            print("From Vertex \"" + fromVertexName + "\" is Absent");
-            return False;
+            fromVertex = Vertex(fromVertexName);
+            self.vertexMap[fromVertexName] = fromVertex;
+        else:
+            fromVertex = self.vertexMap[fromVertexName];
 
         if toVertexName not in self.vertexMap:
-            print("To Vertex \"" + toVertexName + "\" is Absent");
-            return False;
-
-        fromVertex = self.vertexMap[fromVertexName];
-        toVertex = self.vertexMap[toVertexName];
+            toVertex = Vertex(toVertexName);
+            self.vertexMap[toVertexName] = toVertex;
+        else:
+            toVertex = self.vertexMap[toVertexName];
 
         edge = Edge(fromVertex, toVertex, edgeName, weight);
 

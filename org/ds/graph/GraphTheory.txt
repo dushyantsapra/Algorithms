@@ -7,6 +7,12 @@
  
 Q: What is the sum of degrees of all vertices.
 A: Twice the number of edges. Because a edge have 2 vertices, so every edge add's 2 degree in the graph. So twice the number of total edges.
+
+Q. Property Of Undirected Graph.
+A. Undirected Graph always have even number of odd degree vertices, bcoz sum of all degrees is always even in an undirected graph.
+
+Q. Properties to form a cycle in Undirected Graph.
+A. if all the vertices have even degree, then undirected Graph has cycle.
  
 5. Path: A path in a graph is a sequence of vertices V1, V2, ..., Vk, Such that consecutive vertex Vi and Vi+1 are adjacent.
 6. Simple Path: A path have no vertex which is repeated.
@@ -146,10 +152,28 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 21(iv). Strongly Connected Components:
 
 
-22. Spanning Tree: A spanning tree of G is a subgraph which is a tree and which contains all vertices of G and doesn't have a cycle. Number of edges are |V| - 1(i.e one less then number of vertices).
+22. Spanning Tree: A spanning tree of G is a subgraph which is a tree and which contains all vertices of G and doesn't have a cycle. Number of edges are |V| - 	1(i.e one less then number of vertices).
 
 23. Minimum Spanning Tree: A Minimum spanning tree is a spanning tree of minimum weight/lengthF
 
 24. Minimum Spanning Tree Algo:
 		i) Kruskal's Algo
 		ii) Prim's Algo.
+
+25. Eulerian Path and Cycle : Eulerian Path is a path in graph that visits every edge exactly once. Eulerian Circuit is an Eulerian Path which starts and ends on the same vertex.
+	A) How to check if a unDirected graph is eulerian?
+		i) Eulerian Cycle :
+			An undirected graph has Eulerian cycle if following two conditions are true.
+				a) All vertices with non-zero degree are connected. We don’t care about vertices with zero degree because they don’t belong to Eulerian Cycle or Path (we only consider all edges).
+				b) All vertices have even degree.
+		ii) Eulerian Path :
+			An undirected graph has Eulerian Path if following two conditions are true.
+				a) Same as condition (a) for Eulerian Cycle
+				b) If zero or two vertices have odd degree and all other vertices have even degree. Note that only one vertex with odd degree is not possible in an undirected graph (sum of all degrees is always even in an undirected graph)
+
+	B) How to check if a directed graph is eulerian?
+		A directed graph has an eulerian cycle if following conditions are true
+			i) All vertices with nonzero degree belong to a single strongly connected component.
+			ii) In degree and out degree of every vertex is same.
+
+26. Biconnected Graph: A Graph is Biconnected If has zero Articulation point and Graph is connected that we have path b/w any two pair of vertices i.e single DFS/BFS visit all the vertices.

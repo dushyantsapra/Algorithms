@@ -68,32 +68,32 @@ class ShortestPath:
     def bellmanFordAlgo(self, graph):
         sourceDistanceMap = {};
         sourceShortedPathParentMap = {};
-    
+
         rootVertex = graph.getVertexMap().values()[0];
         vertex = rootVertex;
 
         sourceDistanceMap[vertex] = 0;
-    
+
         for tempVertex in graph.getVertexMap().values():
             if tempVertex == vertex:
                 continue;
-    
+
             sourceDistanceMap[tempVertex] = float("inf");
             sourceShortedPathParentMap[vertex] = None;
-    
+
         for iLoop in range(1, len(graph.getVertexMap())):
             iLoop += 1;
-    
+
             for edge in graph.getEdgeMap().values():
                 self.relax(sourceDistanceMap, sourceShortedPathParentMap, edge);
-    
+
         isNegativeCycle = False;
         for edge in graph.getEdgeMap().values():
             if sourceDistanceMap[edge.getToVertex()] > sourceDistanceMap[edge.getFromVertex()] + edge.getWeight():
                 print("Graph contains -ve Edge cycle");
                 isNegativeCycle = True;
                 break;
-    
+
         if not isNegativeCycle:
             print("Vertex        Distance From Source");
             for key, value in sourceDistanceMap.iteritems():

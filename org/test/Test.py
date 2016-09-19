@@ -44,8 +44,5 @@ str1 = "Bye";
 m[str] = 1;
 m[str1] = 2;
 
-print(m)
-
-del m[str];
-print(m);
-print(str);
+print("\n\n");
+print(m.keys()[1])

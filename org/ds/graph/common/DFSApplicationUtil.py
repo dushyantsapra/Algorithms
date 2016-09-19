@@ -53,18 +53,20 @@ class DFSApplicationUtil:
 
         childrenCount = 0;
 
-        visitedVertexMap[vertex] = 1;
+        visitedVertexMap[vertex] = True;
         currentCount += 1;
         arrivalMap[vertex] = currentCount;
 
         minArrivalTime = currentCount;
+        
+        backEdgeVertexArrivalTime = currentCount;
 
 #         print("Vertex Name: " + vertex.getName() + ", Arrival Time: " + str(currentCount));
 
         for tempVertex in vertex.getAdjacentVertex():
-            if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex] > 0:
+            if tempVertex in visitedVertexMap and visitedVertexMap[tempVertex]:
                 if tempVertex is not parentVertex:
-                    minArrivalTime = arrivalMap[tempVertex] if arrivalMap[tempVertex] < minArrivalTime else minArrivalTime;
+                    backEdgeVertexArrivalTime = arrivalMap[tempVertex] if arrivalMap[tempVertex] < backEdgeVertexArrivalTime else backEdgeVertexArrivalTime;
                 continue;
 
             childrenCount += 1;
@@ -79,7 +81,7 @@ class DFSApplicationUtil:
                 cutVertexList.append(vertex);
             if minArrivalTime >= arrivalMap[vertex] and childrenCount == 1:
                 cutVertexList.append(vertex);
-        return currentCount, minArrivalTime;
+        return currentCount, minArrivalTime if minArrivalTime < backEdgeVertexArrivalTime else backEdgeVertexArrivalTime;
 
     @staticmethod
     def checkForCycleInGraphUsingDFSHelper(vertex, parentVertex, visitedVertexMap=None):
