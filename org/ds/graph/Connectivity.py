@@ -118,7 +118,22 @@ class Connectivity:
 
 			print("Chained Cycle would be : ");
 		else:
-			print("Given Array of String can't be chained to form a circle")
+			print("Given Array of String can't be chained to form a circle");
+
+	def checkIfGraphIsBiconnected(self, graph):
+		isBiconnected = True;
+		cutVertexList = DFSApplicationUndirectedGraph().checkForArticulationPointInGraph(graph, False);
+		if len(cutVertexList) == 0:
+			visitedVertexMap = graph.dfsUsingRecursion(graph.getVertexMap().keys()[1], False);
+			if len(visitedVertexMap) != len(graph.getVertexMap()):
+				isBiconnected = False;
+			else:
+				isBiconnected = False;
+
+		if isBiconnected:
+			print("Graph is Biconnected");
+		else:
+			print("Graph Contains Articulation point OR all Graph is not connected");
 
 if __name__ == '__main__':
 	g = UnDirectedGraph()
@@ -165,3 +180,24 @@ if __name__ == '__main__':
 # 	obj.isStringListFormCycle(["aaa"]);
 	obj.isStringListFormCycle(["aaa", "bbb"]);
 	
+
+	g = UnDirectedGraph();
+	g.addVertex("V1");
+	g.addVertex("V2");
+	g.addVertex("V3");
+	g.addVertex("V4");
+	g.addVertex("V5");
+
+	g.addEdge("V1", "V2", "E1");
+	g.addEdge("V1", "V5", "E2");
+
+	g.addEdge("V2", "V3", "E3");
+	g.addEdge("V2", "V5", "E4");
+
+	g.addEdge("V3", "V4", "E5");
+	
+	g.addEdge("V4", "V5", "E6");
+	
+	print("\n");
+	obj = Connectivity();
+	obj.checkIfGraphIsBiconnected(g);
