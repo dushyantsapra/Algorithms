@@ -3,9 +3,10 @@ Created on Aug 23, 2016
 
 @author: Dushyant Sapra
 '''
+from org.ds.graph.DisjointSet import DisjointSet
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.graph.common.DFSApplicationUtil import DFSApplicationUtil
-from org.ds.graph.DisjointSet import DisjointSet
+
 
 class DFSApplicationUndirectedGraph:
 #     Application: Check If G(V, E) are 2 Edge connected
@@ -123,8 +124,8 @@ class DFSApplicationUndirectedGraph:
         if len(visitedVertexMap) == len(graph.getVertexMap()):
             print("Graph is Connected");
         else:
-            print("Graph is Not Connected")
-            
+            print("Graph is Not Connected");
+
 if __name__ == '__main__':
 #     Test Case 2(Undirected Graph), CHeck if Graph is 2 Edge Connected and check for Articulation Point(Cut Vertex) in Graph
     g = UnDirectedGraph();
@@ -265,7 +266,6 @@ if __name__ == '__main__':
     g.addEdge("V8", "V9", "E12");
     
     g.addEdge("V10", "V11", "E13");
-    
     
     print("padpasdpadsp");
     obj = DFSApplicationUndirectedGraph();

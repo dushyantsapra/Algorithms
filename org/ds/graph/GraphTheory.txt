@@ -176,4 +176,9 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 			i) All vertices with nonzero degree belong to a single strongly connected component.
 			ii) In degree and out degree of every vertex is same.
 
-26. Biconnected Graph: A Graph is Biconnected If has zero Articulation point and Graph is connected that we have path b/w any two pair of vertices i.e single DFS/BFS visit all the vertices.
+26. Hamiltonian Path: Hamiltonian Path in an undirected graph is a path that visits each vertex exactly once. 
+					A Hamiltonian cycle (or Hamiltonian circuit) is a Hamiltonian Path such that there is an edge (in graph) from the last vertex to the first vertex of the Hamiltonian Path.
+					All Hamiltonian graphs are biconnected, but a biconnected graph need not be Hamiltonian
+			
+27. Biconnected Graph: A Graph is Biconnected If has zero Articulation point and Graph is connected that we have path b/w any two 
+						pair of vertices i.e single DFS/BFS visit all the vertices.
