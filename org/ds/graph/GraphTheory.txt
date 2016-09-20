@@ -175,3 +175,7 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 		A directed graph has an eulerian cycle if following conditions are true
 			i) All vertices with nonzero degree belong to a single strongly connected component.
 			ii) In degree and out degree of every vertex is same.
+
+26. Hamiltonian Path: 
+			
+27. Biconnected Graph: A Graph is Biconnected If has zero Articulation point and Graph is connected that we have path b/w any two pair of vertices i.e single DFS/BFS visit all the vertices.
