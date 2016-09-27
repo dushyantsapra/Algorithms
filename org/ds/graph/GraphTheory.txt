@@ -182,3 +182,24 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 			
 27. Biconnected Graph: A Graph is Biconnected If has zero Articulation point and Graph is connected that we have path b/w any two 
 						pair of vertices i.e single DFS/BFS visit all the vertices.
+
+28. Strongly Connected Components: 
+		In the mathematical theory of directed graphs, a graph is said to be strongly connected if every vertex is reachable from every other vertex. The strongly connected components of an arbitrary directed graph form a partition into subgraphs that are themselves strongly connected. A strongly connected component always forms a cycle.
+		Strongly Connected Component can be Detected using Below algo's
+		i) Kosarajus Algo: 
+			a) Create an empty stack ‘S’ and do DFS traversal of a graph. In DFS traversal, after calling recursive DFS for adjacent vertices of a vertex, 
+				push the vertex to stack. In the above graph, if we start DFS from vertex 0, we get vertices in stack as 1, 2, 4, 3, 0.
+			b) Reverse directions of all arcs to obtain the transpose graph.
+			c) One by one pop a vertex from S while S is not empty. Let the popped vertex be ‘v’. Take v as source and do DFS (call DFSUtil(v)). The 
+				DFS starting from v prints strongly connected component of v. In the above example, we process vertices in order 0, 3, 4, 2, 1 (One by one popped from stack).
+				
+			Note: Here instead of using Stack we can also use BinaryHeap(Max Heap) and store the vertex with there departure time, and instead of poping 
+				from the stack we can get Max Departure Time Vertex.(This will increase the complexity).
+
+		ii) Tarjan's Algo: To find all Strongly connected component, we need to store the arrival and arrival time(lowest time) of all the backedges from
+				the current vertex. For any node u, when DFS starts, Low will be set to it’s Disc 1st. Then later on DFS will be performed on each of it’s children v one by one, Low value of u can change it two case:
+					Case1 (Tree Edge): If node v is not visited already, then after DFS of v is complete, then minimum of low[u] and low[v] will be 
+						updated to low[u].
+							low[u] = min(low[u], low[v]);
+					Case 2 (Back Edge): When child v is already visited, then minimum of low[u] and Disc[v] will be updated to low[u].
+							low[u] = min(low[u], disc[v]);

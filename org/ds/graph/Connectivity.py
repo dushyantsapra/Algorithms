@@ -4,10 +4,10 @@ Created on Sep 19, 2016
 @author: Dushyant Sapra
 '''
 
-from org.ds.graph.DFSApplicationDirectedGraph import DFSApplicationDirectedGraph
-from org.ds.graph.DirectedGraph import DirectedGraph
-from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.graph.DFSApplicationUndirectedGraph import DFSApplicationUndirectedGraph
+from org.ds.graph.DirectedGraph import DirectedGraph
+from org.ds.graph.StronglyConnectedComponents import SCC
+from org.ds.graph.UndirectedGraph import UnDirectedGraph
 
 
 class Connectivity:
@@ -87,14 +87,14 @@ class Connectivity:
 				startVertex = oddVertexList[0];
 
 	def isEulerianForDirectedGraph(self, graph):
-		obj = DFSApplicationDirectedGraph();
+		obj = SCC();
 
 # 		Checking If all Vertices have Zero In and Out Degree.
 		if len(graph.getEdgeMap()) == 0:
 			print("Graph is Eulerian");
 			return True;
 
-		sccVertexMap = obj.printStronglyConnectedCommponentUsingKosarajusAlgo(graph, False);
+		sccVertexMap = obj.kosarajusAlgo(graph, False);
 
 		nonSingleVertexScc = 0;
 		for valueStack in sccVertexMap.itervalues():

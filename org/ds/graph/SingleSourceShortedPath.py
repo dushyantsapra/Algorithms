@@ -168,7 +168,7 @@ if __name__ == '__main__':
     g.addEdge(0, 3);
     
     print("\n");
-    for iLoop in range(len(g)):
-        for jLoop in range(len(g[iLoop])):
-            print(g[iLoop][jLoop]);
+    for iLoop in range(g.getVertexCount()):
+        for jLoop in range(g.getVertexCount()):
+            print(g.getGraphMatrix()[iLoop][jLoop]);
         print("\n");

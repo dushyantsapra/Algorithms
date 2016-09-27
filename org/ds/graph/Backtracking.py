@@ -124,20 +124,52 @@ class Backtracking:
         else:
             print("Graph is Not Hamiltion");
 
-
-    def colorTheVertex(self, vertex, currentColor, parentVertexColor, visitedVertexColorMap):
+    def colorTheVertex(self, vertex, purposedColor, visitedVertexColorMap):
         for v in vertex.getAdjacentVertex():
-            print()
+            if v in visitedVertexColorMap and visitedVertexColorMap[v] >= 0:
+                if visitedVertexColorMap[v] == purposedColor:
+                    return False;
 
-#     Always Start With Color Count 1 
+        return True;
+
     def mColoringProblemHelper(self, vertex, parentVertexColor, graph, maxColor, visitedVertexColorMap):
-        self.colorTheVertex(vertex, 1, parentVertexColor, visitedVertexColorMap);
+        isColorDone = False;
+        currentVertexColor = -1;
+        for iColor in range(maxColor):
+            if parentVertexColor == -1:
+                isColorDone = True;
+                currentVertexColor = iColor;
+                break;
+            if iColor == parentVertexColor:
+                continue;
+            if self.colorTheVertex(vertex, iColor, visitedVertexColorMap):
+                isColorDone = True;
+                currentVertexColor = iColor;
+                break;
+
+        if not isColorDone:
+            return False;
+
+        visitedVertexColorMap[vertex] = currentVertexColor;
+        for v in vertex.getAdjacentVertex():
+            if v in visitedVertexColorMap and visitedVertexColorMap[v] >= 0:
+                continue;
+
+            if self.mColoringProblemHelper(v, currentVertexColor, graph, maxColor, visitedVertexColorMap):
+                return True;
+            
 
     def mColoringProblem(self, graph, maxColor):
         visitedVertexColorMap = {}
-        sourceVertex = graph.getVertexMap().values([0]);
-        visitedVertexColorMap[sourceVertex] = 1;
+        sourceVertex = graph.getVertexMap().values()[0];
 
+        if self.mColoringProblemHelper(sourceVertex, -1, graph, maxColor, visitedVertexColorMap):
+            print("\nGraph can be colored with given m Color");
+            for key, value in visitedVertexColorMap.iteritems():
+                print(key);
+                print("Color : " + str(value));
+        else:
+            print("Graph can't be colored with Colors");
 
 if __name__ == '__main__':
     g = UnDirectedGraph();
@@ -226,3 +258,55 @@ if __name__ == '__main__':
     
     obj = Backtracking();
     obj.checkForPathFromSourceOfMoreThanGivenLength(g, "V0", 10);
+
+    
+    g = UnDirectedGraph();
+    
+#     g.addVertex("V0");
+#     g.addVertex("V1");
+#     g.addVertex("V2");
+#     g.addVertex("V3");
+#     g.addVertex("V4");
+#     g.addVertex("V5");
+#     g.addVertex("V6");
+#     g.addVertex("V7");
+#     g.addVertex("V8");
+#     g.addVertex("V9");
+#     
+#     g.addEdge("V0", "V4", "E1");
+#     g.addEdge("V0", "V5", "E2");	
+#     g.addEdge("V0", "V9", "E3");
+#     
+#     g.addEdge("V1", "V3", "E4");
+#     g.addEdge("V1", "V7", "E5");
+#     g.addEdge("V1", "V9", "E6");
+#     
+#     g.addEdge("V2", "V4", "E7");    
+#     g.addEdge("V2", "V7", "E8");
+#     g.addEdge("V2", "V8", "E9");
+#     
+#     g.addEdge("V3", "V4", "E10");
+#     g.addEdge("V3", "V6", "E11");
+#     
+#     g.addEdge("V5", "V6", "E12");
+#     g.addEdge("V5", "V7", "E13");
+#     
+#     g.addEdge("V6", "V8", "E14");
+#     
+#     g.addEdge("V8", "V9", "E15");
+
+
+    g.addVertex("V0");
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    
+    g.addEdge("V0", "V1", "E1");
+    g.addEdge("V0", "V2", "E2");    
+    g.addEdge("V0", "V3", "E3");
+    
+    g.addEdge("V1", "V3", "E4");
+    g.addEdge("V2", "V3", "E5");
+    
+    obj = Backtracking();
+    obj.mColoringProblem(g, 2);

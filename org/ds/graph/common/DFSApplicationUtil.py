@@ -134,6 +134,32 @@ class DFSApplicationUtil:
                 DFSApplicationUtil.stronglyConnectedCommponentUsingKosarajusAlgoHelper(tempVertex, visitedVertexMap, isReversed, stack);
 
     @staticmethod
+    def stronglyConnectedCommponentUsingTarjansAlgoHelper(vertex, stackVertexMap, arrivalTimeMap, lowTimeMap, sccStack, currentCount=1):
+        stackVertexMap[vertex] = True;
+        sccStack.push(vertex);
+
+        arrivalTimeMap[vertex] = currentCount;
+        lowTimeMap[vertex] = currentCount;
+
+        currentCount += 1;
+
+        for tempVertex in vertex.getOutVerticesList():
+            if arrivalTimeMap[tempVertex] == -1:
+                DFSApplicationUtil.stronglyConnectedCommponentUsingTarjansAlgoHelper(tempVertex, stackVertexMap, arrivalTimeMap, lowTimeMap, sccStack, currentCount);
+                lowTimeMap[vertex] = lowTimeMap[tempVertex] if lowTimeMap[tempVertex] < lowTimeMap[vertex] else lowTimeMap[vertex];
+            elif stackVertexMap[tempVertex]:
+                lowTimeMap[vertex] = lowTimeMap[tempVertex] if lowTimeMap[tempVertex] < arrivalTimeMap[vertex] else arrivalTimeMap[tempVertex];
+
+        if lowTimeMap[vertex] == arrivalTimeMap[vertex]:
+            print("\n");
+            while sccStack.getSize() > 0:
+                tempVertex = sccStack.pop();
+                print(tempVertex);
+                stackVertexMap[tempVertex] = False;
+                if tempVertex == vertex:
+                    break;
+
+    @staticmethod
     def checkForCycleInGraphUsingVertexColorHelper(vertex, parentVertex, visitedVertexColorMap):
         visitedVertexColorMap[vertex] = "GREY";
         print(vertex);
