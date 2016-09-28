@@ -44,3 +44,6 @@ class Edge:
 
     def getWeight(self):
         return self.weight;
+    
+    def setWeight(self, weight):
+        self.weight = weight;

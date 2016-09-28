@@ -56,7 +56,7 @@ class TopoloicalSort:
                 print(v);
         else:
             print("Graph is not a Directed Acyclic Graph");
-
+    
 if __name__ == '__main__':
     obj = TopoloicalSort();
 

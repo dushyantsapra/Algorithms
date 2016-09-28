@@ -152,13 +152,20 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 21(iv). Strongly Connected Components:
 
 
-22. Spanning Tree: A spanning tree of G is a subgraph which is a tree and which contains all vertices of G and doesn't have a cycle. Number of edges are |V| - 	1(i.e one less then number of vertices).
+22. Spanning Tree: A spanning tree of G is a subgraph which is a tree and which contains all vertices of G and doesn't have a cycle. Number of edges are |V| - 1(i.e one less then number of vertices).
 
-23. Minimum Spanning Tree: A Minimum spanning tree is a spanning tree of minimum weight/lengthF
-
-24. Minimum Spanning Tree Algo:
-		i) Kruskal's Algo
-		ii) Prim's Algo.
+23. Minimum Spanning Tree(MST): Given a connected and undirected graph, a spanning tree of that graph is a subgraph that is a tree and connects all the vertices together. A single graph can have many different spanning trees. A minimum spanning tree (MST) or minimum weight spanning tree for a weighted, connected and undirected graph is a spanning tree with weight less than or equal to the weight of every other spanning tree. The weight of a spanning tree is the sum of weights given to each edge of the spanning tree. If edge weight are distinct then we will have unique MST(minimum Spanning Tree) else we can have n number of MST with same length/weight. Number of MST can be n power (n-2), where n is vertices
+		Algorithms to Find MST:
+			i) Kruskal's Algo(Greedy Algorithm):
+				Below are the steps for finding MST using Kruskal’s algorithm
+					a)Sort all the edges in non-decreasing order of their weight.(Use Binary Heap)
+					b)Pick the smallest edge. Check if it forms a cycle with the spanning tree formed so far. If cycle is not formed, include this edge. Else, discard it(use Union-Find algorithm to detect cycle).  
+					c)Repeat step#2 until there are (V-1) edges in the spanning tree.
+			ii) Prim's Algo(Greedy Algorithms): It starts with an empty spanning tree. The idea is to maintain two sets of vertices. The first set contains the vertices already included in the 
+					MST, the other set contains the vertices not yet included. At every step, it considers all the edges that connect the two sets, and picks the minimum weight edge from 
+					these edges. After picking the edge, it moves the other endpoint of the edge to the set containing MST. A group of edges that connects two set of vertices in a graph is 
+					called cut in graph theory. So, at every step of Prim’s algorithm, we find a cut (of two sets, one contains the vertices already included in MST and other contains rest of 
+					the verices), pick the minimum weight edge from the cut and include this vertex to MST Set (the set that contains already included vertices).
 
 25. Eulerian Path and Cycle : Eulerian Path is a path in graph that visits every edge exactly once. Eulerian Circuit is an Eulerian Path which starts and ends on the same vertex.
 	A) How to check if a unDirected graph is eulerian?
@@ -170,7 +177,6 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 			An undirected graph has Eulerian Path if following two conditions are true.
 				a) Same as condition (a) for Eulerian Cycle
 				b) If zero or two vertices have odd degree and all other vertices have even degree. Note that only one vertex with odd degree is not possible in an undirected graph (sum of all degrees is always even in an undirected graph)
-
 	B) How to check if a directed graph is eulerian?
 		A directed graph has an eulerian cycle if following conditions are true
 			i) All vertices with nonzero degree belong to a single strongly connected component.
@@ -203,3 +209,5 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 							low[u] = min(low[u], low[v]);
 					Case 2 (Back Edge): When child v is already visited, then minimum of low[u] and Disc[v] will be updated to low[u].
 							low[u] = min(low[u], disc[v]);
+
+29. Cut In Graph: In graph theory, a cut is a partition of the vertices of a graph into two disjoint subsets. Any cut determines a cut-set, the set of edges that have one endpoint in each subset of the partition. These edges are said to cross the cut. In a flow network, an s–t cut is a cut that requires the source and the sink to be in different subsets, and its cut-set only consists of edges going from the source's side to the sink's side. The capacity of an s–t cut is defined as the sum of capacity of each edge in the cut-set.

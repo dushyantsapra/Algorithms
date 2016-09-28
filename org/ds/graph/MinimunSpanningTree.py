@@ -7,20 +7,7 @@ from org.ds.graph.DisjointSet import DisjointSet
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
 
-# A Tree is a connected subgraph without any cycle
-# For G(V, E) to be a spanning Tree it should be undirected
-# If a tree has all the vertices of a graph and edges 1 less then total vertices then that tree is Spanning Tree, i.e |V| - 1 edges.
-# If edge weight are distinct then we will have unique MST(minimum Spanning Tree) else we can have n number of MST with same lenght/weight/
-# Number of MST can be n power (n-2), where n is vertices
 class MinimumSpanningTree:
-#     First Sort Edges Based upon there lenght/weight
-#     Iterate over all the sorted Edges
-#     Use DisjointSet function
-#         i) MakeSet
-#         ii) findSet
-#         iii) Union
-#     If in set ii) we find a edge whose both vertices are in same set then drop that edge and continue, else store that edge
-
     def kruskalsAlgo(self, graph):
         sortedEdgeList = [];
         disjointSet = DisjointSet();
@@ -55,7 +42,7 @@ class MinimumSpanningTree:
             if tempVertex == vertex:
                 binaryHeap.insert(tempVertex, 0);
                 continue;
-            visitedVertexMap[tempVertex] = 0;
+            visitedVertexMap[tempVertex] = False;
             binaryHeap.insert(tempVertex, float("inf"));
 
         while binaryHeap.getHeapSize() > 0:
@@ -67,16 +54,22 @@ class MinimumSpanningTree:
             for edge in vertex.getEdgeList():
                 endVertex = edge.getToVertex() if edge.getFromVertex() == vertex else edge.getFromVertex();
 
-                if visitedVertexMap[endVertex] == 1:
+                if visitedVertexMap[endVertex]:
                     continue;
 
                 if binaryHeap.decreasePriority(endVertex, edge.getWeight()):
                     vertexEdgeMap[endVertex] = edge;
-            visitedVertexMap[vertex] = 1;
-        
+            visitedVertexMap[vertex] = True;
+
         print("Minimum Spanning Tree(Prim'sAlgo) Edges  are : ");
         for edge in mstEdgeList:
             print(edge);
+
+#     Logic : 
+#         1. Pick any Vertex and insert it's adjacent edges in to the binary heap.
+#         2. Start Iteration on binary heap, and fetch edge with minimum weight
+#         3. Check If all both the end point vertices are already visited, if yes skip that edge else find the other end point vertex
+#         4. Repeat Step 2&3 on vertex fetched from step 3 until all vertices are visited.
 
     def primsAlgoUsingEdge(self, graph):
         visitedVertexMap = {};
@@ -84,11 +77,11 @@ class MinimumSpanningTree:
         mstEdgeList = [];
 
         for vertex in graph.getVertexMap().values():
-            visitedVertexMap[vertex] = 0;
+            visitedVertexMap[vertex] = False;
 
         vertex = graph.getVertexMap().values()[0];
 
-        visitedVertexMap[vertex] = 1;
+        visitedVertexMap[vertex] = True;
 
         for edge in vertex.getEdgeList():
             binaryHeap.insert(edge, edge.getWeight());
@@ -97,18 +90,18 @@ class MinimumSpanningTree:
             edge = binaryHeap.findMin();
             mstEdgeList.append(edge);
 
-            if visitedVertexMap[edge.getFromVertex()] == 1 and visitedVertexMap[edge.getToVertex()] == 1:
+            if visitedVertexMap[edge.getFromVertex()] and visitedVertexMap[edge.getToVertex()]:
                 continue;
 
-            vertex = edge.getFromVertex() if visitedVertexMap[edge.getFromVertex()] == 0 else edge.getToVertex();
+            vertex = edge.getFromVertex() if not visitedVertexMap[edge.getFromVertex()] else edge.getToVertex();
 
-            visitedVertexMap[vertex] = 1;
+            visitedVertexMap[vertex] = True;
 
             for tempEdge in vertex.getEdgeList():
 #                 This Edge has already been removed from Binary Heap
                 if tempEdge == edge:
                     continue;
-                if visitedVertexMap[tempEdge.getFromVertex()] == 1 and visitedVertexMap[tempEdge.getToVertex()] == 1:
+                if visitedVertexMap[tempEdge.getFromVertex()] and visitedVertexMap[tempEdge.getToVertex()]:
                     binaryHeap.delete(tempEdge);
                 else:
                     binaryHeap.insert(tempEdge, tempEdge.getWeight());
