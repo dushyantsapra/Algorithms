@@ -125,40 +125,6 @@ class DFSApplicationUndirectedGraph:
             print("Graph is Connected");
         else:
             print("Graph is Not Connected");
-            
-            
-    def hamiltonianPathOrCircuitHelper(self, graph, startVertex, vertex, visitedVertexMap, hamiltonPath):
-        visitedVertexMap[vertex] = True;
-    
-        hamiltonPath.append(vertex);
-    
-        for v in vertex.getAdjacentVertex():
-            if v in visitedVertexMap and visitedVertexMap[v]:
-                if startVertex == v and len(visitedVertexMap) == len(graph.getVertexMap()):
-                    hamiltonPath.append(v);
-                    return True;
-                continue;
-            else:
-                return self.hamiltonianPathOrCircuitHelper(graph, startVertex, v, visitedVertexMap, hamiltonPath);
-    
-        return False;
-
-    def hamiltonianPathOrCircuit(self, graph):
-        visitedVertexMap = {};
-        
-        vertex = graph.getVertexMap().values()[1];
-        
-        hamiltonPath = []
-        
-        isHamilton = self.hamiltonianPathOrCircuitHelper(graph, vertex, vertex, visitedVertexMap, hamiltonPath);
-        
-        if isHamilton:
-            print("Given Graph contain's Hamiltion Cycle");
-            print("Hamiltion Path is : ");
-            for v in hamiltonPath:
-                print(v);
-        else:
-            print("Graph is Not Hamiltion");
 
 if __name__ == '__main__':
 #     Test Case 2(Undirected Graph), CHeck if Graph is 2 Edge Connected and check for Articulation Point(Cut Vertex) in Graph
@@ -247,16 +213,15 @@ if __name__ == '__main__':
     g.addEdge("V0", "V1", "E1");
     g.addEdge("V0", "V2", "E2");
     g.addEdge("V0", "V3", "E3");
-    
+
     g.addEdge("V1", "V2", "E4");
-    
+
     g.addEdge("V3", "V4", "E5");
-    
+
     obj = DFSApplicationUndirectedGraph();
     obj.checkForCycleInGraphUsingDisjointSet(g);
     obj.checkForCycleInGraphUsingVertexColor(g);
-    
-    
+
 #     g = UnDirectedGraph();
 #     g.addVertex("V0");
 #     g.addVertex("V1");
@@ -265,7 +230,7 @@ if __name__ == '__main__':
 #     g.addEdge("V0", "V1", "E1");
 #     g.addEdge("V1", "V2", "E2");
 #     g.addEdge("V2", "V3", "E3");
-    
+
     g = UnDirectedGraph();
     g.addVertex("V0");
     g.addVertex("V1");
@@ -279,53 +244,28 @@ if __name__ == '__main__':
     g.addVertex("V9");
     g.addVertex("V10");
     g.addVertex("V11");
-    
+
     g.addEdge("V0", "V1", "E1");
     g.addEdge("V0", "V6", "E2");
 
     g.addEdge("V1", "V2", "E3");
     g.addEdge("V1", "V3", "E4");
     g.addEdge("V1", "V5", "E5");
-    
+
     g.addEdge("V2", "V4", "E6");
-    
+
     g.addEdge("V3", "V4", "E7");
-    
+
     g.addEdge("V5", "V6", "E8");
     g.addEdge("V5", "V7", "E9");
     g.addEdge("V5", "V8", "E10");
-    
+
     g.addEdge("V7", "V8", "E11");
-    
+
     g.addEdge("V8", "V9", "E12");
-    
+
     g.addEdge("V10", "V11", "E13");
-    
-    
+
     print("padpasdpadsp");
     obj = DFSApplicationUndirectedGraph();
     obj.checkForArticulationPointInGraph(g);
-    
-    
-    print("asdasda");
-    g = UnDirectedGraph();
-
-    g.addVertex("V0");
-    g.addVertex("V1");
-    g.addVertex("V2");
-    g.addVertex("V3");
-    g.addVertex("V4");
-    
-    g.addEdge("V0", "V1", "E1");
-    g.addEdge("V0", "V3", "E2");
-    
-    g.addEdge("V1", "V2", "E3");
-    g.addEdge("V1", "V3", "E4");
-    g.addEdge("V1", "V4", "E5");
-    
-    g.addEdge("V2", "V4", "E6");
-    
-    g.addEdge("V3", "V4", "E7");
-    
-    obj = DFSApplicationUndirectedGraph();
-    obj.hamiltonianPathOrCircuit(g);

@@ -79,7 +79,7 @@ if __name__ == '__main__':
     t.abc(m);
     
     print("\n\n\n");
-    for iLoop in range(5):
+    for iLoop in range(1, 5):
         print(iLoop);
 
 print("\n");

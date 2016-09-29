@@ -111,17 +111,18 @@ class DirectedGraph:
         if vertexName not in self.vertexMap:
             print("Vertex Doesn't Exists");
             return False;
+
         vertex = self.vertexMap[vertexName];
 
-        if vertex in self.vertexMap.itervalues():
-            for e in self.edgeMap.itervalues()[:]:
-                if e.getFromVertex() == vertex or e.getToVertex() == vertex:
-                    e.getFromVertex().removeOutEdge(e);
-                    e.getToVertex().removeInEdge(e);
-                    del self.edgeMap[e.getName()];
+#         if vertex in self.vertexMap.itervalues():
+        edgeList = self.getEdgeMap().values();
+        for e in edgeList:
+            if e.getFromVertex() == vertex or e.getToVertex() == vertex:
+                e.getFromVertex().removeOutEdge(e);
+                e.getToVertex().removeInEdge(e);
+                del self.edgeMap[e.getName()];
 
-            self.vertexList.remove(vertex);
-            del self.vertexMap[vertex.getName()];
+        del self.vertexMap[vertex.getName()];
 
 #     Print all out Edges From a Vertex
     def listAdjacentVertics(self, vertexName):

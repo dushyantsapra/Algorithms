@@ -110,7 +110,7 @@ class BinaryHeapUsingArray:
         if index <= 0:
             return;
 
-        parentIndex = (index + 1) / 2 - 1;
+        parentIndex = (index - 1) / 2;
 
         if "MIN_HEAP" is self.treeTpye:
             if self.binaryHeap[parentIndex].getPriority() > self.binaryHeap[index].getPriority():
@@ -146,6 +146,7 @@ class BinaryHeapUsingArray:
             node = self.binaryHeap[0];
             del self.binaryNodePositionMap[node.getData()];
             self.binaryHeap[0] = self.binaryHeap.pop();
+            self.binaryNodePositionMap[self.binaryHeap[0].getData()] = 0;
             self.heapifyDown(0);
             return node.getData();
 
