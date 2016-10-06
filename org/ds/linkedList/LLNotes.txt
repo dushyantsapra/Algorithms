@@ -1,0 +1,5 @@
+Q: Detect and Remove Loop From a Linked List.
+A: Iterate LL with 2 pointer, First jumps one position and second jumps two position, if these two pointer meets at some intersection point before loop terminates then we have loop in LL.
+	Now start another loop with pointer pointing to head and other pointing to the intersection point. Continue with this loop until the new pointer next is not equal to intersection point pointer. Now the new pointer would be pointing to node where loop starts, so now set next pointer of this node to NULL.
+
+Q: 

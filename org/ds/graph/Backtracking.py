@@ -5,10 +5,10 @@ Created on Sep 20, 2016
 '''
 
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
+from org.ds.queue.Queue import Queue
 
 
 class Backtracking:
-
     def checkForPathFromSourceOfMoreThanGivenLengthHelper(self, graph, sourceVertex, length, visitedVertexMap, path):
         visitedVertexMap[sourceVertex] = True;
         path.append(sourceVertex);
@@ -42,7 +42,7 @@ class Backtracking:
 
         if self.checkForPathFromSourceOfMoreThanGivenLengthHelper(graph, sourceVertex, length, visitedVertexMap, path):
             print("Graph has a Path of length : " + str(length));
-            
+
             for vertex in path:
                 print(vertex);
 
@@ -91,110 +91,47 @@ class Backtracking:
         path = [];
         self.printAllPathFromSourceToDestinationHelper(vertex, endVertex, graph, graphType, visitedVertexMap, path);
 
-    def hamiltonianPathOrCircuitHelper(self, graph, startVertex, vertex, visitedVertexMap, hamiltonPath):
-        visitedVertexMap[vertex] = True;
+    def colorVertex(self, vertex, parentVertex, maxColor, visitedVertexColorMap):
+        purposedColor = 1;
+        for tempVertex in vertex.getAdjacentVertex():
+            if visitedVertexColorMap[tempVertex] == -1:
+                print()
 
-        hamiltonPath.append(vertex);
+    def mColoringProblemHelper(self, sourceVertex, parentVertex, maxColor, visitedVertexColorMap):
+        parentVertexMap = {};
 
-        for v in vertex.getAdjacentVertex():
-            if v in visitedVertexMap and visitedVertexMap[v]:
-                if startVertex == v and len(visitedVertexMap) == len(graph.getVertexMap()):
-                    hamiltonPath.append(v);
-                    return True;
-                continue;
-            else:
-                return self.hamiltonianPathOrCircuitHelper(graph, startVertex, v, visitedVertexMap, hamiltonPath);
+        parentVertexMap[sourceVertex] = sourceVertex;
+        visitedVertexColorMap[sourceVertex] = 1;
 
-        return False;
+        visitedVertexQueue = Queue();
+        visitedVertexQueue.enQueue(sourceVertex);
 
-    def hamiltonianPathOrCircuit(self, graph):
-        visitedVertexMap = {};
-        
-        vertex = graph.getVertexMap().values()[0];
-        
-        hamiltonPath = []
-        
-        isHamilton = self.hamiltonianPathOrCircuitHelper(graph, vertex, vertex, visitedVertexMap, hamiltonPath);
-        
-        if isHamilton:
-            print("Given Graph contain's Hamiltion Cycle");
-            print("Hamiltion Path is : ");
-            for v in hamiltonPath:
-                print(v);
-        else:
-            print("Graph is Not Hamiltion");
+        while visitedVertexQueue.getSize() > 0:
+            tempVertex = visitedVertexQueue.deQueue();
 
-    def colorTheVertex(self, vertex, purposedColor, visitedVertexColorMap):
-        for v in vertex.getAdjacentVertex():
-            if v in visitedVertexColorMap and visitedVertexColorMap[v] >= 0:
-                if visitedVertexColorMap[v] == purposedColor:
-                    return False;
+            if visitedVertexColorMap[tempVertex] == -1:
+                self.colorVertex(tempVertex, parentVertexMap[tempVertex], maxColor, visitedVertexColorMap);
 
-        return True;
-
-    def mColoringProblemHelper(self, vertex, parentVertexColor, graph, maxColor, visitedVertexColorMap):
-        isColorDone = False;
-        currentVertexColor = -1;
-        for iColor in range(maxColor):
-            if parentVertexColor == -1:
-                isColorDone = True;
-                currentVertexColor = iColor;
-                break;
-            if iColor == parentVertexColor:
-                continue;
-            if self.colorTheVertex(vertex, iColor, visitedVertexColorMap):
-                isColorDone = True;
-                currentVertexColor = iColor;
-                break;
-
-        if not isColorDone:
-            return False;
-
-        visitedVertexColorMap[vertex] = currentVertexColor;
-        for v in vertex.getAdjacentVertex():
-            if v in visitedVertexColorMap and visitedVertexColorMap[v] >= 0:
-                continue;
-
-            if self.mColoringProblemHelper(v, currentVertexColor, graph, maxColor, visitedVertexColorMap):
-                return True;
-            
+            for v in tempVertex.getAdjacentVertex():
+                if visitedVertexColorMap[v] == -1:
+                    parentVertexMap[v] = tempVertex;
+                    visitedVertexQueue.enQueue(v);
 
     def mColoringProblem(self, graph, maxColor):
-        visitedVertexColorMap = {}
+        if maxColor < 1:
+            print("Can't Be Colored");
+            return False;
+
+        visitedVertexColorMap = {};
+
+        for vertex in visitedVertexColorMap.itervalues():
+            visitedVertexColorMap[vertex] = -1;
+
         sourceVertex = graph.getVertexMap().values()[0];
 
-        if self.mColoringProblemHelper(sourceVertex, -1, graph, maxColor, visitedVertexColorMap):
-            print("\nGraph can be colored with given m Color");
-            for key, value in visitedVertexColorMap.iteritems():
-                print(key);
-                print("Color : " + str(value));
-        else:
-            print("Graph can't be colored with Colors");
+        self.mColoringProblemHelper(sourceVertex, sourceVertex, maxColor, visitedVertexColorMap);
 
 if __name__ == '__main__':
-    g = UnDirectedGraph();
- 
-    g.addVertex("V0");
-    g.addVertex("V1");
-    g.addVertex("V2");
-    g.addVertex("V3");
-    g.addVertex("V4");
-     
-    g.addEdge("V0", "V1", "E1");
-    g.addEdge("V0", "V3", "E2");
-     
-    g.addEdge("V1", "V2", "E3");
-    g.addEdge("V1", "V3", "E4");
-    g.addEdge("V1", "V4", "E5");
-     
-    g.addEdge("V2", "V4", "E6");
-     
-    g.addEdge("V3", "V4", "E7");
-
-    obj = Backtracking();
-    obj.hamiltonianPathOrCircuit(g);
-
-
     g = UnDirectedGraph();
  
     g.addVertex("V0");

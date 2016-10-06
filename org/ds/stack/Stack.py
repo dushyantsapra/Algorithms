@@ -10,6 +10,9 @@ class StackUsingLinkedList:
     def __init__(self):
         self.top = None;
         self.size = 0;
+    
+    def top(self):
+        return self.top;
 
     def push(self, data):
         node = SingleLinkedNode(data);
@@ -57,45 +60,6 @@ class StackUsingLinkedList:
             else:
                 print("Stack is Empty");
 
-    @staticmethod
-    def reverseStringUsingStack(tempString):
-        tempStack = StackUsingLinkedList();
-        tempList = [];
-        for c in tempString:
-            tempStack.push(c);
-
-        tempStack.displayIterative();
-
-        while tempStack.top:
-            tempList.append(tempStack.pop());
-        reversedString = ''.join(tempList);
-
-        print(reversedString);
-
-    def reverseStackByData(self, head=None):
-        if head:
-            if head.next:
-                self.reverseStackByData(head.next);
-                while head.next is not None:
-                    head.data = head.next.data + head.data;
-                    head.next.data = head.data - head.next.data;
-                    head.data = head.data - head.next.data;
-                    head = head.next;
-            else:
-                return;
-        else:
-            if self.top:
-                if self.top.next:
-                    self.reverseStackByData(self.top.next);
-                    headNode = self.top;
-                    while headNode.next is not None:
-                        headNode.data = headNode.next.data + headNode.data;
-                        headNode.next.data = headNode.data - headNode.next.data;
-                        headNode.data = headNode.data - headNode.next.data;
-                        headNode = headNode.next;
-            else:
-                print("Stack is Empty");
-        
     def contains(self, data):
         if self.top:
             tempNode = self.top;
@@ -106,42 +70,6 @@ class StackUsingLinkedList:
                 tempNode = tempNode.next;
         else:
             return False;
-
-    def reverseStackByNode(self, parent=None, head=None):
-        if head:
-            if head.next:
-                self.reverseStackByNode(head, head.next);
-                parent.next = head.next;
-                tempParent = parent;
-                
-                while parent.next:
-                    parent = parent.next;
-                head.next = None;
-                parent.next = head;
-
-                parent = tempParent;
-            else:
-                return;
-        else:
-            if self.top:
-                if self.top.next:
-                    self.reverseStackByNode(self.top, self.top.next);
-
-                    tailNode = self.top;
-                    self.top = self.top.next;
-                    tailNode.next = None;
-
-                    tempHead = self.top;
-
-                    while self.top.next:
-                        self.top = self.top.next;
-
-                    self.top.next = tailNode;
-
-                    self.top = tempHead;
-
-            else:
-                print("Stack is Empty");
 
 class StackUsingArray:
     def __init__(self, maxSize):

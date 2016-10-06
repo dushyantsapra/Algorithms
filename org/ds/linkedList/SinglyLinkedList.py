@@ -6,8 +6,6 @@ Created on 28-Jun-2016
 
 from org.competitiveProgramming.Utility import Utility
 from org.ds.common.SingleLinkedNode import SingleLinkedNode
-from org.ds.stack import Stack
-from plainbox.impl.secure.config import IValidator
 
 
 class SinglyLinkedList:
@@ -16,6 +14,9 @@ class SinglyLinkedList:
         self.head = None;
         self.tail = None;
         self.length = 0;
+    
+    def size(self):
+        return self.length;
 
     def add(self, data):
         node = SingleLinkedNode(data);
@@ -274,86 +275,6 @@ class SinglyLinkedList:
             else:
                 print("Linked List is Empty");
 
-    def reverseLinkedListByNode(self, parent=None, head=None):
-        if head:
-            if head.next:
-                self.reverseLinkedListByNode(head, head.next);
-                parent.next = head.next;
-                tempParent = parent;
-                
-                while parent.next:
-                    parent = parent.next;
-                head.next = None;
-                parent.next = head;
-                
-                parent = tempParent;
-            else:
-                return;
-        else:
-            if self.head:
-                if self.head.next:
-                    self.reverseLinkedListByNode(self.head, self.head.next);
-                    
-                    tailNode = self.head;
-                    self.head = self.head.next;
-                    tailNode.next = None;
-                    
-                    tempHead = self.head;
-                    
-                    while self.head.next:
-                        self.head = self.head.next;
-                    
-                    self.head.next = tailNode;
-                    
-                    self.head = tempHead;
-                    self.tail = tailNode; 
-                    
-            else:
-                print("Linked List is Empty");
-
-    def mergeTwoSortedListIteratively(self, list1, list2):
-        tempList1 = list1.head;
-        tempList2 = list2.head;
-
-        while tempList1 and tempList2:
-            if tempList1.data <= tempList2.data:
-                self.add(tempList1.data);
-                tempList1 = tempList1.next;
-            else:
-                self.add(tempList2.data);
-                tempList2 = tempList2.next;
-
-        while tempList1:
-            self.add(tempList1.data);
-            tempList1 = tempList1.next;
-
-        while tempList2:
-            self.add(tempList2.data);
-            tempList2 = tempList2.next;
-
-    def mergeTwoSortedListrecursivelyHelper(self, list1, list2):
-        if list1 is None:
-            while list2:
-                self.add(list2.data);
-                list2 = list2.next;
-            return;
-
-        if list2 is None:
-            while list2:
-                self.add(list2.data);
-                list1 = list1.next;
-            return;
-
-        if list1.data <= list2.data:
-            self.add(list1.data);
-            self.mergeTwoSortedListrecursivelyHelper(list1.next, list2);
-        else:
-            self.add(list2.data);
-            self.mergeTwoSortedListrecursivelyHelper(list1, list2.next);
-
-    def mergeTwoSortedListrecursively(self, list1, list2):
-        self.mergeTwoSortedListrecursivelyHelper(list1.head, list2.head);
-
 #     Input 1->2->3->4->5->6
 #     if k is 4
 #     Output Would Be 5->6->1->2->3->4
@@ -387,70 +308,6 @@ class SinglyLinkedList:
 
     def reverseLinkedListInGroupsOfGivenSizeByNode(self, k):
         print()
-
-    def removeLoopInLinkedList(self, node):
-        node1 = self.head;
-        node2 = node;
-
-#         Finding Start of the Loop
-        while (node1 is not node2):
-            node1 = node1.next;
-            node2 = node2.next;
-
-#         Get to the last Node of the linkedList
-        while node2.next != node1:
-            node2 = node2.next;
-        
-#         Remove the Loop
-        node2.next = None;
-
-    def detectLoopInLinkedList(self):
-        singleJumper = self.head;
-        doubleJumper = self.head;
-
-        while (singleJumper != None and doubleJumper != None):
-            singleJumper = singleJumper.next;
-            if doubleJumper.next and doubleJumper.next.next:
-                doubleJumper = doubleJumper.next.next;
-            else:
-                return None;
-
-            if singleJumper == doubleJumper:
-                return singleJumper;
-
-#     Find If Loop Exists, If Exists then the 'intersectionNode' would always be b/w the start of Loop and 
-#     end of LinkedList.
-#     For Example for List 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-#     If loop is at 4 then intersection would be 8
-#     If loop is at 7 then intersection would be 7
-    def detectAndRemoveLoopInLinkedList(self):
-        intersectionNode = self.detectLoopInLinkedList();
-        if intersectionNode:
-            print("Loop Found");
-            self.removeLoopInLinkedList(intersectionNode);
-        else:
-            print("No Loop Found");
-
-    def checkIfLinkedListIsPalindrome(self):
-        stack = Stack();
-
-        tempNode = self.head;
-
-        while tempNode is not None:
-            stack.push(tempNode.data);
-            tempNode = tempNode.next;
-
-        tempNode = self.head;
-
-        isPalindrome = True;
-        while tempNode is not None:
-            if tempNode.data == stack.pop():
-                tempNode = tempNode.next;
-                continue;
-            else:
-                isPalindrome = False;
-                break;
-        return isPalindrome;
 
     def fetchNodeAtIndex(self, index):
         tempNode = self.head;
@@ -489,69 +346,56 @@ class SinglyLinkedList:
             print("Linked List is Empty");
             return;
 
-linkedList = SinglyLinkedList();
-linkedList.add(10);
-linkedList.add(20);
-linkedList.add(30);
-linkedList.add(40);
-linkedList.add(50);
-linkedList.add(60);
+if __name__ == '__main__':
 
-################## Sorted Insert Example Start####################
-sortedList = SinglyLinkedList();
-sortedList.sortedAdd(20);
-sortedList.sortedAdd(10);
-sortedList.sortedAdd(40);
-sortedList.sortedAdd(50);
-sortedList.sortedAdd(30);
-sortedList.displayIterative();
-################## Sorted Insert Example Ends####################
-
-################## Check if LinkedList is Palindrome Start####################
-pLL = SinglyLinkedList();
-pLL.add(1);
-pLL.add(2);
-pLL.add(3);
-pLL.add(1);
-pLL.add(1);
-
-print("isPalindrome %s" % (pLL.checkIfLinkedListIsPalindrome()));
-################## Sorted Insert Example Ends####################
-
-################## DetectAndRemoveLoop Start####################
-linkedList.head = SingleLinkedNode(10);
-headNode = linkedList.head;
-
-node = SingleLinkedNode(20);
-headNode.next = node;
-headNode.next.next = SingleLinkedNode(30);
-headNode.next.next.next = SingleLinkedNode(40);
-node1 = SingleLinkedNode(50);
-node1.next = node;
-headNode.next.next.next.next = node1;
-
-linkedList.detectAndRemoveLoopInLinkedList();
-linkedList.displayIterative();
-################## DetectAndRemoveLoop Ends####################
-
-# linkedList.reverseLinkedListByData();
-# linkedList.reverseLinkedListByNode();
-# linkedList.displayIterative();
-
-# linkedList.rotateLinkedListCounterClockWiseByKNodes(6);
-# linkedList.displayIterative();
-
-"""list1 = SinglyLinkedList();
-list1.add(1);
-list1.add(3);
-list1.add(5);
-
-list2 = SinglyLinkedList();
-list2.add(2);
-list2.add(4);
-list2.add(6);
-
-finalList = SinglyLinkedList();
-finalList.mergeTwoSortedList(list1, list2);
-finalList.mergeTwoSortedListrecursively(list1, list2);
-finalList.displayIterative();"""
+    linkedList = SinglyLinkedList();
+    linkedList.add(10);
+    linkedList.add(20);
+    linkedList.add(30);
+    linkedList.add(40);
+    linkedList.add(50);
+    linkedList.add(60);
+    
+    ################## Sorted Insert Example Start####################
+    sortedList = SinglyLinkedList();
+    sortedList.sortedAdd(20);
+    sortedList.sortedAdd(10);
+    sortedList.sortedAdd(40);
+    sortedList.sortedAdd(50);
+    sortedList.sortedAdd(30);
+    sortedList.displayIterative();
+    ################## Sorted Insert Example Ends####################
+    
+    ################## Check if LinkedList is Palindrome Start####################
+    pLL = SinglyLinkedList();
+    pLL.add(1);
+    pLL.add(2);
+    pLL.add(3);
+    pLL.add(1);
+    pLL.add(1);
+    
+    print("isPalindrome %s" % (pLL.checkIfLinkedListIsPalindrome()));
+    ################## Sorted Insert Example Ends####################
+    
+    ################## DetectAndRemoveLoop Start####################
+    linkedList.head = SingleLinkedNode(10);
+    headNode = linkedList.head;
+    
+    node = SingleLinkedNode(20);
+    headNode.next = node;
+    headNode.next.next = SingleLinkedNode(30);
+    headNode.next.next.next = SingleLinkedNode(40);
+    node1 = SingleLinkedNode(50);
+    node1.next = node;
+    headNode.next.next.next.next = node1;
+    
+    linkedList.detectAndRemoveLoopInLinkedList();
+    linkedList.displayIterative();
+    ################## DetectAndRemoveLoop Ends####################
+    
+    # linkedList.reverseLinkedListByData();
+    # linkedList.reverseLinkedListByNode();
+    # linkedList.displayIterative();
+    
+    # linkedList.rotateLinkedListCounterClockWiseByKNodes(6);
+    # linkedList.displayIterative();

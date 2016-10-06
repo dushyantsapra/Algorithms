@@ -37,7 +37,7 @@ class Vertex:
 
     def getInEdgeList(self):
         return self.inEdges;
-    
+
     def getOutVerticesList(self):
         return self.outVertices;
 
@@ -77,7 +77,7 @@ class Vertex:
         print("In Edge From Vertex " + self.name + " are : ");
         for e in self.inEdges:
             print(e.getName());
-            
+
     def listOutVertices(self):
         print("Out Vertices From Vertex " + self.name + " are : ");
         for v in self.outVertices:

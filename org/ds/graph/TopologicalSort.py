@@ -81,8 +81,8 @@ if __name__ == '__main__':
 
     g.addEdge("V6", "V7", "E8");    
     
-    obj.topologicalSortUsingDFS(g);
-    obj.topologicalSortUsingKhanAlgo(g);
+#     obj.topologicalSortUsingDFS(g);
+#     obj.topologicalSortUsingKhanAlgo(g);
     
     g = DirectedGraph();
     g.addVertex("V0");

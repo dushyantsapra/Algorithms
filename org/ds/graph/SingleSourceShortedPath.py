@@ -7,9 +7,11 @@ Created on Sep 2, 2016
 import copy
 
 from org.ds.graph.DirectedGraph import DirectedGraph
+from org.ds.graph.GraphMatrixImplementation import GraphMatrixImplementation
+from org.ds.graph.TopologicalSort import TopoloicalSort
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
-from org.ds.graph.GraphMatrixImplementation import GraphMatrixImplementation
+from org.ds.graph.common.Edge import Edge
 
 
 class ShortestPath:
@@ -170,7 +172,32 @@ class ShortestPath:
             for key, value in sourceShortedPathWeightMap.iteritems():
                 print("Source Vertex : " + rootVertex.getName() + ", To Vertex : " + key.getName() + ", with length : " + str(value));
             print("\n");
+            
+    def singleSourceShortedPathInDAG(self, graph, rootVertexName=None, isPrint=True):
+        rootVertex = None;
+        if rootVertexName is None:
+            rootVertex = graph.getVertexMap().values()[0];
+        elif rootVertexName in graph.getVertexMap():
+            rootVertex = graph.getVertexMap()[rootVertexName];
+        else:
+            print("Start Vertex Not Present");
+            return False;
 
+        sourceVertex = graph.getVertexMap().values()[0];
+
+        distanceMap = {};
+        
+        stack = TopoloicalSort().topologicalSortUsingDFS(graph);
+
+        fromVertex = stack.pop();
+        
+        while stack.getSize() > 0:
+            toVertex = stack.pop();
+            
+            for edge in fromVertex.listOutEdges():
+                if edge.getToVertex() == toVertex:
+                    print()
+                    
 if __name__ == '__main__':
     g = UnDirectedGraph();
     g.addVertex("V1");
