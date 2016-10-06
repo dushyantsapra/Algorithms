@@ -17,7 +17,7 @@ class LinkedListQuestions:
             ll.head = ll.head.next;
             tempNode.next = None;
 
-            LinkedListQuestions.reverseSingleLinkedList(ll);
+            LinkedListQuestions.reverseSingleLinkedListByReference(ll);
 
             if ll.head == None:
                 ll.head = tempNode;
@@ -29,6 +29,36 @@ class LinkedListQuestions:
     @staticmethod
     def reverseSingleLinkedList(ll):
         LinkedListQuestions.reverseSingleLinkedListByReference(ll);
+        
+    @staticmethod
+    def reverseFirstKElementOfSingleLinkedListHelper(ll, size, loopCount=0, lastNode=None):
+        if ll.head:
+            tempNode = ll.head;
+
+            ll.head = ll.head.next;
+            tempNode.next = None;
+
+            loopCount += 1;
+            if loopCount < size:
+                LinkedListQuestions.reverseFirstKElementOfSingleLinkedListHelper(ll, size, loopCount, lastNode);
+
+            if loopCount == size:
+                ll.head = tempNode;
+                lastNode = ll.head;
+            else:
+                tempNode.next = lastNode.next;
+                lastNode.next = tempNode;
+            loopCount -= 1;
+
+    @staticmethod
+    def reverseFirstKElementOfSingleLinkedList(ll, size):
+        if size == 1:
+            return;
+
+        if size == ll.size():
+            LinkedListQuestions.reverseSingleLinkedListByReference(ll);
+
+        LinkedListQuestions.reverseFirstKElementOfSingleLinkedListHelper(ll, size);
 
     @staticmethod
     def detectLoopInLinkedList(ll):
@@ -225,10 +255,28 @@ class LinkedListQuestions:
     def findMiddleOfLL(ll):
         singleJumper = ll.head;
         doubleJumper = ll.head;
-        
+
         while singleJumper is not None and doubleJumper is not None:
             singleJumper = singleJumper.next;
-            doubleJumper = singleJumper.next;
+            doubleJumper = doubleJumper.next.next;
+
+        print("\nMiddle Node is " + str(singleJumper.data));
+
+    @staticmethod
+    def alternatingSplit(ll):
+        sNode = ll.head;
+        newll = SinglyLinkedList();
+
+        while sNode is not None and sNode.next is not None:
+            newll.add(sNode.next.data);
+            sNode.next = sNode.next.next;
+            sNode = sNode.next;
+        
+        print("\nAlternatingSplit");
+        print("Original List");
+        ll.displayIterative();
+        print("Alternative Node List");
+        newll.displayIterative();
 
 if __name__ == '__main__':
     ll = SinglyLinkedList();
@@ -236,8 +284,7 @@ if __name__ == '__main__':
     ll.add("2");
     ll.add("3");
 
-    ll.displayIterative();
-
+    print("Reversed Linked List")
     LinkedListQuestions.reverseSingleLinkedList(ll);
 
     print("\n")
@@ -327,3 +374,26 @@ if __name__ == '__main__':
     ll.add(43);
     ll.add(60);
     LinkedListQuestions.removeDuplicatesInSortedList(ll);
+    
+    
+    ll = SinglyLinkedList();
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(4);
+    ll.add(5);
+    ll.add(6);
+    ll.add(7);
+    LinkedListQuestions.alternatingSplit(ll);
+    
+    LinkedListQuestions.findMiddleOfLL(ll);
+    
+    ll = SinglyLinkedList();
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(4);
+    ll.add(5);
+    LinkedListQuestions.reverseFirstKElementOfSingleLinkedList(ll, 3);
+    print("\nLL After Reversing First " + str(3) + " Nodes");
+    ll.displayIterative();
