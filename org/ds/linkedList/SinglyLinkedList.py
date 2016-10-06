@@ -366,16 +366,16 @@ if __name__ == '__main__':
     sortedList.displayIterative();
     ################## Sorted Insert Example Ends####################
     
+    
     ################## Check if LinkedList is Palindrome Start####################
+    ################## Sorted Insert Example Ends####################
     pLL = SinglyLinkedList();
+    pLL.add(1);
+    pLL.add(1);
     pLL.add(1);
     pLL.add(2);
     pLL.add(3);
-    pLL.add(1);
-    pLL.add(1);
-    
     print("isPalindrome %s" % (pLL.checkIfLinkedListIsPalindrome()));
-    ################## Sorted Insert Example Ends####################
     
     ################## DetectAndRemoveLoop Start####################
     linkedList.head = SingleLinkedNode(10);

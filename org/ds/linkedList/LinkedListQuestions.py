@@ -29,18 +29,18 @@ class LinkedListQuestions:
     @staticmethod
     def reverseSingleLinkedList(ll):
         LinkedListQuestions.reverseSingleLinkedListByReference(ll);
-        
+
     @staticmethod
-    def reverseFirstKElementOfSingleLinkedListHelper(ll, size, loopCount=0, lastNode=None):
+    def reverseFirstKElementOfSingleLinkedListHelper(ll, size, loopCount=0):
         if ll.head:
             tempNode = ll.head;
 
             ll.head = ll.head.next;
-            tempNode.next = None;
+#             tempNode.next = None;
 
             loopCount += 1;
             if loopCount < size:
-                LinkedListQuestions.reverseFirstKElementOfSingleLinkedListHelper(ll, size, loopCount, lastNode);
+                lastNode = LinkedListQuestions.reverseFirstKElementOfSingleLinkedListHelper(ll, size, loopCount);
 
             if loopCount == size:
                 ll.head = tempNode;
@@ -48,11 +48,13 @@ class LinkedListQuestions:
             else:
                 tempNode.next = lastNode.next;
                 lastNode.next = tempNode;
+                lastNode = tempNode;
             loopCount -= 1;
+            return lastNode;
 
     @staticmethod
     def reverseFirstKElementOfSingleLinkedList(ll, size):
-        if size == 1:
+        if size == 0 or size == 1:
             return;
 
         if size == ll.size():
@@ -394,6 +396,6 @@ if __name__ == '__main__':
     ll.add(3);
     ll.add(4);
     ll.add(5);
-    LinkedListQuestions.reverseFirstKElementOfSingleLinkedList(ll, 3);
-    print("\nLL After Reversing First " + str(3) + " Nodes");
+    LinkedListQuestions.reverseFirstKElementOfSingleLinkedList(ll, 2);
+    print("\nLL After Reversing First " + str(4) + " Nodes");
     ll.displayIterative();
