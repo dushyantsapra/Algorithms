@@ -1,11 +1,11 @@
-from org.competitiveProgramming.Utility import Utility
-from org.ds.graph.UndirectedGraph import Graph
-
+'''
+@author: Dushyant Sapra
+'''
 
 class MergeSort:
-    def mergeHelper(self, sIndex, eIndex, orgList):
+    def mergeHelper(self, sIndex, midIndex, eIndex, orgList):
         tempList = [];
-        midIndex = int((sIndex + eIndex) / 2);
+#         midIndex = int((sIndex + eIndex) / 2);
         iValue = sIndex;
         jValue = midIndex + 1;
 
@@ -33,16 +33,17 @@ class MergeSort:
         return None;
 
     def mergeSortHelper(self, startIndex, endIndex, tempList):
-        if endIndex - startIndex == 1:
-            if tempList[startIndex] > tempList[endIndex]:
-                Utility.swap(startIndex, endIndex, tempList);
-            return;
+#         if endIndex - startIndex == 1:
+#             if tempList[startIndex] > tempList[endIndex]:
+#                 Utility.swap(startIndex, endIndex, tempList);
+#             return;
 
-        midIndex = int ((startIndex + endIndex) / 2);
-
-        self.mergeSortHelper(startIndex, midIndex, tempList);
-        self.mergeSortHelper(midIndex + 1, endIndex, tempList);
-        self.mergeHelper(startIndex, endIndex, tempList);
+        if startIndex < endIndex:
+            midIndex = int ((startIndex + endIndex) / 2);
+    
+            self.mergeSortHelper(startIndex, midIndex, tempList);
+            self.mergeSortHelper(midIndex + 1, endIndex, tempList);
+            self.mergeHelper(startIndex, midIndex, endIndex, tempList);
 
         return None;
 

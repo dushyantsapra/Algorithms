@@ -4,6 +4,7 @@ Created on Oct 5, 2016
 @author: Dushyant Sapra
 '''
 
+from org.ds.common.SingleLinkedNode import SingleLinkedNode
 from org.ds.linkedList.SinglyLinkedList import SinglyLinkedList
 from org.ds.stack.Stack import StackUsingLinkedList
 
@@ -19,7 +20,7 @@ class LinkedListQuestions:
 
             LinkedListQuestions.reverseSingleLinkedListByReference(ll);
 
-            if ll.head == None:
+            if ll.head is None:
                 ll.head = tempNode;
                 ll.tail = tempNode;
             else:
@@ -159,6 +160,104 @@ class LinkedListQuestions:
         LinkedListQuestions.mergeTwoSortedListrecursivelyHelper(list1.head, list2.head, ll);
 
     @staticmethod
+    def mergeTwoSortedListDecreasinglyUsingRecursionHelper(ll1Node, ll2Node, resultll):
+        if ll1Node is None and ll2Node is None:
+            return;
+        elif ll1Node is not None and ll2Node is None:
+            LinkedListQuestions.mergeTwoSortedListDecreasinglyUsingRecursionHelper(ll1Node.next, ll2Node, resultll);
+            resultll.add(ll1Node.data);
+            return;
+        elif ll1Node is None and ll2Node is not None:
+            LinkedListQuestions.mergeTwoSortedListDecreasinglyUsingRecursionHelper(ll1Node, ll2Node.next, resultll);
+            resultll.add(ll2Node.data);
+            return;
+ 
+        if ll1Node.data <= ll2Node.data:
+            LinkedListQuestions.mergeTwoSortedListDecreasinglyUsingRecursionHelper(ll1Node.next, ll2Node, resultll);
+            resultll.add(ll1Node.data);
+            return;
+        else:
+            LinkedListQuestions.mergeTwoSortedListDecreasinglyUsingRecursionHelper(ll1Node, ll2Node.next, resultll);
+            resultll.add(ll2Node.data);
+            return;
+
+    @staticmethod
+    def mergeTwoSortedListDecreasinglyUsingRecursion(ll1, ll2):
+        resultll = SinglyLinkedList();
+        LinkedListQuestions.mergeTwoSortedListDecreasinglyUsingRecursionHelper(ll1.head, ll2.head, resultll.head);
+        print("\nmergeTwoSortedListDecreasinglyUsingRecursion")
+        resultll.displayIterative();
+        
+    @staticmethod
+    def mergeTwoSortedListDecreasinglyUsingIterationAndStack(ll1, ll2):
+        resultll = SinglyLinkedList();
+
+        ll1Node = ll1.head;
+        ll2Node = ll2.head;
+
+        stack = StackUsingLinkedList();
+        
+        while ll1Node is not None and ll2Node is not None:
+            if ll1Node.data <= ll2Node.data:
+                stack.push(ll1Node.data);
+                ll1Node = ll1Node.next;
+            else:
+                stack.push(ll2Node.data);
+                ll2Node = ll2Node.next;
+
+        while ll1Node is not None:
+            stack.push(ll1Node.data);
+            ll1Node = ll1Node.next;
+
+        while ll2Node is not None:
+            stack.push(ll2Node.data);
+            ll2Node = ll2Node.next;
+
+        while stack.getSize() > 0:
+            resultll.add(stack.pop());
+
+        print("\mergeTwoSortedListDecreasinglyUsingIterationAndStack")
+        resultll.displayIterative();
+
+    @staticmethod
+    def mergeTwoSortedListDecreasinglyUsingIteration(ll1, ll2):
+        resultll = SinglyLinkedList();
+
+        ll1Node = ll1.head;
+        ll2Node = ll2.head;
+
+        node = resultll.head;
+
+        while ll1Node is not None and ll2Node is not None:
+            if ll1Node.data <= ll2Node.data:
+                tempNode = ll1Node.next;
+                ll1Node.next = node;
+                node = ll1Node;
+                ll1Node = tempNode;
+            else:
+                tempNode = ll2Node.next;
+                ll2Node.next = node;
+                node = ll2Node;
+                ll2Node = tempNode;
+
+        while ll1Node is not None:
+            tempNode = ll1Node.next;
+            ll1Node.next = node;
+            node = ll1Node;
+            ll1Node = tempNode;
+
+        while ll2Node is not None:
+            tempNode = ll2Node.next;
+            ll2Node.next = node;
+            node = ll2Node;
+            ll2Node = tempNode;
+        
+        resultll.head = node;
+
+        print("\nmergeTwoSortedListDecreasinglyUsingIteration")
+        resultll.displayIterative();
+
+    @staticmethod
     def checkIfLinkedListIsPalindrome(ll):
         stack = StackUsingLinkedList();
 
@@ -252,17 +351,28 @@ class LinkedListQuestions:
 
         print("\nLL After Deleting Duplicate Elements");
         ll.displayIterative();
+        
+    @staticmethod
+    def removeDuplicatesInUnSortedList(ll):
+        LinkedListQuestions.mergeSort(ll);
+        sNode = ll.head;
+        LinkedListQuestions.removeDuplicatesInSortedListHelper(ll, sNode);
+
+        print("\nUnSorted LL After Deleting Duplicate Elements");
+        ll.displayIterative();
 
     @staticmethod
-    def findMiddleOfLL(ll):
+    def findMiddleNode(ll):
         singleJumper = ll.head;
-        doubleJumper = ll.head;
+        doubleJumber = ll.head;
 
-        while singleJumper is not None and doubleJumper is not None:
+        while doubleJumber.next is not None and doubleJumber.next.next is not None:
             singleJumper = singleJumper.next;
-            doubleJumper = doubleJumper.next.next;
+            doubleJumber = doubleJumber.next.next;
 
-        print("\nMiddle Node is " + str(singleJumper.data));
+        print("\nMiddle Node is %d " % (singleJumper.data));
+
+        return singleJumper;
 
     @staticmethod
     def alternatingSplit(ll):
@@ -273,12 +383,197 @@ class LinkedListQuestions:
             newll.add(sNode.next.data);
             sNode.next = sNode.next.next;
             sNode = sNode.next;
-        
+
         print("\nAlternatingSplit");
         print("Original List");
         ll.displayIterative();
         print("Alternative Node List");
         newll.displayIterative();
+
+    @staticmethod
+    def mergeHelper(fll, sll):
+        result = None;
+
+        if fll is None:
+            return sll;
+        elif sll is None:
+            return fll;
+
+        if (fll.data == sll.data) or (fll.data < sll.data):
+            result = fll;
+            result.next = LinkedListQuestions.mergeHelper(fll.next, sll);
+        elif fll.data > sll.data:
+            result = sll;
+            result.next = LinkedListQuestions.mergeHelper(fll, sll.next);
+        return result;
+
+    @staticmethod
+    def mergeSortFindMidAndSplit(sNode):
+        singleJumper = sNode;
+        doubleJumper = sNode;
+
+        while doubleJumper.next is not None and doubleJumper.next.next is not None:
+            singleJumper = singleJumper.next;
+            doubleJumper = doubleJumper.next.next;
+
+        fll = sNode;
+        sll = singleJumper.next;
+        singleJumper.next = None;
+        return fll, sll;
+
+    @staticmethod
+    def mergeSortHelper(sNode):
+        fll, sll = LinkedListQuestions.mergeSortFindMidAndSplit(sNode);
+
+        if fll.next is not None:
+            fll = LinkedListQuestions.mergeSortHelper(fll);
+        if sll.next is not None:
+            sll = LinkedListQuestions.mergeSortHelper(sll);
+        return LinkedListQuestions.mergeHelper(fll, sll);
+
+    @staticmethod
+    def mergeSort(ll):
+        sll = LinkedListQuestions.mergeSortHelper(ll.head)
+        ll.head = sll;
+        print("Sorted LL(Merge Sort)");
+        ll.displayIterative();
+        
+    @staticmethod
+    def addTwoNumberRepresentedByLLByIteration(ll1, ll2):
+        carry = 0;
+        ll = SinglyLinkedList();
+
+        ll1Node = ll1.head;
+        ll2Node = ll2.head;
+
+        while ll1Node is not None and ll2Node is not None:
+            total = ll1Node.data + ll2Node.data + carry;
+            if total >= 10:
+                carry = total / 10;
+                data = total % 10;
+            else:
+                carry = 0;
+                data = total;
+
+            ll.add(data);
+
+            ll1Node = ll1Node.next;
+            ll2Node = ll2Node.next;
+
+        while ll1Node is not None:
+            total = ll1Node.data + carry;
+            if total >= 10:
+                carry = total / 10;
+                data = total % 10;
+            else:
+                carry = 0;
+                data = total;
+
+            ll.add(data);
+            ll1Node = ll1Node.next;
+
+        while ll2Node is not None:
+            total = ll2Node.data + carry;
+            if total >= 10:
+                carry = total / 10;
+                data = total % 10;
+            else:
+                carry = 0;
+                data = total;
+
+            ll.add(data);
+            ll2Node = ll2Node.next;
+        
+        if carry > 0:
+            ll.add(carry);
+            
+        print("\nLL After Adding 2 LL By Iteration")
+        ll.displayIterative();
+        
+
+    @staticmethod
+    def addTwoNumberWithSameLenghtRepresentedByLLByRecursion(ll1Node, ll2Node, ll):
+        if ll1Node is None:
+            return 0;
+
+#         node = SingleLinkedNode(0);
+
+        carry = LinkedListQuestions.addTwoNumberWithSameLenghtRepresentedByLLByRecursion(ll1Node.next, ll2Node.next, ll);
+
+        total = ll1Node.data + ll2Node.data + carry;
+
+        if total >= 10:
+            carry = total / 10;
+            data = total % 10;
+        else:
+            carry = 0;
+            data = total;
+
+#         node.data = data;
+        node = SingleLinkedNode(data);
+
+        if ll.head is None:
+            ll.head = node;
+            ll.tail = node;
+        else:
+            node.next = ll.head;
+            ll.head = node;
+
+        ll.length += 1;
+        return carry;
+    
+    @staticmethod
+    def addCarryToRemainingNodes(currentNode, size, carry, ll):
+        if size == 0:
+            return carry;
+
+        carry = LinkedListQuestions.addCarryToRemainingNodes(currentNode.next, size - 1, carry, ll);
+
+        total = currentNode.data + carry;
+
+        if total >= 10:
+            carry = total / 10;
+            data = total % 10;
+        else:
+            carry = 0;
+            data = total;
+
+        node = SingleLinkedNode(data);
+
+        node.next = ll.head;
+        ll.head = node;
+
+        ll.length += 1;
+        return carry;
+
+#     Check For the diff in number of node count in 2 linkedlist, if 2 LL size is diff. then move the cur. pointer of larger LL till diff becomes 0. and then add them recursivelly after adding if any carry is there then add that carry to remaining nodes.
+    @staticmethod
+    def addTwoNumberRepresentedByLLByRecursion(ll1, ll2):
+        ll1Node = ll1.head;
+        ll2Node = ll2.head;
+
+        diff = abs(ll1.size() - ll2.size());
+
+        if ll1.size() < ll2.size():
+            ll2Node = ll1.head;
+            ll1Node = ll2.head;
+
+        tempNode = ll1Node;
+        
+        while diff > 0:
+            tempNode = tempNode.next;
+            diff -= 1;
+
+        ll = SinglyLinkedList();
+
+        carry = LinkedListQuestions.addTwoNumberWithSameLenghtRepresentedByLLByRecursion(tempNode, ll2Node, ll);
+
+        diff = abs(ll1.size() - ll2.size());
+
+        LinkedListQuestions.addCarryToRemainingNodes(ll1Node, diff, carry, ll)
+
+        print("\nLL After Adding 2 LL By Recursion")
+        ll.displayIterative();
 
 if __name__ == '__main__':
     ll = SinglyLinkedList();
@@ -326,6 +621,23 @@ if __name__ == '__main__':
 #     LinkedListQuestions.mergeTwoSortedListIteratively(list1, list2, finalList);
     LinkedListQuestions.mergeTwoSortedListrecursively(list1, list2, finalList);
     finalList.displayIterative();
+    
+    
+    ll1 = SinglyLinkedList();
+    ll1.add(5);
+    ll1.add(10);
+    ll1.add(15);
+    ll1.add(40);
+    ll1.add(50);
+    ll1.add(60);
+    
+    ll2 = SinglyLinkedList();
+    ll2.add(2);
+    ll2.add(3);
+    ll2.add(20);
+#     LinkedListQuestions.mergeTwoSortedListDecreasinglyUsingRecursion(ll1, ll2);
+#     LinkedListQuestions.mergeTwoSortedListDecreasinglyUsingIterationAndStack(ll1, ll2);
+    LinkedListQuestions.mergeTwoSortedListDecreasinglyUsingIteration(ll1, ll2);
     
     
     ll = SinglyLinkedList();
@@ -377,6 +689,15 @@ if __name__ == '__main__':
     ll.add(60);
     LinkedListQuestions.removeDuplicatesInSortedList(ll);
     
+    ll = SinglyLinkedList();
+    ll.add(12);
+    ll.add(11);
+    ll.add(12);
+    ll.add(21);
+    ll.add(41);
+    ll.add(43);
+    ll.add(21);
+    LinkedListQuestions.removeDuplicatesInUnSortedList(ll);
     
     ll = SinglyLinkedList();
     ll.add(1);
@@ -387,9 +708,7 @@ if __name__ == '__main__':
     ll.add(6);
     ll.add(7);
     LinkedListQuestions.alternatingSplit(ll);
-    
-    LinkedListQuestions.findMiddleOfLL(ll);
-    
+
     ll = SinglyLinkedList();
     ll.add(1);
     ll.add(2);
@@ -399,3 +718,70 @@ if __name__ == '__main__':
     LinkedListQuestions.reverseFirstKElementOfSingleLinkedList(ll, 2);
     print("\nLL After Reversing First " + str(4) + " Nodes");
     ll.displayIterative();
+    
+    
+    ll = SinglyLinkedList();
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(4);
+    ll.add(5);
+    ll.add(6);
+    ll.add(7);
+    ll.add(8);
+    LinkedListQuestions.findMiddleNode(ll);
+    
+    
+    ll = SinglyLinkedList();
+    ll.add(6);
+    ll.add(5);
+    ll.add(3);
+    ll.add(1);
+    ll.add(8);
+    ll.add(7);
+    ll.add(2);
+    ll.add(4);
+    
+    LinkedListQuestions.mergeSort(ll);
+
+
+#     ll = SinglyLinkedList();
+#     ll.add(6);
+#     ll.add(5);
+#     ll.add(3);
+#     ll.add(1);
+#     ll.add(8);
+#     ll.add(7);
+#     ll.add(2);
+#     ll.add(4);
+#     LinkedListQuestions.insertionSort(ll);
+    
+    
+    ll1 = SinglyLinkedList();
+    ll1.add(7)
+    ll1.add(5);
+    ll1.add(9);
+    ll1.add(4);
+    ll1.add(6);
+    
+    ll2 = SinglyLinkedList();
+    ll2.add(8);
+    ll2.add(4);
+#     ll2.add(2);
+    LinkedListQuestions.addTwoNumberRepresentedByLLByIteration(ll1, ll2);
+    
+    
+    ll1 = SinglyLinkedList();
+    ll1.add(7)
+    ll1.add(5);
+    ll1.add(9);
+    ll1.add(4);
+    ll1.add(6);
+    
+    ll2 = SinglyLinkedList();
+    ll2.add(1);
+    ll2.add(1);
+    ll2.add(1);
+    ll2.add(1);
+    ll2.add(1);
+    LinkedListQuestions.addTwoNumberRepresentedByLLByRecursion(ll1, ll2);
