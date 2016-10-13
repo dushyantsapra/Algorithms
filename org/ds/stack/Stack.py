@@ -4,7 +4,8 @@ Created on Jun 29, 2016
 @author: Dushyant Sapra
 '''
 
-from org.ds.common.SingleLinkedNode import SingleLinkedNode
+from org.ds.linkedList.SinglyLinkedNode import SinglyLinkedNode
+
 
 class StackUsingLinkedList:
     def __init__(self):
@@ -15,7 +16,7 @@ class StackUsingLinkedList:
         return self.top;
 
     def push(self, data):
-        node = SingleLinkedNode(data);
+        node = SinglyLinkedNode(data);
         if self.top is None:
             self.top = node;
         else:
@@ -101,19 +102,13 @@ class StackUsingArray:
             for data in self.stack:
                 print(data);
 
-# *********************StackUsingLinkedList****************************
-"""stack = StackUsingLinkedList();
-stack.push(1);
-stack.push(2);
-stack.push(3);
+if __name__ == '__main__':
 
-stack.displayIterative();
-print();
-stack.displayRecursive();
-
-stack.reverseStackByNode();
-print();
-stack.displayIterative();"""
-
-# StackUsingLinkedList.reverseStringUsingStack("Hello");
-# *********************StackUsingLinkedList****************************
+    stack = StackUsingLinkedList();
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+    
+    stack.displayIterative();
+    print();
+    stack.displayRecursive();

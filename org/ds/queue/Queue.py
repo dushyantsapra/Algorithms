@@ -3,7 +3,8 @@ Created on 15-Jun-2016
 
 @author: Dushyant
 '''
-from org.ds.common.SingleLinkedNode import SingleLinkedNode
+from org.ds.linkedList.SinglyLinkedNode import SinglyLinkedNode
+
 
 class Queue:
     def __init__(self):
@@ -12,7 +13,7 @@ class Queue:
         self.size = 0;
 
     def enQueue(self, data):
-        node = SingleLinkedNode(data);
+        node = SinglyLinkedNode(data);
 
         if self.rear is None:
             self.front = self.rear = node;
@@ -51,18 +52,20 @@ class Queue:
     
     def getSize(self):
         return self.size;
-    
-"""queue = Queue();
-queue.enQueue(1);
-queue.enQueue(2);
-queue.enQueue(3);
-queue.enQueue(4);
-queue.enQueue(5);
-queue.enQueue(6);
-queue.queueTraversal();
 
-print("");
-queue.deQueue();
-queue.deQueue();
-queue.deQueue();
-queue.queueTraversal();"""
+
+if __name__ == '__main__':
+    queue = Queue();
+    queue.enQueue(1);
+    queue.enQueue(2);
+    queue.enQueue(3);
+    queue.enQueue(4);
+    queue.enQueue(5);
+    queue.enQueue(6);
+    queue.queueTraversal();
+    
+    print("");
+    queue.deQueue();
+    queue.deQueue();
+    queue.deQueue();
+    queue.queueTraversal();

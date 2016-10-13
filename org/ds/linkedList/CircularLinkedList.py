@@ -3,8 +3,8 @@ Created on Jun 29, 2016
 
 @author: Dushyant Sapra
 '''
+from org.ds.linkedList.SinglyLinkedNode import SinglyLinkedNode
 
-from org.ds.common.SingleLinkedNode import SingleLinkedNode
 
 class CircularLinkedList:
     def __init__(self):
@@ -13,7 +13,7 @@ class CircularLinkedList:
         self.length = 0;
     
     def add(self, data):
-        node = SingleLinkedNode(data);
+        node = SinglyLinkedNode(data);
         if self.head is None:
             self.head = self.tail = node;
             node.next = self.head;
@@ -54,7 +54,7 @@ class CircularLinkedList:
                 print("Linked List is Empty");
 
     def sortedAdd(self, data):
-        node = SingleLinkedNode(data);
+        node = SinglyLinkedNode(data);
         if self.head is None:
             self.head = self.tail = node;
             node.next = self.head;

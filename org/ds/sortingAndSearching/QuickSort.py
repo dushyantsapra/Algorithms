@@ -4,7 +4,7 @@ Created on 15-Jun-2016
 @author: Dushyant
 '''
 
-from org.competitiveProgramming.Utility import Utility
+from org.ds.utility.Utility import Utility
 
 
 class QuickSort:

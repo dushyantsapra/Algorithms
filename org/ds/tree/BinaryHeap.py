@@ -3,7 +3,6 @@ Created on 17-Jun-2016
 
 @author: Dushyant Sapra
 '''
-
 """A binary heap is a heap data structure created using a binary tree. 
     It can be seen as a binary tree with two additional constraints:
 i) The shape property: the tree is a complete binary tree; that is, all levels of the tree, 
@@ -16,7 +15,8 @@ Note - while Deleting Heapify Down to Only subtree whose value is less/greater t
 
 """
 
-from org.competitiveProgramming.Utility import Utility
+from org.ds.utility.Utility import Utility
+
 
 class BinaryHeapNode:
     def __init__(self, data, priority):

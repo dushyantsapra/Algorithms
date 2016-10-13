@@ -4,12 +4,10 @@ Created on 28-Jun-2016
 @author: Dushyant Sapra
 '''
 
-from org.competitiveProgramming.Utility import Utility
-from org.ds.common.SingleLinkedNode import SingleLinkedNode
+from org.ds.linkedList.SinglyLinkedNode import SinglyLinkedNode
 
 
 class SinglyLinkedList:
-
     def __init__(self):
         self.head = None;
         self.tail = None;
@@ -19,7 +17,7 @@ class SinglyLinkedList:
         return self.length;
 
     def add(self, data):
-        node = SingleLinkedNode(data);
+        node = SinglyLinkedNode(data);
         if self.head is None:
             self.head = self.tail = node;
         else:
@@ -28,7 +26,7 @@ class SinglyLinkedList:
         self.length += 1;
 
     def sortedAdd(self, data):
-        node = SingleLinkedNode(data);
+        node = SinglyLinkedNode(data);
         if self.head is None:
             self.head = self.tail = node;
         elif self.head.data > data:
@@ -295,20 +293,6 @@ class SinglyLinkedList:
         prevNode.next = None;
         self.tail.next = tempHead;
     
-    def reverseLinkedListInGroupsOfGivenSizeByDataHelper(self, k):
-        print()
-
-    def reverseLinkedListInGroupsOfGivenSizeByData(self, k):
-        if self.head is None:
-            return;
-        groupList = Utility.fetchGroupofN(len(self.head), k);
-
-    def reverseLinkedListInGroupsOfGivenSizeByNodeHelper(self, k):
-        print()
-
-    def reverseLinkedListInGroupsOfGivenSizeByNode(self, k):
-        print()
-
     def fetchNodeAtIndex(self, index):
         tempNode = self.head;
         nodeAtIndex = tempNode;
@@ -317,34 +301,6 @@ class SinglyLinkedList:
             nodeAtIndex = tempNode.next;
             iValue += 1;
         return nodeAtIndex;
-
-    def mergeSortHelper(self, sNode, eNode, length):
-        if length == 1:
-            return sNode;
-        elif length == 2:
-            if sNode.data > eNode.data:
-                sNode.data = sNode.data + eNode.data;
-                eNode.data = sNode.data - eNode.data;
-                sNode.data = sNode.data - eNode.data;
-            return sNode;
-
-        if length / 2 == 0:
-            midIndex = int (length / 2) - 1;
-        else:
-            midIndex = int (length / 2);
-
-        self.mergeSortHelper(sNode, midIndex, length / 2);
-        self.mergeSortHelper(midIndex + 1, eNode, tempList);
-        self.mergeHelper(startIndex, endIndex, tempList);
-
-        return None;
-
-    def mergeSort(self):
-        if self.head:
-            self.head = self.mergeSortHelper(self.head, self.tail, self.length);
-        else:
-            print("Linked List is Empty");
-            return;
 
 if __name__ == '__main__':
 
@@ -378,14 +334,14 @@ if __name__ == '__main__':
     print("isPalindrome %s" % (pLL.checkIfLinkedListIsPalindrome()));
     
     ################## DetectAndRemoveLoop Start####################
-    linkedList.head = SingleLinkedNode(10);
+    linkedList.head = SinglyLinkedNode(10);
     headNode = linkedList.head;
     
-    node = SingleLinkedNode(20);
+    node = SinglyLinkedNode(20);
     headNode.next = node;
-    headNode.next.next = SingleLinkedNode(30);
-    headNode.next.next.next = SingleLinkedNode(40);
-    node1 = SingleLinkedNode(50);
+    headNode.next.next = SinglyLinkedNode(30);
+    headNode.next.next.next = SinglyLinkedNode(40);
+    node1 = SinglyLinkedNode(50);
     node1.next = node;
     headNode.next.next.next.next = node1;
     

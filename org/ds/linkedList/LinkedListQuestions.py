@@ -4,9 +4,10 @@ Created on Oct 5, 2016
 @author: Dushyant Sapra
 '''
 
-from org.ds.common.SingleLinkedNode import SingleLinkedNode
 from org.ds.linkedList.SinglyLinkedList import SinglyLinkedList
+from org.ds.linkedList.SinglyLinkedNode import SinglyLinkedNode
 from org.ds.stack.Stack import StackUsingLinkedList
+from org.ds.linkedList.DoublyLinkedList import DoublyLinkedList
 
 
 class LinkedListQuestions:
@@ -30,6 +31,8 @@ class LinkedListQuestions:
     @staticmethod
     def reverseSingleLinkedList(ll):
         LinkedListQuestions.reverseSingleLinkedListByReference(ll);
+        print("\nReversed LL")
+        ll.displayIterative();
 
     @staticmethod
     def reverseFirstKElementOfSingleLinkedListHelper(ll, size, loopCount=0):
@@ -111,7 +114,10 @@ class LinkedListQuestions:
         if intersectionNode:
             LinkedListQuestions.removeLoopInLinkedList(ll, intersectionNode);
         else:
-            print("No Loop Found");
+            print("\nNo Loop Found");
+        
+        print("\nLL After Removing the Loop")
+        ll.displayIterative();
 
     @staticmethod
     def mergeTwoSortedListIteratively(list1, list2, ll):
@@ -362,7 +368,7 @@ class LinkedListQuestions:
         ll.displayIterative();
 
     @staticmethod
-    def findMiddleNode(ll):
+    def findMiddleNode(ll, isPrint=True):
         singleJumper = ll.head;
         doubleJumber = ll.head;
 
@@ -370,7 +376,8 @@ class LinkedListQuestions:
             singleJumper = singleJumper.next;
             doubleJumber = doubleJumber.next.next;
 
-        print("\nMiddle Node is %d " % (singleJumper.data));
+        if isPrint:
+            print("\nMiddle Node is %d " % (singleJumper.data));
 
         return singleJumper;
 
@@ -490,13 +497,10 @@ class LinkedListQuestions:
         print("\nLL After Adding 2 LL By Iteration")
         ll.displayIterative();
         
-
     @staticmethod
     def addTwoNumberWithSameLenghtRepresentedByLLByRecursion(ll1Node, ll2Node, ll):
         if ll1Node is None:
             return 0;
-
-#         node = SingleLinkedNode(0);
 
         carry = LinkedListQuestions.addTwoNumberWithSameLenghtRepresentedByLLByRecursion(ll1Node.next, ll2Node.next, ll);
 
@@ -509,8 +513,7 @@ class LinkedListQuestions:
             carry = 0;
             data = total;
 
-#         node.data = data;
-        node = SingleLinkedNode(data);
+        node = SinglyLinkedNode(data);
 
         if ll.head is None:
             ll.head = node;
@@ -521,7 +524,7 @@ class LinkedListQuestions:
 
         ll.length += 1;
         return carry;
-    
+
     @staticmethod
     def addCarryToRemainingNodes(currentNode, size, carry, ll):
         if size == 0:
@@ -538,7 +541,7 @@ class LinkedListQuestions:
             carry = 0;
             data = total;
 
-        node = SingleLinkedNode(data);
+        node = SinglyLinkedNode(data);
 
         node.next = ll.head;
         ll.head = node;
@@ -559,7 +562,7 @@ class LinkedListQuestions:
             ll1Node = ll2.head;
 
         tempNode = ll1Node;
-        
+
         while diff > 0:
             tempNode = tempNode.next;
             diff -= 1;
@@ -575,18 +578,78 @@ class LinkedListQuestions:
         print("\nLL After Adding 2 LL By Recursion")
         ll.displayIterative();
 
+
+    @staticmethod
+    def rearrangeLLHelper(currentPointer, mainPointer):
+        if currentPointer is None:
+            return mainPointer;
+
+        mainPointer = LinkedListQuestions.rearrangeLLHelper(currentPointer.next, mainPointer);
+
+        tempPointer = mainPointer.next;
+        mainPointer.next = currentPointer;
+        currentPointer.next = tempPointer;
+
+        return mainPointer.next.next;
+
+    @staticmethod
+    def rearrangeLL(ll):
+        middleNode = LinkedListQuestions.findMiddleNode(ll);
+
+        tailPointer = None;
+        if ll.size() & 1 == 1:  # Odd
+            tailPointer = middleNode;
+        else:  # Even
+            tailPointer = middleNode.next;
+
+        LinkedListQuestions.rearrangeLLHelper(middleNode.next, ll.head);
+
+        ll.tail = tailPointer;
+        ll.tail.next = None;
+
+        print("\nLl After ReArrangement");
+        ll.displayIterative();
+
+    @staticmethod
+    def cloneDoublyLLWithRandomPreviousPointerHelper(currentPointer, copydll, hashMap):
+        if currentPointer is None:
+            return;
+
+        copydll.add(currentPointer.data);
+
+#         hashMap[copydll.tail] = currentPointer;
+
+        hashMap[copydll.tail] = copydll.tail;
+
+        LinkedListQuestions.cloneDoublyLLWithRandomPreviousPointerHelper(currentPointer.next, copydll, hashMap);
+
+        tPointer = hashMap[currentPointer];
+        pPointer = hashMap[currentPointer.previous];
+#         tPointer.previous = hashMap[currentPointer.previous];
+
+        hashMap[currentPointer].previous = hashMap[currentPointer.previous];
+
+    @staticmethod
+    def cloneDoublyLLWithRandomPreviousPointer(dll):
+        copydll = DoublyLinkedList();
+        hashMap = {};
+
+        LinkedListQuestions.cloneDoublyLLWithRandomPreviousPointerHelper(dll.head, copydll, hashMap);
+
+        print("\n Cloned Doubly Linked list");
+        copydll.displayIterative();
+    
+    @staticmethod
+    def flattenLinkeListInSortedForm(dll):
+        print();
+
 if __name__ == '__main__':
     ll = SinglyLinkedList();
     ll.add("1");
     ll.add("2");
     ll.add("3");
 
-    print("Reversed Linked List")
     LinkedListQuestions.reverseSingleLinkedList(ll);
-
-    print("\n")
-    ll.displayIterative();
-
 
     ll = SinglyLinkedList();
     ll.add(1);
@@ -601,21 +664,16 @@ if __name__ == '__main__':
     ll.add(9);
     ll.add(10);
     ll.tail.next = node;
-    
     LinkedListQuestions.detectAndRemoveLoopInLinkedList(ll);
-    ll.displayIterative();
-    
     
     list1 = SinglyLinkedList();
     list1.add(1);
     list1.add(3);
     list1.add(5);
-    
     list2 = SinglyLinkedList();
     list2.add(2);
     list2.add(4);
     list2.add(6);
-    
     finalList = SinglyLinkedList();
     print("\n")
 #     LinkedListQuestions.mergeTwoSortedListIteratively(list1, list2, finalList);
@@ -763,7 +821,6 @@ if __name__ == '__main__':
     ll1.add(9);
     ll1.add(4);
     ll1.add(6);
-    
     ll2 = SinglyLinkedList();
     ll2.add(8);
     ll2.add(4);
@@ -777,7 +834,6 @@ if __name__ == '__main__':
     ll1.add(9);
     ll1.add(4);
     ll1.add(6);
-    
     ll2 = SinglyLinkedList();
     ll2.add(1);
     ll2.add(1);
@@ -785,3 +841,25 @@ if __name__ == '__main__':
     ll2.add(1);
     ll2.add(1);
     LinkedListQuestions.addTwoNumberRepresentedByLLByRecursion(ll1, ll2);
+    
+    ll = SinglyLinkedList();
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(4);
+    ll.add(5);
+    ll.add(6);
+    LinkedListQuestions.rearrangeLL(ll);
+
+    dll = DoublyLinkedList();
+    dll.add(1);
+    dll.add(2);
+    dll.add(3);
+    dll.add(4);
+    dll.add(5);
+    dll.head.previous = dll.head.next.next;
+    dll.head.next.previous = dll.head;
+    dll.head.next.next.previous = dll.head.next.next.next.next;
+    dll.head.next.next.next.previous = dll.head.next.next;
+    dll.head.next.next.next.next.previous = dll.head.next;
+    LinkedListQuestions.cloneDoublyLLWithRandomPreviousPointer(dll);

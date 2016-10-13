@@ -1,4 +1,4 @@
-from org.competitiveProgramming.Utility import Utility
+from org.ds.utility.Utility import Utility
 
 class Sorting:
     def insertionSort(self, tempList):

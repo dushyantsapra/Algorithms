@@ -1,0 +1,3 @@
+1. Sum of n continuous numbers is n(n+1)/2
+2. XOR on Two Same Number is Always 0 i.e XOR of 2 ^ 2 = 0
+3. XOR of any number with 0 result to same number i.e 2 ^ 0 = 2
