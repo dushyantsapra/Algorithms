@@ -7,14 +7,13 @@ Created on 28-Jun-2016
 from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
 
 class HeapSort:
-
     def heapify(self, tempList, binaryHeapType):
         if binaryHeapType is "MIN":
             binaryHeapObj = BinaryHeapUsingArray("MIN_HEAP");
         elif binaryHeapType is "MAX":
             binaryHeapObj = BinaryHeapUsingArray("MAX_HEAP");
         for num in tempList:
-            binaryHeapObj.insert(num);
+            binaryHeapObj.insert(num, num);
 
         return binaryHeapObj.binaryHeap;
 

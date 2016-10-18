@@ -3,7 +3,11 @@ Created on Oct 13, 2016
 
 @author: Dushyant Sapra
 '''
+import sys
+
+from org.ds.sortingAndSearching.Sorting import Sorting
 from org.ds.utility.Utility import Utility
+
 
 class ArraysQuestions:
     @staticmethod
@@ -230,6 +234,141 @@ class ArraysQuestions:
 
         print("\nLeaders in an Array are " + str(leaders));
 
+    @staticmethod
+    def contiguousSubArrayWithLargestSum(arr):
+        length = len(arr);
+
+        maxSum = arr[0];
+        curSum = arr[0];
+
+        for iLoop in range(1, length):
+            curSum = max(arr[iLoop], curSum + arr[iLoop]);
+            maxSum = max(curSum, maxSum);
+
+        print("contiguousSubArrayWithLargestSum is " + str(maxSum));
+
+    @staticmethod
+    def findPairWithGivenSumInUnsortedArrayUsingSorting(arr, maxSum):
+        Sorting.mergeSort(arr, False);
+
+        iLoop = 0;
+        jLoop = len(arr) - 1;
+
+        isFound = False;
+
+        while iLoop < jLoop:
+            if maxSum == (arr[iLoop] + arr[jLoop]):
+                isFound = True;
+                break;
+            elif maxSum < (arr[iLoop] + arr[jLoop]):
+                jLoop -= 1;
+            else:
+                iLoop += 1;
+
+        if isFound:
+            print("Largest Pair Sum Formed by " + str(arr[iLoop]) + " and " + str(arr[jLoop]));
+        else:
+            print("Pair With Given Sum doesn't Exists");
+
+    @staticmethod
+    def findPairWithGivenSumInUnsortedArrayUsingHashing(arr, maxSum):
+        hashMap = {};
+
+        length = len(arr);
+
+        for iLoop in range(length):
+            tempValue = maxSum - arr[iLoop];
+            if tempValue in hashMap:
+                print("Largest Pair Sum Formed by " + str(arr[iLoop]) + " and " + str(tempValue));
+                return;
+
+            hashMap[arr[iLoop]] = True;
+
+        print("Pair With Given Sum doesn't Exists");
+
+    @staticmethod
+    def findPairWithGivenSumInUnsortedArray(arr, maxSum):
+#         ArraysQuestions.findPairWithGivenSumInUnsortedArrayUsingSorting(arr, maxSum);
+        ArraysQuestions.findPairWithGivenSumInUnsortedArrayUsingHashing(arr, maxSum);
+    
+    @staticmethod
+    def findSubArrayWithGivenSumInNonNegativeArray(arr, maxSum):
+        currentSum = 0;
+
+        sIndex = 0;
+
+        length = len(arr);
+        
+        isFound = False;
+
+        for iLoop in range(length):
+            while (maxSum < currentSum + arr[iLoop]) and sIndex < iLoop:
+                currentSum -= arr[sIndex];
+                sIndex += 1;
+
+            currentSum += arr[iLoop];
+            
+            if maxSum == currentSum:
+                isFound = True;
+                break;
+
+        if isFound:
+            print("Max Sum Exists B/w Index " + str(sIndex) + " To Index " + str(iLoop));
+        else:
+            print("Doesn't Exists")
+    
+    @staticmethod
+    def findSmallestAndSecondSmallestNumberInArra(arr):
+        smallest = sys.maxint;
+        secondSmallest = sys.maxint;
+
+        length = len(arr);
+
+        for iLoop in range(length):
+            if smallest > arr[iLoop]:
+                secondSmallest = smallest;
+                smallest = arr[iLoop];
+            elif secondSmallest > arr[iLoop]:
+                secondSmallest = arr[iLoop];
+
+        print("Smallest is " + str(smallest) + ", Second Smallest is " + str(secondSmallest));
+
+    @staticmethod
+    def sortArrayInWaveFormUsingSorting(arr):
+        Sorting.mergeSort(arr, False);
+
+        length = len(arr);
+
+        iLoop = 0;
+
+        while iLoop < length - 1:
+            Utility.swapUsingTempVariable(iLoop, iLoop + 1, arr);
+            iLoop += 2;
+        
+        print("sortArrayInWaveFormUsingSorting " + str(arr));
+
+    @staticmethod
+    def sortArrayInWaveFormSingleIteration(arr):
+        if arr[0] < arr[1]:
+            Utility.swapUsingTempVariable(0, 1, arr);
+        
+        length = len(arr);
+        
+        iLoop = 3;
+        
+        while iLoop < length:
+            if arr[iLoop] < arr[iLoop - 1]:
+                Utility.swapUsingTempVariable(iLoop, iLoop - 1, arr);
+            
+            iLoop += 2;
+        
+        print("sortArrayInWaveFormSingleIteration " + str(arr));
+    
+    @staticmethod
+    def sortArrayInWaveForm(arr):
+#         ArraysQuestions.sortArrayInWaveFormUsingSorting(arr);
+        ArraysQuestions.sortArrayInWaveFormSingleIteration(arr);
+
 if __name__ == '__main__':
     ArraysQuestions.findMissingNumberUsingXOR([1, 3, 4, 5], 5);
 
@@ -253,7 +392,16 @@ if __name__ == '__main__':
     
     ArraysQuestions.printLeaders([16, 17, 4, 3, 5, 2]);
     
-    print(1 ^ 9 ^ 8 ^ 8 ^ 7 ^ 6 ^ 4 ^ 3 ^ 2 ^ 5 ^ 5);
-    print(1 ^ 9 ^ 8 ^ 7 ^ 6 ^ 4 ^ 3 ^ 2 ^ 5);
+    ArraysQuestions.contiguousSubArrayWithLargestSum([-2, -3, 4, -1, -2, 1, 5, -3]);
+    ArraysQuestions.contiguousSubArrayWithLargestSum([-2, -3, -4, -1, -2, -5, -3]);
     
+    ArraysQuestions.findPairWithGivenSumInUnsortedArray([-2, -3, 4, -1, -2, -1, 5, -3], 5)
     
+    ArraysQuestions.findSubArrayWithGivenSumInNonNegativeArray([15, 2, 4, 8, 9, 5, 10, 23], 23);
+    
+    ArraysQuestions.findSmallestAndSecondSmallestNumberInArra([15, 2, 4, 8, 9, 5, 10, 23]);
+    
+    ArraysQuestions.sortArrayInWaveForm([10, 90, 49, 2, 1, 5, 23]);
+    
+#     print(1 ^ 9 ^ 8 ^ 8 ^ 7 ^ 6 ^ 4 ^ 3 ^ 2 ^ 5 ^ 5);
+#     print(1 ^ 9 ^ 8 ^ 7 ^ 6 ^ 4 ^ 3 ^ 2 ^ 5);    
