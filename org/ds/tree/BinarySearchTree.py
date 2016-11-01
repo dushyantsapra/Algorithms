@@ -3,6 +3,7 @@ Created on 13-Jun-2016
 
 @author: Dushyant
 '''
+from org.ds.queue.Queue import Queue
 
 '''
                        20
@@ -29,47 +30,67 @@ class BinarySeachTree(object):
             else:
                 self.right.insert(data);
 
-    def breadthFirstSearchHelper(self, level):
+    def breadthFirstSearchUsingRecursionHelper(self, level):
         if level == 1:
             print(self.data);
             return;
 
         if self.left:
-            self.left.breadthFirstSearchHelper(level - 1);
+            self.left.breadthFirstSearchUsingRecursionHelper(level - 1);
         if self.right:
-            self.right.breadthFirstSearchHelper(level - 1);
+            self.right.breadthFirstSearchUsingRecursionHelper(level - 1);
 
-    def breadthFirstSearch(self):
-        self.breadthFirstSearchHelper(self.height());
+    def breadthFirstSearchUsingRecursion(self):
+        height = self.height();
+        
+        for iLoop in range(height + 1):
+            self.breadthFirstSearchUsingRecursionHelper(iLoop);
 
-    def depthFirstSeacrh(self, dfsType):
+
+    def breadthFirstSearchUsingQueue(self):
+        queue = Queue();
+
+        queue.enQueue(self);
+
+        while queue.getSize() > 0:
+            treeNode = queue.deQueue();
+
+            print(treeNode.data);
+
+            if treeNode.left:
+                queue.enQueue(treeNode.left);
+
+            if treeNode.right:
+                queue.enQueue(treeNode.right);
+
+    def depthFirstSearch(self, dfsType):
 #        Pre-Order Depth First Search
         if dfsType == 1:
             if self is not None:
                 print(self.data);
             if self.left is not None:
-                self.left.depthFirstSeacrh(dfsType);
+                self.left.depthFirstSearch(dfsType);
             if self.right is not None:
-                self.right.depthFirstSeacrh(dfsType);
+                self.right.depthFirstSearch(dfsType);
 
 #         In-Order Depth First Search
         elif dfsType == 2:
             if self.left is not None:
-                self.left.depthFirstSeacrh(dfsType);
+                self.left.depthFirstSearch(dfsType);
             if self is not None:
                 print(self.data);
             if self.right is not None:
-                self.right.depthFirstSeacrh(dfsType);
+                self.right.depthFirstSearch(dfsType);
 
 #         Post-Order Depth First Search
         elif dfsType == 3:
             if self is not None and self.left is not None:
-                self.left.depthFirstSeacrh(dfsType);
+                self.left.depthFirstSearch(dfsType);
             if self.right is not None:
-                self.right.depthFirstSeacrh(dfsType);
+                self.right.depthFirstSearch(dfsType);
             if self is not None:
                 print(self.data);
-
+    
     def findMinInRightSubTree(self):
         if self is not None:
             if self.left is not None:
@@ -191,52 +212,54 @@ class BinarySeachTree(object):
             lheight = self.left.height();
         if self.right:
             rheight = self.right.height();
-        if lheight > rheight:
-            return (lheight + 1);
-        else:
-            return (rheight + 1);
 
-bst = BinarySeachTree(20);
-bst.insert(15);
-bst.insert(10);
-bst.insert(8);
-bst.insert(18);
-bst.insert(19);
-bst.insert(25);
-bst.insert(22);
-bst.insert(30);
+        return (lheight + 1) if lheight > rheight else (rheight + 1);
 
-print("Tree Traversal");
-bst.depthFirstSeacrh(1);
+if __name__ == '__main__':
+    bst = BinarySeachTree(20);
+    bst.insert(15);
+    bst.insert(10);
+    bst.insert(8);
+    bst.insert(18);
+    bst.insert(19);
+    bst.insert(25);
+    bst.insert(22);
+    bst.insert(30);
 
-print("Height of Tree is");
-print(bst.left.right.right.height());
+    print("Tree Traversal(DFS)");
+    bst.depthFirstSearch(2);
 
-"""print("Print Right Tree Min Value(Using In-order Traversal where every Time left subtree is Traversed)");
-print(BinarySeachTree.findMinInRightSubTree(bst.right));
+    print("Tree Traversal(BFS Through Recursion)");
+    bst.breadthFirstSearchUsingRecursion();
 
-lowestChild, lowestChildParent = bst.right.findMinInRightSubTreeAndParent(bst.right);
-print(lowestChild.data);
-print(lowestChildParent.data);
+    print("Tree Traversal(BFS Through Queue)");
+    bst.breadthFirstSearchUsingQueue();
 
+#     print("Height of Tree is");
+#     print(bst.left.right.right.height());
 
-print("Check if Value is Present");
-print(bst.contains(2));
+    """print("Print Right Tree Min Value(Using In-order Traversal where every Time left subtree is Traversed)");
+    print(BinarySeachTree.findMinInRightSubTree(bst.right));
 
+    lowestChild, lowestChildParent = bst.right.findMinInRightSubTreeAndParent(bst.right);
+    print(lowestChild.data);
+    print(lowestChildParent.data);
 
-childBst, parentBst = bst.containsWithReturnRef(2, bst);
-if childBst is not None and parentBst is not None:
-    print(childBst.data);
-    print(parentBst.data);
-else:
-    print("NONE");
+    print("Check if Value is Present");
+    print(bst.contains(2));
 
+    childBst, parentBst = bst.containsWithReturnRef(2, bst);
+    if childBst is not None and parentBst is not None:
+        print(childBst.data);
+        print(parentBst.data);
+    else:
+        print("NONE");
 
-print("Delete Node With Given Data");
-bst = bst.delete(20);
-print("Tree Traversal");
-if bst is not None:
-    bst.depthFirstSeacrh(1);
-else:
-    print("Empty Tree");
-"""
+    print("Delete Node With Given Data");
+    bst = bst.delete(20);
+    print("Tree Traversal");
+    if bst is not None:
+        bst.depthFirstSearch(1);
+    else:
+        print("Empty Tree");
+    """

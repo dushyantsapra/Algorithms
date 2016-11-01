@@ -146,31 +146,31 @@ class AVLTree:
             self = self.restoreBalance();
         return self;
 
-    def depthFirstSeacrh(self, dfsType):
+    def depthFirstSearch(self, dfsType):
 #        Pre-Order Depth First Search
         if dfsType == 1:
             if self:
                 print(self.data);
             if self.left:
-                self.left.depthFirstSeacrh(dfsType);
+                self.left.depthFirstSearch(dfsType);
             if self.right:
-                self.right.depthFirstSeacrh(dfsType);
+                self.right.depthFirstSearch(dfsType);
 
 #         In-Order Depth First Search
         elif dfsType == 2:
             if self.left:
-                self.left.depthFirstSeacrh(dfsType);
+                self.left.depthFirstSearch(dfsType);
             if self:
                 print(self.data);
             if self.right:
-                self.right.depthFirstSeacrh(dfsType);
+                self.right.depthFirstSearch(dfsType);
 
 #         Post-Order Depth First Search
         elif dfsType == 3:
             if self.left:
-                self.left.depthFirstSeacrh(dfsType);
+                self.left.depthFirstSearch(dfsType);
             if self.right:
-                self.right.depthFirstSeacrh(dfsType);
+                self.right.depthFirstSearch(dfsType);
             if self:
                 print(self.data);
 
@@ -204,15 +204,15 @@ tree = tree.insert(-5);
 tree = tree.insert(4);
 
 print("**********");
-tree.depthFirstSeacrh(1);
+tree.depthFirstSearch(1);
 print("**********");
   
 print("**********");
-tree.depthFirstSeacrh(2);
+tree.depthFirstSearch(2);
 print("**********");
   
 print("**********");
-tree.depthFirstSeacrh(3);
+tree.depthFirstSearch(3);
 print("**********");
 
 print("********************************Deletion********************************");
@@ -224,7 +224,7 @@ print("********************************Deletion********************************"
 
 tree = tree.delete(20);
 print("*****D*****");
-tree.depthFirstSeacrh(3);
+tree.depthFirstSearch(3);
 print("*****D*****");
 
 print("********************************Deletion********************************");
@@ -237,13 +237,13 @@ tree = tree.insert(5);
 tree = tree.insert(4);
 tree = tree.insert(2);
 print("**********");
-tree.depthFirstSeacrh(1);
+tree.depthFirstSearch(1);
 print("**********");
  
 print("**********");
-tree.depthFirstSeacrh(2);
+tree.depthFirstSearch(2);
 print("**********");
  
 print("**********");
-tree.depthFirstSeacrh(3);
+tree.depthFirstSearch(3);
 print("**********");"""

@@ -20,7 +20,7 @@ class Queue:
         else:
             self.rear.next = node;
             self.rear = node;
-        
+
         self.size += 1;
 
     def deQueue(self):
@@ -36,7 +36,7 @@ class Queue:
             data = node.data;
             self.front = node.next;
             self.releaseNodeMemory(node);
-        
+
         self.size -= 1;
         return data;
 
@@ -49,10 +49,9 @@ class Queue:
     def releaseNodeMemory(self, node):
         node.next = None;
         del node;
-    
+
     def getSize(self):
         return self.size;
-
 
 if __name__ == '__main__':
     queue = Queue();

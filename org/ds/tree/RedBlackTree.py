@@ -378,31 +378,31 @@ class RedBlackTree:
         self = self.deleteHelper(self, data);
         return self;
 
-    def depthFirstSeacrh(self, dfsType):
+    def depthFirstSearch(self, dfsType):
 #        Pre-Order Depth First Search
         if dfsType == 1:
             if self is not None:
                 print("Node is %d and it's color is %s" % (self.data, self.color));
             if self.left is not None:
-                self.left.depthFirstSeacrh(dfsType);
+                self.left.depthFirstSearch(dfsType);
             if self.right is not None:
-                self.right.depthFirstSeacrh(dfsType);
+                self.right.depthFirstSearch(dfsType);
 
 #         In-Order Depth First Search
         elif dfsType == 2:
             if self.left:
-                self.left.depthFirstSeacrh(dfsType);
+                self.left.depthFirstSearch(dfsType);
             if self:
                 print("Node is %d and it's color is %s" % (self.data, self.color));
             if self.right:
-                self.right.depthFirstSeacrh(dfsType);
+                self.right.depthFirstSearch(dfsType);
 
 #         Post-Order Depth First Search
         elif dfsType == 3:
             if self and self.left:
-                self.left.depthFirstSeacrh(dfsType);
+                self.left.depthFirstSearch(dfsType);
             if self.right:
-                self.right.depthFirstSeacrh(dfsType);
+                self.right.depthFirstSearch(dfsType);
             if self:
                 print("Node is %d and it's color is %s" % (self.data, self.color));
 
@@ -422,15 +422,15 @@ tree = tree.insert(9);
 tree = tree.insert(3);
 
 print("********PRE-ORDER********");
-tree.depthFirstSeacrh(1);
+tree.depthFirstSearch(1);
 print("*************************");
  
 print("********IN-ORDER********");
-tree.depthFirstSeacrh(2);
+tree.depthFirstSearch(2);
 print("************************");
 
 print("********POST-ORDER********");
-tree.depthFirstSeacrh(3);
+tree.depthFirstSearch(3);
 print("**************************");"""
 
 
@@ -449,13 +449,13 @@ tree.right.left.left = RedBlackTree(15, tree.right.left, "BLACK");
 tree.right.left.right = RedBlackTree(40, tree.right.left, "BLACK");
 
 print("********POST-ORDER********");
-tree.depthFirstSeacrh(3);
+tree.depthFirstSearch(3);
 print("**************************");
 
 
 print("********************Delete**********************");
 tree = tree.delete(-40);
-tree.depthFirstSeacrh(3); 
+tree.depthFirstSearch(3); 
 print("********************Delete**********************");
 
 
@@ -470,13 +470,13 @@ tree.right.right = RedBlackTree(40, tree.right, "RED");
 
 
 print("********POST-ORDER********");
-tree.depthFirstSeacrh(3);
+tree.depthFirstSearch(3);
 print("**************************");
 
 
 print("********************Delete**********************");
 tree = tree.delete(-10);
-tree.depthFirstSeacrh(3); 
+tree.depthFirstSearch(3); 
 print("********************Delete**********************");"""
 
 
@@ -487,11 +487,11 @@ tree.right = RedBlackTree(30, tree, "BLACK");
 
 
 print("********POST-ORDER********");
-tree.depthFirstSeacrh(3);
+tree.depthFirstSearch(3);
 print("**************************");
 
 
 print("********************Delete**********************");
 tree = tree.delete(-10);
-tree.depthFirstSeacrh(3); 
+tree.depthFirstSearch(3); 
 print("********************Delete**********************");"""

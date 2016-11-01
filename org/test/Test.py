@@ -46,3 +46,15 @@ m[str1] = 2;
 
 print("\n\n");
 print(m.keys()[1])
+
+
+class Test1:
+    @staticmethod
+    def foo():
+        foo.var = 1;
+    
+        print(foo.var);
+        
+        return foo.var;
+    
+        
