@@ -12,7 +12,7 @@ class StackUsingLinkedList:
         self.top = None;
         self.size = 0;
     
-    def top(self):
+    def getTop(self):
         return self.top;
 
     def push(self, data):

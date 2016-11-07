@@ -6,6 +6,7 @@ Created on Oct 24, 2016
 from org.ds.queue.Queue import Queue
 from org.ds.stack.Stack import StackUsingLinkedList
 from org.ds.tree.BinarySearchTree import BinarySeachTree
+from compiler.ast import Node
 
 
 class BinaryTreeQuestions:
@@ -185,46 +186,6 @@ class BinaryTreeQuestions:
         print("Tree with Sum Property ");
         binaryTree.depthFirstSearch(2);
 
-#     @staticmethod
-#     def constructTreeUsingInorderAndPreOrderTraversalHelper(preOrderIndex, sIndex, eIndex, binaryTree, inOrderTraversal, preOrderTraversal, isLeft):
-#         binaryTreeNode = BinarySeachTree(preOrderTraversal[preOrderIndex]);
-#         if isLeft:
-#             binaryTree.left = binaryTreeNode;
-#         else:
-#             binaryTree.right = binaryTreeNode;
-# 
-#         if eIndex - sIndex == 0:
-#             return preOrderIndex;
-# 
-#         charIndex = inOrderTraversal.index(preOrderTraversal[preOrderIndex]);
-# 
-#         if charIndex >= sIndex:
-#             preOrderIndex += 1;
-#             preOrderIndex = BinaryTreeQuestions.constructTreeUsingInorderAndPreOrderTraversalHelper(preOrderIndex, sIndex, charIndex - 1, binaryTreeNode, inOrderTraversal, preOrderTraversal, True);
-# 
-#         if charIndex < eIndex:
-#             preOrderIndex += 1;
-#             preOrderIndex = BinaryTreeQuestions.constructTreeUsingInorderAndPreOrderTraversalHelper(preOrderIndex, charIndex + 1, eIndex, binaryTreeNode, inOrderTraversal, preOrderTraversal, False);
-# 
-#         return preOrderIndex;
-# 
-#     @staticmethod
-#     def constructTreeUsingInorderAndPreOrderTraversal(inOrderTraversal, preOrderTraversal):
-#         preOrderIndex = 0
-#         charIndex = inOrderTraversal.index(preOrderTraversal[preOrderIndex]);
-#         binaryTree = BinarySeachTree(preOrderTraversal[preOrderIndex]);
-# 
-#         preOrderIndex += 1;
-#         if charIndex > 0:
-#             BinaryTreeQuestions.constructTreeUsingInorderAndPreOrderTraversalHelper(preOrderIndex, 0, charIndex - 1, binaryTree, inOrderTraversal, preOrderTraversal, True);
-#         preOrderIndex = charIndex + 1;
-#         if charIndex < len(inOrderTraversal) - 1:
-#             BinaryTreeQuestions.constructTreeUsingInorderAndPreOrderTraversalHelper(preOrderIndex, charIndex + 1, len(inOrderTraversal) - 1, binaryTree, inOrderTraversal, preOrderTraversal, False);
-# 
-#         print("Constructed Binary Tree Using Inorder and Preorder Traversal is ");
-#         binaryTree.depthFirstSearch(1);
-    
-    
     @staticmethod
     def findHeightUsingIteration(binaryTree):
         queue = Queue();
@@ -289,6 +250,97 @@ class BinaryTreeQuestions:
 
         print("Constructed Binary Tree Using Inorder and Preorder Traversal is ");
         binaryTree.depthFirstSearch(2);
+    
+    @staticmethod 
+    def postOrderTraversalUsingTwoStack(binaryTree):
+        stack1 = StackUsingLinkedList();
+        stack2 = StackUsingLinkedList();
+
+        stack1.push(binaryTree);
+
+        while stack1.getTop():
+            headNode = stack1.pop();
+
+            stack2.push(headNode);
+
+            if headNode.left:
+                stack1.push(headNode.left);
+
+            if headNode.right:
+                stack1.push(headNode.right);
+
+        print("Post Order Traversal using 2 Stacks");
+        while stack2.getTop():
+            node = stack2.pop();
+            print(node.data);
+
+    @staticmethod
+    def constructFullBinaryTreeUsingPreOrderAndPostOrderTraversalHelper(preOrderIndex, preOrderTraversal, postOrderTraversal, sIndex, eIndex):
+        node = BinarySeachTree(preOrderTraversal[preOrderIndex]);
+
+        if sIndex == eIndex:
+            return node, preOrderIndex;
+
+        if (preOrderIndex + 1) == len(postOrderTraversal):
+            return node, preOrderIndex,
+        
+        newIndex = postOrderTraversal.index(preOrderTraversal[preOrderIndex + 1]);
+
+        if newIndex > eIndex:
+            return node, preOrderIndex;
+
+        index = preOrderIndex;
+
+        if newIndex == sIndex:
+            node.left, index = BinaryTreeQuestions.constructFullBinaryTreeUsingPreOrderAndPostOrderTraversalHelper(index + 1, preOrderTraversal, postOrderTraversal, sIndex, newIndex);
+            node.right, index = BinaryTreeQuestions.constructFullBinaryTreeUsingPreOrderAndPostOrderTraversalHelper(index + 1, preOrderTraversal, postOrderTraversal, newIndex + 1, eIndex);
+        else:
+            node.left, index = BinaryTreeQuestions.constructFullBinaryTreeUsingPreOrderAndPostOrderTraversalHelper(index + 1, preOrderTraversal, postOrderTraversal, sIndex, newIndex - 1);
+            node.right, index = BinaryTreeQuestions.constructFullBinaryTreeUsingPreOrderAndPostOrderTraversalHelper(index + 1, preOrderTraversal, postOrderTraversal, newIndex + 1, eIndex);
+
+        return node, index;
+
+    @staticmethod
+    def constructFullBinaryTreeUsingPreOrderAndPostOrderTraversal(preOrderTraversal, postOrderTraversal):
+        binaryTree, index = BinaryTreeQuestions.constructFullBinaryTreeUsingPreOrderAndPostOrderTraversalHelper(0, preOrderTraversal, postOrderTraversal, 0, len(postOrderTraversal) - 1);
+
+        print("Constructed Full Binary Tree Using Preorder and postorder Traversal is ");
+        binaryTree.depthFirstSearch(3);
+    
+    @staticmethod
+    def printLevelOrderTraversalInSpiralFormUsingStack(binaryTree):
+        isLeftToRight = False;
+
+        stack = StackUsingLinkedList();
+
+        stack.push(binaryTree);
+
+        print("Level Order Traversal in Spiral Form is");
+        while stack.getTop():
+            currentLevelSize = stack.getSize();
+
+            tempStack = StackUsingLinkedList();
+            while currentLevelSize > 0:
+                currentNode = stack.pop();
+                print(currentNode.data);
+                currentLevelSize -= 1;
+
+                if isLeftToRight:
+                    if currentNode.left:
+                        tempStack.push(currentNode.left);
+                    if currentNode.right:
+                        tempStack.push(currentNode.right);
+                else:
+                    if currentNode.right:
+                        tempStack.push(currentNode.right);
+                    if currentNode.left:
+                        tempStack.push(currentNode.left);
+            stack = tempStack;
+            
+            if isLeftToRight:
+                isLeftToRight = False;
+            else:
+                isLeftToRight = True;
 
 if __name__ == '__main__':
     binaryTree = BinarySeachTree(1);
@@ -413,4 +465,43 @@ if __name__ == '__main__':
 #     BinaryTreeQuestions.constructTreeUsingInorderAndPreOrderTraversalNew([6, 8, 9, 10, 13, 15, 18, 20, 28, 30, 33, 35, 37, 38], [20, 10, 8, 6, 9, 15, 13, 18, 35, 30, 28, 33, 38, 37]);
 #     BinaryTreeQuestions.constructTreeUsingInorderAndPreOrderTraversalNew([8, 10, 15, 20, 30, 35], [20, 10, 8, 15, 35, 30]);
 
+    bst = BinarySeachTree(20);
+    bst.insert(10);
+    bst.insert(35);
+    bst.insert(8);
+    bst.insert(18);
+    bst.insert(30);
+    bst.insert(40);
+    bst.insert(7);
+    bst.insert(9);
+    bst.insert(15);
+    bst.insert(19);
+    BinaryTreeQuestions.postOrderTraversalUsingTwoStack(bst);
+
+#     BinaryTreeQuestions.constructFullBinaryTreeUsingPreOrderAndPostOrderTraversal([20, 10, 8, 7, 9, 18, 15, 19, 35, 30, 40], [7, 9, 8, 15, 19, 18, 10, 30, 40, 35, 20]);
+#     BinaryTreeQuestions.constructFullBinaryTreeUsingPreOrderAndPostOrderTraversal([20, 10, 8, 7, 9, 18, 35], [7, 9, 8, 18, 10, 35, 20]);
+
+    BinaryTreeQuestions.constructFullBinaryTreeUsingPreOrderAndPostOrderTraversal([20, 10, 8, 15, 35, 30, 25, 32, 40], [8, 15, 10, 25, 32, 30, 40, 35, 20]);
+    
+    bst = BinarySeachTree(20);
+    bst.insert(10);
+    bst.insert(35);
+    bst.insert(5);
+    bst.insert(18);
+    bst.insert(30);
+    bst.insert(40);
+    bst.insert(45);
+    bst.insert(42);
+    bst.insert(48);
+    bst.insert(6);
+    bst.insert(9);
+    bst.insert(15);
+    bst.insert(19);
+    bst.insert(4);
+    bst.insert(8);
+    
+    print("Test")
+    bst.depthFirstSearch(1);
+    
+    BinaryTreeQuestions.printLevelOrderTraversalInSpiralFormUsingStack(bst);
     
