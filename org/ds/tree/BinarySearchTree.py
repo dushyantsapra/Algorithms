@@ -46,7 +46,6 @@ class BinarySeachTree(object):
         for iLoop in range(height + 1):
             self.breadthFirstSearchUsingRecursionHelper(iLoop);
 
-
     def breadthFirstSearchUsingQueue(self):
         queue = Queue();
 

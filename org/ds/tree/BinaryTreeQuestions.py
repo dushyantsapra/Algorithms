@@ -6,7 +6,6 @@ Created on Oct 24, 2016
 from org.ds.queue.Queue import Queue
 from org.ds.stack.Stack import StackUsingLinkedList
 from org.ds.tree.BinarySearchTree import BinarySeachTree
-from compiler.ast import Node
 
 
 class BinaryTreeQuestions:
@@ -336,11 +335,31 @@ class BinaryTreeQuestions:
                     if currentNode.left:
                         tempStack.push(currentNode.left);
             stack = tempStack;
-            
+
             if isLeftToRight:
                 isLeftToRight = False;
             else:
                 isLeftToRight = True;
+
+    @staticmethod
+    def printLevelOrderInReverseOrderHelper(binaryTreeNode, level):
+        if level == 1:
+            print(binaryTreeNode.data);
+            return;
+
+        if binaryTreeNode.left:
+            BinaryTreeQuestions.printLevelOrderInReverseOrderHelper(binaryTreeNode.left, level - 1);
+
+        if binaryTreeNode.right:
+            BinaryTreeQuestions.printLevelOrderInReverseOrderHelper(binaryTreeNode.right, level - 1);
+
+    @staticmethod
+    def printLevelOrderInReverseOrder(binaryTree):
+        height = binaryTree.height();
+
+        print("Level Order Traversal In Reverse Order is");
+        for iLoop in reversed(range(height + 1)):
+            BinaryTreeQuestions.printLevelOrderInReverseOrderHelper(binaryTree, iLoop);
 
 if __name__ == '__main__':
     binaryTree = BinarySeachTree(1);
@@ -505,3 +524,18 @@ if __name__ == '__main__':
     
     BinaryTreeQuestions.printLevelOrderTraversalInSpiralFormUsingStack(bst);
     
+    bst = BinarySeachTree(20);
+    bst.insert(10);
+    bst.insert(35);
+    bst.insert(8);
+    bst.insert(12);
+    bst.insert(2);
+    bst.insert(9);
+    bst.insert(11);
+    bst.insert(15);
+    bst.insert(28);
+    bst.insert(40);
+    
+    print("Hello");
+    bst.depthFirstSearch(1);
+    BinaryTreeQuestions.printLevelOrderInReverseOrder(bst);
