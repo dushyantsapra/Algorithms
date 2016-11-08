@@ -11,9 +11,12 @@ class StackUsingLinkedList:
     def __init__(self):
         self.top = None;
         self.size = 0;
-    
+
     def getTop(self):
-        return self.top;
+        if self.top:
+            return self.top.data;
+        else:
+            return None;
 
     def push(self, data):
         node = SinglyLinkedNode(data);

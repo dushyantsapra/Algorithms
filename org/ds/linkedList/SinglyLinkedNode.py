@@ -4,7 +4,7 @@ class SinglyLinkedNode:
         self.data = data;
 
     def __str__(self):
-        return "SinglyLinkedNode is " + self.data;
+        return "SinglyLinkedNode is " + str(self.data);
     
     def __eq__(self, other):
         return self.data == other.data;

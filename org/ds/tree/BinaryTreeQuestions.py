@@ -6,6 +6,7 @@ Created on Oct 24, 2016
 from org.ds.queue.Queue import Queue
 from org.ds.stack.Stack import StackUsingLinkedList
 from org.ds.tree.BinarySearchTree import BinarySeachTree
+from compiler.ast import Node
 
 
 class BinaryTreeQuestions:
@@ -25,33 +26,6 @@ class BinaryTreeQuestions:
 
         print("Size of Tree is " + str(binaryTreeSize));
     
-    @staticmethod
-    def inOrderTraversalUsingStack(binaryTree):
-        isDone = False;
-
-        stack = StackUsingLinkedList();
-        stack.push(binaryTree);
-
-        current = binaryTree;
-
-        print("InOrder Traversal Using Stack");
-
-        while not isDone:
-            if current is not None and current.left:
-                stack.push(current.left);
-                current = current.left;
-            else:
-                current = stack.pop();
-                print(current.data);
-
-                if current.right:
-                    stack.push(current.right);
-                    current = current.right;
-                else:
-                    if stack.getSize() == 0:
-                        break;
-                    current = None;
-
     @staticmethod
     def checkIfTwoTreeAreIdenticalHelper(binaryTree1, binaryTree2):
         if binaryTree1 is None and binaryTree2 is None:
@@ -274,6 +248,10 @@ class BinaryTreeQuestions:
             print(node.data);
 
     @staticmethod
+    def postOrderTraversalUsingOneStack(binaryTree):
+        print();
+
+    @staticmethod
     def constructFullBinaryTreeUsingPreOrderAndPostOrderTraversalHelper(preOrderIndex, preOrderTraversal, postOrderTraversal, sIndex, eIndex):
         node = BinarySeachTree(preOrderTraversal[preOrderIndex]);
 
@@ -360,6 +338,77 @@ class BinaryTreeQuestions:
         print("Level Order Traversal In Reverse Order is");
         for iLoop in reversed(range(height + 1)):
             BinaryTreeQuestions.printLevelOrderInReverseOrderHelper(binaryTree, iLoop);
+
+    @staticmethod
+    def preOrderTraversalUsingSingleStack(binaryTree):
+        stack = StackUsingLinkedList();
+        
+        stack.push(binaryTree);
+        
+        print("Pre Order Traversal Using Single Stack is ");
+
+        while stack.getTop():
+            node = stack.pop();
+            
+            print(node.data);
+            
+            if node.right:
+                stack.push(node.right);
+            
+            if node.left:
+                stack.push(node.left);
+
+    @staticmethod
+    def inOrderTraversalUsingStack(binaryTree):
+        isDone = False;
+
+        stack = StackUsingLinkedList();
+        stack.push(binaryTree);
+
+        current = binaryTree;
+
+        print("InOrder Traversal Using Stack");
+
+        while not isDone:
+            if current is not None and current.left:
+                stack.push(current.left);
+                current = current.left;
+            else:
+                current = stack.pop();
+                print(current.data);
+
+                if current.right:
+                    stack.push(current.right);
+                    current = current.right;
+                else:
+                    if stack.getSize() == 0:
+                        break;
+                    current = None;
+
+    @staticmethod
+    def postOrderTraversalUsingSingleStack(binaryTree):
+        currentNode = binaryTree;
+
+        stack = StackUsingLinkedList();
+
+        print("Post Order Traversal Using Single Stack");
+        while True:
+            if currentNode:
+                if currentNode.right:
+                    stack.push(currentNode.right);
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            else:
+                if stack.getTop():
+                    node = stack.pop();
+
+                    if node.right and node.right is stack.getTop():
+                        currentNode = stack.pop();
+                        stack.push(node);
+                    else:
+                        print(node.data);
+                else:
+                    break;
 
 if __name__ == '__main__':
     binaryTree = BinarySeachTree(1);
@@ -518,10 +567,10 @@ if __name__ == '__main__':
     bst.insert(19);
     bst.insert(4);
     bst.insert(8);
-    
-    print("Test")
-    bst.depthFirstSearch(1);
-    
+
+#     print("Test")
+#     bst.depthFirstSearch(1);
+
     BinaryTreeQuestions.printLevelOrderTraversalInSpiralFormUsingStack(bst);
     
     bst = BinarySeachTree(20);
@@ -536,6 +585,27 @@ if __name__ == '__main__':
     bst.insert(28);
     bst.insert(40);
     
-    print("Hello");
-    bst.depthFirstSearch(1);
+#     print("Hello");
+#     bst.depthFirstSearch(1);
     BinaryTreeQuestions.printLevelOrderInReverseOrder(bst);
+    
+    
+    bst = BinarySeachTree(20);
+    bst.insert(10);
+    bst.insert(35);
+    bst.insert(5);
+    bst.insert(18);
+    bst.insert(30);
+    bst.insert(40);
+    bst.insert(45);
+    bst.insert(42);
+    bst.insert(48);
+    bst.insert(6);
+    bst.insert(9);
+    bst.insert(15);
+    bst.insert(19);
+    bst.insert(4);
+    bst.insert(8);
+    BinaryTreeQuestions.preOrderTraversalUsingSingleStack(bst);
+    
+    BinaryTreeQuestions.postOrderTraversalUsingSingleStack(bst);
