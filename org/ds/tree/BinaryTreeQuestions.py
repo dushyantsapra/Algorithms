@@ -7,6 +7,7 @@ from org.ds.queue.Queue import Queue
 from org.ds.stack.Stack import StackUsingLinkedList
 from org.ds.tree.BinarySearchTree import BinarySeachTree
 from compiler.ast import Node
+from calendar import isleap
 
 
 class BinaryTreeQuestions:
@@ -410,6 +411,32 @@ class BinaryTreeQuestions:
                 else:
                     break;
 
+    @staticmethod
+    def updateTreeWithLeftTreeSumHelper(binaryTreeNode, isLeft):
+        lSum = 0;
+        rSum = 0;
+
+        if binaryTreeNode.left:
+            lSum = BinaryTreeQuestions.updateTreeWithLeftTreeSumHelper(binaryTreeNode.left, isLeft);
+
+        if binaryTreeNode.right:
+            rSum = BinaryTreeQuestions.updateTreeWithLeftTreeSumHelper(binaryTreeNode.right, False);
+
+        if isLeft:
+            binaryTreeNode.data += lSum;
+            return binaryTreeNode.data + rSum;
+        else:
+            return binaryTreeNode.data + lSum + rSum;
+
+#     Change a Binary Tree so that every node stores sum of all nodes in left subtree
+    @staticmethod
+    def updateTreeWithLeftTreeSum(binaryTree):
+        if binaryTree.left:
+            binaryTree.data += BinaryTreeQuestions.updateTreeWithLeftTreeSumHelper(binaryTree.left, True);
+
+        print("updateTreeWithLeftTreeSum is ");
+        binaryTree.depthFirstSearch(1);
+
 if __name__ == '__main__':
     binaryTree = BinarySeachTree(1);
     binaryTree.left = BinarySeachTree(2);
@@ -605,7 +632,12 @@ if __name__ == '__main__':
     bst.insert(15);
     bst.insert(19);
     bst.insert(4);
+    bst.insert(2);
+    bst.insert(3);
+    bst.insert(1);
     bst.insert(8);
     BinaryTreeQuestions.preOrderTraversalUsingSingleStack(bst);
     
     BinaryTreeQuestions.postOrderTraversalUsingSingleStack(bst);
+    
+    BinaryTreeQuestions.updateTreeWithLeftTreeSum(bst);
