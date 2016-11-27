@@ -13,10 +13,10 @@ class UnDirectedGraph:
     def __init__(self):
         self.vertexMap = {};
         self.edgeMap = {};
-        
+
     def getVertexMap(self):
         return self.vertexMap;
-    
+
     def getEdgeMap(self):
         return self.edgeMap;
         
@@ -28,7 +28,7 @@ class UnDirectedGraph:
             vertex = Vertex(vertexName);
             self.vertexMap[vertexName] = vertex;
             return True;
-    
+
     def addEdge(self, fromVertexName, toVertexName, name=None, weight=0):
         fromVertex = None;
         toVertex = None;

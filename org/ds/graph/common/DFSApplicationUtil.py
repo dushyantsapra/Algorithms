@@ -5,7 +5,6 @@ Created on Aug 22, 2016
 '''
 
 class DFSApplicationUtil:
-
     @staticmethod
     def checkIfGraphIs2EdgeConnectedHelper(isDirectedGraph, parentVertex, vertex, arrivalMap, departureMap, bridgeEdgeMap, visitedVertexMap=None, currentCount=0):
         if visitedVertexMap is None:
@@ -34,7 +33,7 @@ class DFSApplicationUtil:
                     if tempVertex != parentVertex:
                         minArrivalTime = arrivalMap[tempVertex] if arrivalMap[tempVertex] < minArrivalTime else minArrivalTime;
                     continue;
-    
+
                 currentCount, tempMinArrivalTime = DFSApplicationUtil.checkIfGraphIs2EdgeConnectedHelper(isDirectedGraph, vertex, tempVertex, arrivalMap, departureMap, bridgeEdgeMap, visitedVertexMap, currentCount);
                 minArrivalTime = tempMinArrivalTime if tempMinArrivalTime < minArrivalTime else minArrivalTime;
         currentCount += 1;
@@ -58,7 +57,7 @@ class DFSApplicationUtil:
         arrivalMap[vertex] = currentCount;
 
         minArrivalTime = currentCount;
-        
+
         backEdgeVertexArrivalTime = currentCount;
 
 #         print("Vertex Name: " + vertex.getName() + ", Arrival Time: " + str(currentCount));

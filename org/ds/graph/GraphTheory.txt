@@ -54,7 +54,7 @@ Note: A Cycle is Formed iff we are going to add an edge from vertex u to vertex 
 	iii) Mapping
 	iv) Networks, routing, clustering etc.
 
-Note: While applying Searching Algo, we have have divide edges in following type:
+Note: While applying Searching Algo, we have divide edges in following type:
 	i) Forward/Tree Edge: Which goes from one level to another, but these type of edges doesn't jumps levels.
 	ii) Back Edge: which goes from a level to a vertex in level above the current level OR an edge which end vertex is ancestor vertex defined while searching in a graph.
 	iii) Same Level Edge: Edge which exists with in same level. 
@@ -100,7 +100,6 @@ Note: If a Graph has a Cut Vertex then that Graph is not 2 Vertex Connected.
 
 19(i). 2 Edge Connected Graph: A G is 2 edge connected iff(if and only if) it remains connected after the removal of any one edge.
 			A 2 edge connected graph doesn't have a bridge edge.
-
 		Logic: When Backtracking from a vertex v we need to ensure that there is a back edge from some descendant(including v) of vertex v to ancestor of v.
 
 19(ii). 2 Vertex Connected Graph: 
@@ -108,8 +107,7 @@ Note: If a Graph has a Cut Vertex then that Graph is not 2 Vertex Connected.
 19(iii). Planar Graph:
 
 19(iv). Check for Cycle in the Graph. 
-			Logic: 1. For every visited vertex ‘v’, if there is an adjacent ‘u’ such that u is already visited and u is not parent of v, then there is a cycle 
-					in graph. If we don’t find such an adjacent for any vertex, we say that there is no cycle.
+			Logic: 1. For every visited vertex ‘v’, if there is an adjacent ‘u’ such that u is already visited and u is not parent of v, then there is a cycle in graph. If we don’t find such an adjacent for any vertex, we say that there is no cycle.
 				   2. Call "2 Edge Connected" function, if that function returns Bridge Edge then Given Graph doesn't have a cycle.
 
 19(v). Check If Graph is Connected: To check if there is a path b/w every pair of vertices
@@ -121,8 +119,7 @@ Note: If a Graph has a Cut Vertex then that Graph is not 2 Vertex Connected.
 			ii) Cross Edge: arr[u] > arr[v] and dep[u] < dep[v]
 			iii) Back Edge: arr[u] > arr[v] and dep[u] < dep[v]
 			iv) Tree Edge:
-Note: We have to check whether every vertex is visited or not, if a vertex is not visited we have to start DFS from that vertex and repeat this procedure 
-		until all vertex are visited.
+Note: We have to check whether every vertex is visited or not, if a vertex is not visited we have to start DFS from that vertex and repeat this procedure until all vertex are visited.
 Note: Forward Edge is same as Tree edge, only difference is for forward edge the end vertex is already visited.
 	 
 21. Application's of DFS in Directed Graph(Lecture 29 and Lecture 30):
@@ -132,9 +129,7 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 	iv) Strongly Connected Component's.
 		 
 21(i). Check For Cycle in Graph:
-		Logic: Check if a Graph G(V, E) has a back edge, if back edge is found i.e G has a cycle. Because every edge apart from Back Edge moves in 
-				forward direction. So, Given a acyclic Graph G, we can order the vertices of G so that every edge goes from Left to Right(i.e edge start 
-				vertex would have higher departure time then end vertex). This ordering is also called as Topological Sort.
+		Logic: Check if a Graph G(V, E) has a back edge, if back edge is found i.e G has a cycle. Because every edge apart from Back Edge moves in forward direction. So, Given a acyclic Graph G, we can order the vertices of G so that every edge goes from Left to Right(i.e edge start vertex would have higher departure time then end vertex). This ordering is also called as Topological Sort.
 
 21(ii). Strongly Connected: A Graph is strongly connected if there is a path b/w every ordered pair of vertices.
 			Logic: 1. For Every Vertex do DFS, if all the vertices are visited for every DFS then Graph is strongly connected.
@@ -144,8 +139,7 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 				   			Proof: To Find a path b/w vertex x and y, we will go from x to v and from v to y
 				   				i.e x----->v----->y
 				   					  (b)    (a)
-				   		Logic: Pick any arbitrary vertex(v) do DFS(v) with outedges and inedges. If all vertices are visited in both the DFS then G is strongly 
-								connected else G is not strongly connected.
+				   		Logic: Pick any arbitrary vertex(v) do DFS(v) with outedges and inedges. If all vertices are visited in both the DFS then G is strongly connected else G is not strongly connected.
 					3. Check For edge's which are going from a sub-tree. If any of the subtree doesn't have a edge going out then that G(V, E) is not strongly connected. Edge going out can be Cross/Back edge
 21(iii). Weakly Connected: A Graph G(V, E) is weakly connected if for every pair of vertices(u, v) there is a path from u to v OR a path from v to u OR both.
 
@@ -161,11 +155,7 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 					a)Sort all the edges in non-decreasing order of their weight.(Use Binary Heap)
 					b)Pick the smallest edge. Check if it forms a cycle with the spanning tree formed so far. If cycle is not formed, include this edge. Else, discard it(use Union-Find algorithm to detect cycle).  
 					c)Repeat step#2 until there are (V-1) edges in the spanning tree.
-			ii) Prim's Algo(Greedy Algorithms): It starts with an empty spanning tree. The idea is to maintain two sets of vertices. The first set contains the vertices already included in the 
-					MST, the other set contains the vertices not yet included. At every step, it considers all the edges that connect the two sets, and picks the minimum weight edge from 
-					these edges. After picking the edge, it moves the other endpoint of the edge to the set containing MST. A group of edges that connects two set of vertices in a graph is 
-					called cut in graph theory. So, at every step of Prim’s algorithm, we find a cut (of two sets, one contains the vertices already included in MST and other contains rest of 
-					the verices), pick the minimum weight edge from the cut and include this vertex to MST Set (the set that contains already included vertices).
+			ii) Prim's Algo(Greedy Algorithms): It starts with an empty spanning tree. The idea is to maintain two sets of vertices. The first set contains the vertices already included in the MST, the other set contains the vertices not yet included. At every step, it considers all the edges that connect the two sets, and picks the minimum weight edge from these edges. After picking the edge, it moves the other endpoint of the edge to the set containing MST. A group of edges that connects two set of vertices in a graph is called cut in graph theory. So, at every step of Prim’s algorithm, we find a cut (of two sets, one contains the vertices already included in MST and other contains rest of the verices), pick the minimum weight edge from the cut and include this vertex to MST Set (the set that contains already included vertices).
 
 25. Eulerian Path and Cycle : Eulerian Path is a path in graph that visits every edge exactly once. Eulerian Circuit is an Eulerian Path which starts and ends on the same vertex.
 	A) How to check if a unDirected graph is eulerian?
@@ -193,21 +183,18 @@ Note: Forward Edge is same as Tree edge, only difference is for forward edge the
 		In the mathematical theory of directed graphs, a graph is said to be strongly connected if every vertex is reachable from every other vertex. The strongly connected components of an arbitrary directed graph form a partition into subgraphs that are themselves strongly connected. A strongly connected component always forms a cycle.
 		Strongly Connected Component can be Detected using Below algo's
 		i) Kosarajus Algo: 
-			a) Create an empty stack ‘S’ and do DFS traversal of a graph. In DFS traversal, after calling recursive DFS for adjacent vertices of a vertex, 
-				push the vertex to stack. In the above graph, if we start DFS from vertex 0, we get vertices in stack as 1, 2, 4, 3, 0.
+			a) Create an empty stack ‘S’ and do DFS traversal of a graph. In DFS traversal, after calling recursive DFS for adjacent vertices of a vertex, push the vertex to stack. In the above graph, if we start DFS from vertex 0, we get vertices in stack as 1, 2, 4, 3, 0.
 			b) Reverse directions of all arcs to obtain the transpose graph.
-			c) One by one pop a vertex from S while S is not empty. Let the popped vertex be ‘v’. Take v as source and do DFS (call DFSUtil(v)). The 
-				DFS starting from v prints strongly connected component of v. In the above example, we process vertices in order 0, 3, 4, 2, 1 (One by one popped from stack).
-				
-			Note: Here instead of using Stack we can also use BinaryHeap(Max Heap) and store the vertex with there departure time, and instead of poping 
-				from the stack we can get Max Departure Time Vertex.(This will increase the complexity).
+			c) One by one pop a vertex from S while S is not empty. Let the popped vertex be ‘v’. Take v as source and do DFS (call DFSUtil(v)). The DFS starting from v prints strongly connected component of v. In the above example, we process vertices in order 0, 3, 4, 2, 1 (One by one popped from stack).
 
-		ii) Tarjan's Algo: To find all Strongly connected component, we need to store the arrival and arrival time(lowest time) of all the backedges from
-				the current vertex. For any node u, when DFS starts, Low will be set to it’s Disc 1st. Then later on DFS will be performed on each of it’s children v one by one, Low value of u can change it two case:
-					Case1 (Tree Edge): If node v is not visited already, then after DFS of v is complete, then minimum of low[u] and low[v] will be 
-						updated to low[u].
+			Note: Here instead of using Stack we can also use BinaryHeap(Max Heap) and store the vertex with there departure time, and instead of poping from the stack we can get Max Departure Time Vertex.(This will increase the complexity).
+
+		ii) Tarjan's Algo: To find all Strongly connected component, we need to store the arrival and arrival time(lowest time) of all the backedges from the current vertex. For any node u, when DFS starts, Low will be set to it’s Disc 1st. Then later on DFS will be performed on each of it’s children v one by one, Low value of u can change it two case:
+					Case1 (Tree Edge): If node v is not visited already, then after DFS of v is complete, then minimum of low[u] and low[v] will be updated to low[u].
 							low[u] = min(low[u], low[v]);
 					Case 2 (Back Edge): When child v is already visited, then minimum of low[u] and Disc[v] will be updated to low[u].
 							low[u] = min(low[u], disc[v]);
 
 29. Cut In Graph: In graph theory, a cut is a partition of the vertices of a graph into two disjoint subsets. Any cut determines a cut-set, the set of edges that have one endpoint in each subset of the partition. These edges are said to cross the cut. In a flow network, an s–t cut is a cut that requires the source and the sink to be in different subsets, and its cut-set only consists of edges going from the source's side to the sink's side. The capacity of an s–t cut is defined as the sum of capacity of each edge in the cut-set.
+
+
