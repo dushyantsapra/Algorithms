@@ -138,3 +138,48 @@ if __name__ == '__main__':
     obj = SCC();
 #     obj.kosarajusAlgo(g);
     obj.tarjansAlgo(g);
+
+
+    g = DirectedGraph();
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    g.addVertex("V5");
+    g.addVertex("V6");
+    g.addVertex("V7");
+    g.addVertex("V8");
+    g.addVertex("V9");
+    g.addVertex("V10");
+    g.addVertex("V11");
+    
+    g.addEdge("V1", "V2", "E1");
+
+    g.addEdge("V2", "V3", "E2");
+
+    g.addEdge("V3", "V4", "E3");
+    g.addEdge("V3", "V5", "E4");
+
+    g.addEdge("V4", "V1", "E5");
+
+    g.addEdge("V5", "V6", "E6");
+
+    g.addEdge("V6", "V3", "E7");
+
+    g.addEdge("V7", "V4", "E8");
+    g.addEdge("V7", "V8", "E9");
+    g.addEdge("V7", "V11", "E10");
+
+    g.addEdge("V8", "V3", "E11");
+    g.addEdge("V8", "V9", "E12");
+
+    g.addEdge("V9", "V10", "E13");
+
+    g.addEdge("V10", "V8", "E14");
+
+    g.addEdge("V11", "V11", "E15");
+    
+    print("adlkjasldjasldjaskljdas")
+    obj = SCC();
+#     obj.kosarajusAlgo(g);
+    obj.tarjansAlgo(g);

@@ -185,25 +185,6 @@ class DirectedGraph:
                 visitedVertexList.append(tempVertex);
                 stack.push(tempVertex);
 
-    """def dfsUsingRecursionHelper(self, vertex, visitedVertexList):
-        print(vertex.getName());
-        visitedVertexList.append(vertex);
-        
-        for v in vertex.getOutVerticesList():
-            if v in visitedVertexList:
-                continue;
-            
-            self.dfsUsingRecursionHelper(v, visitedVertexList);
-
-    def dfsUsingRecursion(self, vertexName):
-        if vertexName not in self.vertexMap:
-            print("Vertex Doesn't Exists");
-            return False;
-
-        vertex = self.vertexMap[vertexName];
-        self.dfsUsingRecursionHelper(vertex, []);"""
-        
-    
     def dfsUsingRecursionHelper(self, vertex, arrivalMap, departureMap, isReverse=False, isPrint=True, visitedVertexMap=None, currentCount=0):
         if visitedVertexMap is None:
             visitedVertexMap = {};

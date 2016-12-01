@@ -6,8 +6,6 @@ Created on Oct 24, 2016
 from org.ds.queue.Queue import Queue
 from org.ds.stack.Stack import StackUsingLinkedList
 from org.ds.tree.BinarySearchTree import BinarySeachTree
-from compiler.ast import Node
-from calendar import isleap
 
 
 class BinaryTreeQuestions:

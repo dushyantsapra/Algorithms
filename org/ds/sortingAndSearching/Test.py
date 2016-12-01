@@ -4,7 +4,6 @@ Created on 31-May-2016
 @author: Dushyant
 '''
 from __builtin__ import str
-from _ast import Str
 
 iValue = 10;
 fValue = float(10.00);
@@ -67,20 +66,18 @@ print("\nadasd");
 print(m.keys()[0]);
 
 if __name__ == '__main__':
-    class Test:
-        def abc(self, m=None):
-            print(m.keys()[0]);
-            
-    
-    m = {};
-    m["V1"] = "1";
-    m["V2"] = "2";
-    t = Test();
-    t.abc(m);
-    
-    print("\n\n\n");
-    for iLoop in range(1, 5):
-        print(iLoop);
+    ll = [];
+    iValue = 1;
+    for iLoop in range(5):
+        if iValue == 1:
+            ll.append(list([iLoop]));
+            iValue += 1;
+        elif iValue == 2:
+            ll[len(ll) - 1] = ll[len(ll) - 1].append(iLoop);
+            iLoop = 1;
+        print(ll); 
+    print("Bazingaaaaa");
+    print(ll); 
 
 print("\n");
 str = "Hello"

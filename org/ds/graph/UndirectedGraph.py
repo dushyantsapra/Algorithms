@@ -288,3 +288,46 @@ if __name__ == '__main__':
     
     print("\n")
     g.bfs("V0");
+    
+    
+    
+    g = UnDirectedGraph();
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    g.addVertex("V5");
+    g.addVertex("V6");
+    g.addVertex("V7");
+    g.addVertex("V8");
+    g.addVertex("V9");
+    g.addVertex("V10");
+    g.addVertex("V11");
+    
+    g.addEdge("V1", "V2", "E1");
+    g.addEdge("V1", "V9", "E2");
+    g.addEdge("V1", "V11", "E3");
+    
+    g.addEdge("V2", "V3", "E4");
+    g.addEdge("V2", "V6", "E5");
+    
+    g.addEdge("V3", "V4", "E6");
+    g.addEdge("V3", "V7", "E7");
+    
+    g.addEdge("V4", "V5", "E8");
+    
+    g.addEdge("V5", "V6", "E9");
+    g.addEdge("V5", "V11", "E10");
+    
+    g.addEdge("V6", "V7", "E11");
+    
+    g.addEdge("V7", "V8", "E12");
+    
+    g.addEdge("V8", "V9", "E13");
+    
+    g.addEdge("V9", "V10", "E14");
+    
+    g.addEdge("V10", "V11", "E15");
+    
+    print("DFS DFS");
+    g.printAllDFS("V9", "V1");
