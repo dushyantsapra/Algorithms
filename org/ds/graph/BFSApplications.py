@@ -49,7 +49,7 @@ class BFSApplication:
 #     Logic: Do BFS From any arbitrary vertex, if BFS visits all the vertices then G(V, E) is connected
     def checkIfGraphIsConnected(self, graph):
         visitedVertexMap = {};
-        graph.bfs(graph.getVertexMap().keys()[0], visitedVertexMap);
+        graph.bfs(list(graph.getVertexMap().keys())[0], visitedVertexMap);
 
         if len(visitedVertexMap) == len(graph.getVertexMap()):
             print("Graph is Connected");

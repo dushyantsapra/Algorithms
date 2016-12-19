@@ -3,9 +3,12 @@ Created on Aug 14, 2016
 
 @author: Dushyant Sapra
 '''
+import sys
+
 from org.ds.graph.DisjointSet import DisjointSet
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
+
 
 class MinimumSpanningTree:
     def kruskalsAlgo(self, graph):
@@ -35,15 +38,15 @@ class MinimumSpanningTree:
         vertexEdgeMap = {};
         mstEdgeList = [];
 
-        vertex = graph.getVertexMap().values()[3];
+        vertex = list(graph.getVertexMap().values())[3];
 
+        binaryHeap.insert(vertex, 0);
 #         visitedVertexMap[vertex] = 1;
         for tempVertex in graph.getVertexMap().values():
             if tempVertex == vertex:
-                binaryHeap.insert(tempVertex, 0);
                 continue;
             visitedVertexMap[tempVertex] = False;
-            binaryHeap.insert(tempVertex, float("inf"));
+            binaryHeap.insert(tempVertex, sys.maxsize);
 
         while binaryHeap.getHeapSize() > 0:
             vertex = binaryHeap.findMin();
@@ -168,5 +171,37 @@ if __name__ == '__main__':
     g.addEdge("V6", "V8", "E13", 11);
 
     mst = MinimumSpanningTree();
-    mst.kruskalsAlgo(g);
+#     mst.kruskalsAlgo(g);
+#     mst.primsAlgo(g);
+    
+    
+# 2 1 1000
+# 3 4 299
+# 2 4 200
+# 2 4 100
+# 3 2 300
+# 3 2 6
+    
+    g = UnDirectedGraph();
+    g.addVertex("V1");
+    g.addVertex("V2");
+    g.addVertex("V3");
+    g.addVertex("V4");
+    
+    g.addEdge("V2", "V1", "E1", 1000);
+    g.addEdge("V3", "V4", "E2", 299);
+    g.addEdge("V2", "V4", "E3", 200);
+    g.addEdge("V2", "V4", "E4", 100);
+    g.addEdge("V3", "V2", "E5", 300);
+    g.addEdge("V3", "V2", "E6", 6);
+    
+#     g.addEdge("V1", "V2", "E1", 1000);
+#     g.addEdge("V2", "V3", "E2", 6);
+#     g.addEdge("V2", "V3", "E3", 300);
+#     g.addEdge("V2", "V4", "E4", 200);
+#     g.addEdge("V2", "V4", "E5", 100);
+#     g.addEdge("V3", "V4", "E6", 299);
+    
+    mst = MinimumSpanningTree();
     mst.primsAlgo(g);
+    

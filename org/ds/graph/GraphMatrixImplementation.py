@@ -96,11 +96,11 @@ class GraphMatrixImplementation:
     def bfs(self):
         visitedVertexIndexMap = {};
 
-        for vertexIndex in self.vertexIndexMap.itervalues():
+        for vertexIndex in self.vertexIndexMap.values():
             visitedVertexIndexMap[vertexIndex] = False; 
 
         print("BFS");
-        for iIndex in self.vertexIndexMap.itervalues():
+        for iIndex in self.vertexIndexMap.values():
             if not visitedVertexIndexMap[iIndex]:
                 self.bfsHelper(iIndex, visitedVertexIndexMap);
 

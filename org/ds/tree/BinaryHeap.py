@@ -15,8 +15,6 @@ Note - while Deleting Heapify Down to Only subtree whose value is less/greater t
 
 """
 
-from org.ds.utility.Utility import Utility
-
 
 class BinaryHeapNode:
     def __init__(self, data, priority):
@@ -81,7 +79,7 @@ class BinaryHeapUsingArray:
                 if self.binaryHeap[minIndex].getPriority() < self.binaryHeap[index].getPriority():
                     self.binaryNodePositionMap[self.binaryHeap[index].getData()] = minIndex;
                     self.binaryNodePositionMap[self.binaryHeap[minIndex].getData()] = index;
-                    Utility.swapUsingTempVariable(minIndex, index, self.binaryHeap);
+                    self.binaryHeap[minIndex], self.binaryHeap[index] = self.binaryHeap[index], self.binaryHeap[minIndex];
                     return  self.heapifyDown(minIndex);
                 else:
                     return;
@@ -99,7 +97,7 @@ class BinaryHeapUsingArray:
                 if self.binaryHeap[maxIndex].getPriority() > self.binaryHeap[index].getPriority():
                     self.binaryNodePositionMap[self.binaryHeap[index].getData()] = maxIndex;
                     self.binaryNodePositionMap[self.binaryHeap[maxIndex].getData()] = index;
-                    Utility.swapUsingTempVariable(maxIndex, index, self.binaryHeap);
+                    self.binaryHeap[maxIndex], self.binaryHeap[index] = self.binaryHeap[index], self.binaryHeap[maxIndex];
                     return self.heapifyDown(maxIndex);
                 else:
                     return;
@@ -110,18 +108,18 @@ class BinaryHeapUsingArray:
         if index <= 0:
             return;
 
-        parentIndex = (index - 1) / 2;
+        parentIndex = int((index - 1) / 2);
 
         if "MIN_HEAP" is self.treeTpye:
             if self.binaryHeap[parentIndex].getPriority() > self.binaryHeap[index].getPriority():
                 self.binaryNodePositionMap[self.binaryHeap[index].getData()] = parentIndex;
                 self.binaryNodePositionMap[self.binaryHeap[parentIndex].getData()] = index;
-                Utility.swapUsingTempVariable(parentIndex, index, self.binaryHeap);
+                self.binaryHeap[parentIndex], self.binaryHeap[index] = self.binaryHeap[index], self.binaryHeap[parentIndex];
         elif "MAX_HEAP" is self.treeTpye:
             if self.binaryHeap[parentIndex].getPriority() < self.binaryHeap[index].getPriority():
                 self.binaryNodePositionMap[self.binaryHeap[index].getData()] = parentIndex;
                 self.binaryNodePositionMap[self.binaryHeap[parentIndex].getData()] = index;
-                Utility.swapUsingTempVariable(parentIndex, index, self.binaryHeap);
+                self.binaryHeap[parentIndex], self.binaryHeap[index] = self.binaryHeap[index], self.binaryHeap[parentIndex];
 
         return self.heapifyUp(parentIndex);
 
@@ -130,7 +128,7 @@ class BinaryHeapUsingArray:
         self.binaryHeap.append(node);
         index = len(self.binaryHeap) - 1;
         self.binaryNodePositionMap[data] = index;
-        self.heapifyUp(len(self.binaryHeap) - 1);
+        self.heapifyUp(index);
 
     def findMin(self):
         length = len(self.binaryHeap);
@@ -140,7 +138,7 @@ class BinaryHeapUsingArray:
             node = self.binaryHeap.pop(0);
             del self.binaryNodePositionMap[node.getData()];
             if len(self.binaryHeap) == 1:
-                self.binaryNodePositionMap[self.binaryNodePositionMap.keys()[0]] = 0;
+                self.binaryNodePositionMap[list(self.binaryNodePositionMap.keys())[0]] = 0;
             return node.getData();
         else:
             node = self.binaryHeap[0];
@@ -215,7 +213,7 @@ class BinaryHeapUsingArray:
         return True;
 
 if __name__ == '__main__':
-    binaryHeapUsingArray = BinaryHeapUsingArray("MIN_HEAP");
+    '''binaryHeapUsingArray = BinaryHeapUsingArray("MIN_HEAP");
     binaryHeapUsingArray.insert("E1", 8);
     binaryHeapUsingArray.insert("E2", 4);
     binaryHeapUsingArray.insert("E3", 3);
@@ -234,4 +232,29 @@ if __name__ == '__main__':
     
     binaryHeapUsingArray.delete("E3");
     print("Traversing Again");
+    binaryHeapUsingArray.traverseTree();'''
+    
+    binaryHeapUsingArray = BinaryHeapUsingArray("MIN_HEAP");
+    binaryHeapUsingArray.insert("E1", 2);
+    binaryHeapUsingArray.insert("E2", 100);
+    binaryHeapUsingArray.insert("E3", 8);
+    binaryHeapUsingArray.insert("E4", 1);
+    binaryHeapUsingArray.insert("E5", 17);
+    binaryHeapUsingArray.insert("E6", 25);
+    binaryHeapUsingArray.insert("E7", 100);
+#     binaryHeapUsingArray.insert("E8", 5);
+#     binaryHeapUsingArray.insert("E9", 5);
+#     binaryHeapUsingArray.insert("E10", 5);
+#     binaryHeapUsingArray.insert("E11", 5);
+#     binaryHeapUsingArray.insert("E12", 5);
+#     binaryHeapUsingArray.insert("E13", 5);
+#     binaryHeapUsingArray.insert("E14", 5);
+#     binaryHeapUsingArray.insert("E15", 5);
+
     binaryHeapUsingArray.traverseTree();
+    binaryHeapUsingArray.delete("E4");
+    print("Traversing Again");
+    binaryHeapUsingArray.traverseTree();
+    
+    
+    

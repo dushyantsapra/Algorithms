@@ -22,7 +22,7 @@ class MColoringProblem:
 
         isPossible = False;
 
-        for vertex in graph.getVertexMap().itervalues():
+        for vertex in graph.getVertexMap().values():
             visitedVertexColorMap[vertex] = -1;
 
         for vertex in visitedVertexColorMap:
@@ -38,7 +38,7 @@ class MColoringProblem:
             isPossible = False;
 
         print("Graph can be colored with given Colors");
-        for vertex, color in visitedVertexColorMap.iteritems():
+        for vertex, color in visitedVertexColorMap.items():
             print("vertex " + vertex.getName() + ", is Colored With " + str(color) + " Color");
             
 

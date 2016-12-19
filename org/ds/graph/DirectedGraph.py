@@ -44,7 +44,7 @@ class DirectedGraph:
 
         edge = Edge(fromVertex, toVertex, edgeName, weight);
 
-        if edge in self.edgeMap.itervalues():
+        if edge in self.edgeMap.values():
             print("Edge from start Vertex \"" + fromVertexName + "\" & end Vertex \"" + toVertexName + "\" is Present"); 
             return False;
 
@@ -53,11 +53,11 @@ class DirectedGraph:
         self.edgeMap[edgeName] = edge;
 
     def listVertex(self):
-        for vertex in self.vertexMap.itervalues():
+        for vertex in self.vertexMap.values():
             print("Vertex Name is " + vertex.name);
 
     def listVertexWithInAndOutEdges(self):
-        for vertex in self.vertexMap.itervalues():
+        for vertex in self.vertexMap.values():
             vertex.listOutEdges();
             vertex.listInEdges();
 
@@ -76,7 +76,7 @@ class DirectedGraph:
         return len(self.vertexMap);
 
     def listEdges(self):
-        for edge in self.edgeMap.itervalues():
+        for edge in self.edgeMap.values():
             print("Edge Having Start Vertex " + edge.getFromVertex().name + " & End Vertex " + edge.getToVertex().name);
 
     def removeEdge(self, fromVertexName, toVertexName):
@@ -114,8 +114,7 @@ class DirectedGraph:
 
         vertex = self.vertexMap[vertexName];
 
-#         if vertex in self.vertexMap.itervalues():
-        edgeList = self.getEdgeMap().values();
+        edgeList = list(self.getEdgeMap().values());
         for e in edgeList:
             if e.getFromVertex() == vertex or e.getToVertex() == vertex:
                 e.getFromVertex().removeOutEdge(e);

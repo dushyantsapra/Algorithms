@@ -22,11 +22,11 @@ class Connectivity:
 	def isEulerianForUndirectedGraph(self, graph):
 		visitedVertexMap = {};
 
-		for v in graph.getVertexMap().itervalues():
+		for v in graph.getVertexMap().values():
 			visitedVertexMap[v] = False;
 
 		startVertex = None;
-		for v in graph.getVertexMap().itervalues():
+		for v in graph.getVertexMap().values():
 			if len(v.getAdjacentVertex()) > 0:
 				startVertex = v;
 				break;
@@ -35,14 +35,14 @@ class Connectivity:
 # 			Checking For First Condition i.e Connectivity
 			self.isEulerianForUndirectedGraphHelper(startVertex, visitedVertexMap);
 
-			for v in graph.getVertexMap().itervalues():
+			for v in graph.getVertexMap().values():
 				if len(v.getAdjacentVertex()) > 0 and not visitedVertexMap[v]:
 					print("Graph not a Eulerian(Not Connected)");
 					return False;
 
 			oddVertexCount = 0;
 
-			for v in graph.getVertexMap().itervalues():
+			for v in graph.getVertexMap().values():
 				if len(v.getAdjacentVertex()) % 2 != 0:	
 					oddVertexCount += 1;
 
@@ -71,14 +71,14 @@ class Connectivity:
 		startVertex = None;
 		oddVertexList = [];
 		if self.isEulerianForUndirectedGraph(graph):
-			for v in graph.getVertexMap().itervalues():
+			for v in graph.getVertexMap().values():
 				if len(v.getAdjacentVertex()) % 2 != 0:
 					oddVertexList.append(v);
 
 # 			For Eulerian Graph, We can have 0 or 2 odd Vertex.
 			visitedEdgeMap = {};
 			
-			for e in graph.getEdgeMap().itervalues():
+			for e in graph.getEdgeMap().values():
 				visitedEdgeMap[e] = False;
 			
 			if len(oddVertexList) == 0:
@@ -97,7 +97,7 @@ class Connectivity:
 		sccVertexMap = obj.kosarajusAlgo(graph, False);
 
 		nonSingleVertexScc = 0;
-		for valueStack in sccVertexMap.itervalues():
+		for valueStack in sccVertexMap.values():
 			if valueStack.getSize() > 1:
 				nonSingleVertexScc += 1;
 
@@ -124,7 +124,7 @@ class Connectivity:
 		isBiconnected = True;
 		cutVertexList = DFSApplicationUndirectedGraph().checkForArticulationPointInGraph(graph, False);
 		if len(cutVertexList) == 0:
-			visitedVertexMap = graph.dfsUsingRecursion(graph.getVertexMap().keys()[1], False);
+			visitedVertexMap = graph.dfsUsingRecursion(list(graph.getVertexMap().keys())[1], False);
 			if len(visitedVertexMap) != len(graph.getVertexMap()):
 				isBiconnected = False;
 			else:

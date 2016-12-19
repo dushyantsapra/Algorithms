@@ -53,14 +53,14 @@ class SCC:
         stackVertexMap = {};
 
         arrivalTimeMap = {};
-        for vertex in graph.getVertexMap().itervalues():
+        for vertex in graph.getVertexMap().values():
             stackVertexMap[vertex] = False;
             arrivalTimeMap[vertex] = -1;
         
         lowTimeMap = {};
         sccStack = StackUsingLinkedList();
 
-        for key, value in arrivalTimeMap.iteritems():
+        for key, value in arrivalTimeMap.items():
             if value != -1:
                 continue;
             else:

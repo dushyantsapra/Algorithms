@@ -11,8 +11,6 @@ from org.ds.graph.GraphMatrixImplementation import GraphMatrixImplementation
 from org.ds.graph.TopologicalSort import TopoloicalSort
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
-from org.ds.graph.common.Edge import Edge
-
 
 class ShortestPath:
     def singleSourceShortedPathUsingDijsktraAlgo(self, graph, graphType="UNDIRECTED", rootVertexName=None, isPrint=True):
@@ -22,7 +20,7 @@ class ShortestPath:
         sourceShortedPathWeightMap = {};
 
         if rootVertexName is None:
-            rootVertex = graph.getVertexMap().values()[0];
+            rootVertex = list(graph.getVertexMap().values())[0];
         elif rootVertexName in graph.getVertexMap():
             rootVertex = graph.getVertexMap()[rootVertexName];
         else:
@@ -64,7 +62,7 @@ class ShortestPath:
 
         if isPrint:
             print("Dijsktra Algo Single Source Shortest Path");
-            for key, value in sourceShortedPathWeightMap.iteritems():
+            for key, value in sourceShortedPathWeightMap.items():
                 print("Source Vertex : " + rootVertex.getName() + ", To Vertex : " + key.getName() + ", with length : " + str(value) + " and path is : ");
     
                 for vertex in sourceShortedPathVerticesMap[key]:
@@ -82,7 +80,7 @@ class ShortestPath:
         sourceShortedPathParentMap = {};
 
         if rootVertexName is None:
-            rootVertex = graph.getVertexMap().values()[0];
+            rootVertex = list(graph.getVertexMap().values())[0];
         elif rootVertexName in graph.getVertexMap():
             rootVertex = graph.getVertexMap()[rootVertexName];
         else:
@@ -115,7 +113,7 @@ class ShortestPath:
 
         if not isNegativeCycle and isPrint:
             print("\nVertex Distance From Source(Using Bellman Ford Algo)");
-            for key, value in sourceDistanceMap.iteritems():
+            for key, value in sourceDistanceMap.items():
                 print(key.getName(), str(value));
 
         return sourceDistanceMap;
@@ -148,7 +146,7 @@ class ShortestPath:
         graph.addVertex("S");
 
         iLoop = 1;
-        for vertexName in graph.getVertexMap().iterkeys():
+        for vertexName in graph.getVertexMap().keys():
             graph.addEdge("S", vertexName, "S" + str(iLoop), 0);
             iLoop += 1;
 
@@ -157,19 +155,19 @@ class ShortestPath:
         graph.removeVertex("S");
 
         if len(sourceDistanceMap) > 0:
-            for edge in graph.getEdgeMap().itervalues():
+            for edge in graph.getEdgeMap().values():
                 edge.setWeight(edge.getWeight() + sourceDistanceMap[edge.getFromVertex()] - sourceDistanceMap[edge.getToVertex()]);
         else:
             return False;
 
         allPairShortestPathMap = {};
 
-        for vertex in graph.getVertexMap().itervalues():
+        for vertex in graph.getVertexMap().values():
             allPairShortestPathMap[vertex] = self.singleSourceShortedPathUsingDijsktraAlgo(graph, "DIRECTED", vertex.getName(), False);
 
         print("\nJohnsons Algo");
-        for rootVertex, sourceShortedPathWeightMap in allPairShortestPathMap.iteritems():
-            for key, value in sourceShortedPathWeightMap.iteritems():
+        for rootVertex, sourceShortedPathWeightMap in allPairShortestPathMap.items():
+            for key, value in sourceShortedPathWeightMap.items():
                 print("Source Vertex : " + rootVertex.getName() + ", To Vertex : " + key.getName() + ", with length : " + str(value));
             print("\n");
             

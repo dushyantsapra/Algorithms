@@ -84,7 +84,7 @@ class MaximumFlow:
         if isPrint:
             print("Max Flow From Given Graph is : " + str(maxFlow));
 
-            for key, stack in maxFlowPathStackMap.iteritems():
+            for key, stack in maxFlowPathStackMap.items():
                 print("Max Flow Path : " + str(key + 1));
 
                 while stack.getSize() > 0:
