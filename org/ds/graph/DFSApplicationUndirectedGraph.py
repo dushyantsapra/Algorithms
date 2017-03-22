@@ -14,7 +14,7 @@ class DFSApplicationUndirectedGraph:
 #     Check for every Bridge Edge in the graph, If graph has a bridge edge then G is not 2 edge connected
 #     To check for bridge edge, find the deepest back edge from every vertex, While doing so make sure no tree edge's are included
     def checkIfGraphIs2EdgeConnected(self, graph):
-        vertex = graph.vertexMap.values()[0];
+        vertex = list(graph.vertexMap.values())[0];
 
         arrivalMap = {};
         departureMap = {};
@@ -26,20 +26,20 @@ class DFSApplicationUndirectedGraph:
         else:
             print("\nGraph is not 2 Edge Connected");
             print("Bridge Edges are");
-            for key, value in bridgeEdgeMap.iteritems():
+            for key, value in bridgeEdgeMap.items():
                 print("From Vertex : " + key.getName() + ", To Vertex : " + value.getName());
 
 #     Assuming Graph is Connected with no connected components. If (V, E) has connected component then check for every vertex which are not visited in single run 
     def checkForArticulationPointInGraph(self, graph, isPrint=True):
         visitedVertexMap = {};
 
-        for v in graph.getVertexMap().itervalues():
+        for v in graph.getVertexMap().values():
             visitedVertexMap[v] = False;
 
         cutVertexList = [];
-        vertex = graph.getVertexMap().values()[0];
+        vertex = list(graph.getVertexMap().values())[0];
         
-        for vertex in graph.getVertexMap().itervalues():
+        for vertex in graph.getVertexMap().values():
             if not visitedVertexMap[vertex]:
                 DFSApplicationUtil.checkForArticulationPointInGraphHelper(vertex, vertex, {}, {}, cutVertexList, visitedVertexMap);
         
@@ -59,7 +59,7 @@ class DFSApplicationUndirectedGraph:
         for v in graph.getVertexMap().values():
             visitedVertexMap[v] = 0;
             
-        for key in visitedVertexMap.iterkeys():
+        for key in visitedVertexMap.keys():
             if visitedVertexMap[key] == 0:
                 isCyclic = DFSApplicationUtil.checkForCycleInGraphUsingDFSHelper(key, key, visitedVertexMap);
                 if isCyclic:
@@ -70,7 +70,7 @@ class DFSApplicationUndirectedGraph:
     def checkForCycleInGraphUsingDisjointSet(self, graph):
         ds = DisjointSet();
         
-        for vertex in graph.getVertexMap().itervalues():
+        for vertex in graph.getVertexMap().values():
             ds.makeSet(vertex);
         
         isCyclePresent = False;
@@ -91,7 +91,7 @@ class DFSApplicationUndirectedGraph:
             visitedVertexColorMap[vertex] = "WHITE";
         
         isCyclePresent = False;
-        for vertex in visitedVertexColorMap.iterkeys():
+        for vertex in visitedVertexColorMap.keys():
             if visitedVertexColorMap[vertex] is 'WHITE':
                 print("\n");
                 isCyclePresent = DFSApplicationUtil.checkForCycleInGraphUsingVertexColorHelper(vertex, vertex, visitedVertexColorMap);
@@ -146,7 +146,7 @@ class DFSApplicationUndirectedGraph:
     def hamiltonianPathOrCircuit(self, graph):
         visitedVertexMap = {};
 
-        vertex = graph.getVertexMap().values()[0];
+        vertex = list(graph.getVertexMap().values())[0];
 
         hamiltonPath = []
 

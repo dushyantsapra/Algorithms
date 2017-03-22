@@ -15,7 +15,7 @@ class MaxFlowApplication:
 
         print("Disjoint Path For Given Graph is : " + str(disjointPathCount));
 
-        for key, stack in pathMap.iteritems():
+        for key, stack in pathMap.items():
             print("Disjoint Path : " + str(key + 1));
 
             while stack.getSize() > 0:

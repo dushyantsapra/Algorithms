@@ -11,13 +11,13 @@ from org.ds.stack.Stack import StackUsingLinkedList
 
 class DFSApplicationDirectedGraph:
     def checkIfGraphStronglyConnected(self, graph):
-        visitedVertexMap = graph.dfsUsingRecursion(graph.getVertexMap().keys()[0], False, False);
+        visitedVertexMap = graph.dfsUsingRecursion(list(graph.getVertexMap().keys())[0], False, False);
 
         if len(visitedVertexMap) != len(graph.getVertexMap()):
             print("Graph is Not Strongly Connected");
             return
 
-        visitedVertexMap = graph.dfsUsingRecursion(graph.getVertexMap().keys()[0], True, False);
+        visitedVertexMap = graph.dfsUsingRecursion(list(graph.getVertexMap().keys())[0], True, False);
 
         if len(visitedVertexMap) == len(graph.getVertexMap()):
             print("Graph is Strongly Connected");
@@ -25,7 +25,7 @@ class DFSApplicationDirectedGraph:
             print("Graph is Not Strongly Connected");
 
     def checkIfGraphStronglyConnectedUsing2EdgeConnectivity(self, graph):
-        vertex = graph.vertexMap.values()[0];
+        vertex = list(graph.vertexMap.values())[0];
 
         arrivalMap = {};
         departureMap = {};
@@ -45,7 +45,7 @@ class DFSApplicationDirectedGraph:
         stack = StackUsingLinkedList();
         for v in graph.getVertexMap().values():
             visitedVertexMap[v] = 0;
-        vertex = graph.getVertexMap().values()[0];
+        vertex = list(graph.getVertexMap().values())[0];
 
         if(DFSApplicationUtil.checkForCycleInDirectedGraphHelper(vertex, stack, visitedVertexMap)):
             print("Directed Graph has a Cycle");

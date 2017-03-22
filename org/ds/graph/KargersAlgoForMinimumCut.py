@@ -12,7 +12,7 @@ class KargersAlgoForMinimumCut:
     def kargersAlgo(self, graph):
         disjointSet = DisjointSet();
 
-        for vertex in graph.getVertexMap().itervalues():
+        for vertex in graph.getVertexMap().values():
             disjointSet.makeSet(vertex);
 
         minCutEdges = [];
@@ -22,12 +22,12 @@ class KargersAlgoForMinimumCut:
 
         while vertexCount > 2:
             randonIndex = randint(0, len(graph.getEdgeMap()) - iValue);
-            edge = graph.getEdgeMap().values()[randonIndex];
+            edge = list(graph.getEdgeMap().values())[randonIndex];
             if disjointSet.union(edge.getFromVertex(), edge.getToVertex()):
                 vertexCount -= 1;
                 iValue += 1;
 
-        for edge in graph.getEdgeMap().itervalues():
+        for edge in graph.getEdgeMap().values():
             if disjointSet.findSet(edge.getFromVertex()) == disjointSet.findSet(edge.getToVertex()):
                 continue;
             else:

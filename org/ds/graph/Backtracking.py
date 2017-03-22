@@ -124,10 +124,10 @@ class Backtracking:
 
         visitedVertexColorMap = {};
 
-        for vertex in visitedVertexColorMap.itervalues():
+        for vertex in visitedVertexColorMap.values():
             visitedVertexColorMap[vertex] = -1;
 
-        sourceVertex = graph.getVertexMap().values()[0];
+        sourceVertex = list(graph.getVertexMap().values())[0];
 
         self.mColoringProblemHelper(sourceVertex, sourceVertex, maxColor, visitedVertexColorMap);
 

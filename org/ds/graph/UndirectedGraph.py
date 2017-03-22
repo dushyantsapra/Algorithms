@@ -57,7 +57,7 @@ class UnDirectedGraph:
     def removeVertex(self, vertexName):
         if vertexName in self.vertexMap:
             vertex = self.vertexMap[vertexName];
-            for key, value in self.edgeMap.iteritems()[:]:
+            for key, value in self.edgeMap.items()[:]:
                 if value.getFromVertex() == vertex or value.getToVertex() == vertex:
                     value.getFromVertex().removeUndirectedEdge(value);
                     value.getToVertex().removeUndirectedEdge(value);
@@ -286,7 +286,7 @@ if __name__ == '__main__':
 
     g.addEdge("V7", "V8", "E14", 7);
     
-    print("\n")
+    print("\n*#$*%$#*#$*#$*#*#$*$#*$#***##*")
     g.bfs("V0");
     
     

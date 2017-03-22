@@ -4,6 +4,7 @@ Created on Aug 14, 2016
 @author: Dushyant Sapra
 '''
 from os.path import os
+import sys
 
 from org.ds.graph.DisjointSet import DisjointSet
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
@@ -44,13 +45,13 @@ class MinimumSpanningTree:
 
         vertex = list(graph.getVertexMap().values())[3];
 
+        binaryHeap.insert(vertex, 0);
 #         visitedVertexMap[vertex] = 1;
         for tempVertex in graph.getVertexMap().values():
             if tempVertex == vertex:
-                binaryHeap.insert(tempVertex, 0);
                 continue;
             visitedVertexMap[tempVertex] = False;
-            binaryHeap.insert(tempVertex, float("inf"));
+            binaryHeap.insert(tempVertex, sys.maxsize);
 
         while binaryHeap.getHeapSize() > 0:
             vertex = binaryHeap.findMin();

@@ -121,7 +121,7 @@ class BinaryHeapUsingArray:
         self.binaryHeap.append(node);
         index = len(self.binaryHeap) - 1;
         self.binaryNodePositionMap[data] = index;
-        self.heapifyUp(len(self.binaryHeap) - 1);
+        self.heapifyUp(index);
 
     def findMin(self):
         length = len(self.binaryHeap);

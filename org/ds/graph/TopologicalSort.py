@@ -17,7 +17,7 @@ class TopoloicalSort:
         for vertex in graph.getVertexMap().values():
             visitedVertexMap[vertex] = False;
 
-        for vertex, value in visitedVertexMap.iteritems():
+        for vertex, value in visitedVertexMap.items():
             if not value:
                 DFSApplicationUtil.topologicalSortUsingDFSHelper(vertex, visitedVertexMap, stack); 
 
@@ -31,7 +31,7 @@ class TopoloicalSort:
 
         inVertexCountMap = {};
 
-        for vertex in directedGraph.vertexMap.itervalues():
+        for vertex in directedGraph.vertexMap.values():
             inVertexCountMap[vertex] = len(vertex.getInVerticesList());
             if len(vertex.getInVerticesList()) == 0:
                 zeroInVertexList.append(vertex);
@@ -45,7 +45,7 @@ class TopoloicalSort:
                     zeroInVertexList.append(inVertex);
 
         isTrue = True;
-        for lt in inVertexCountMap.itervalues():
+        for lt in inVertexCountMap.values():
             if lt > 0:
                 isTrue = False;
                 break;
