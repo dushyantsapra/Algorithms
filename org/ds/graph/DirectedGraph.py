@@ -44,7 +44,7 @@ class DirectedGraph:
 
         edge = Edge(fromVertex, toVertex, edgeName, weight);
 
-        if edge in self.edgeMap.itervalues():
+        if edge in self.edgeMap.values():
             print("Edge from start Vertex \"" + fromVertexName + "\" & end Vertex \"" + toVertexName + "\" is Present"); 
             return False;
 
@@ -115,7 +115,7 @@ class DirectedGraph:
         vertex = self.vertexMap[vertexName];
 
 #         if vertex in self.vertexMap.itervalues():
-        edgeList = self.getEdgeMap().values();
+        edgeList = list(self.getEdgeMap().values());
         for e in edgeList:
             if e.getFromVertex() == vertex or e.getToVertex() == vertex:
                 e.getFromVertex().removeOutEdge(e);

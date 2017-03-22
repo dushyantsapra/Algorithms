@@ -43,8 +43,6 @@ A: 2*(n-1)
 
 12. A Tree is a connected graph which doesn't have a cycle in it. So Number of edge would be n-1.
 
-a connected component (or just component) of an undirected graph is a subgraph in which any two vertices are connected to each other by paths, and which is connected to no additional vertices in the supergraph
-
 13. Spanning Tree: A spanning tree of G is a subgraph which is a tree and which contains all vertices of G.
 
 Note: A Cycle is Formed iff we are going to add an edge from vertex u to vertex v and vertex u and vertex v are already connected. That is vertex u and vertex v are in same connected component.
@@ -130,7 +128,7 @@ Note: If a Graph has a Cut Vertex then that Graph is not 2 Vertex Connected.
 
 19(iv). Check for Cycle in the Graph. 
 			Logic: 
-				1. For every visited vertex ‘v’, if there is an adjacent ‘u’ such that u is already visited and u is not parent of v, then there is a cycle in graph. If we don’t find such an adjacent for any vertex, we say that there is no cycle.
+				1. For every visited vertex 'v', if there is an adjacent 'u' such that u is already visited and u is not parent of v, then there is a cycle in graph. If we don't find such an adjacent for any vertex, we say that there is no cycle.
 				2. Call "2 Edge Connected" function, if that function returns Bridge Edge then Given Graph doesn't have a cycle.
 
 19(v). Check If Graph is Connected: To check if there is a path b/w every pair of vertices
@@ -182,13 +180,13 @@ A: No.
 			In the mathematical theory of directed graphs, a graph is said to be strongly connected if every vertex is reachable from every other vertex. The strongly connected components of an arbitrary directed graph form a partition into subgraphs that are themselves strongly connected. A strongly connected component always forms a cycle.
 			Strongly Connected Component can be Detected using Below algo's
 			i) Kosarajus Algo: 
-				a) Create an empty stack ‘S’ and do DFS traversal of a graph. In DFS traversal, after calling recursive DFS for adjacent vertices of a vertex, push the vertex to stack. In the above graph, if we start DFS from vertex 0, we get vertices in stack as 1, 2, 4, 3, 0.
+				a) Create an empty stack 'S' and do DFS traversal of a graph. In DFS traversal, after calling recursive DFS for adjacent vertices of a vertex, push the vertex to stack. In the above graph, if we start DFS from vertex 0, we get vertices in stack as 1, 2, 4, 3, 0.
 				b) Reverse directions of all arcs to obtain the transpose graph.
-				c) One by one pop a vertex from S while S is not empty. Let the popped vertex be ‘v’. Take v as source and do DFS (call DFSUtil(v)). The DFS starting from v prints strongly connected component of v. In the above example, we process vertices in order 0, 3, 4, 2, 1 (One by one popped from stack).
+				c) One by one pop a vertex from S while S is not empty. Let the popped vertex be 'v'. Take v as source and do DFS (call DFSUtil(v)). The DFS starting from v prints strongly connected component of v. In the above example, we process vertices in order 0, 3, 4, 2, 1 (One by one popped from stack).
 
 				Note: Here instead of using Stack we can also use BinaryHeap(Max Heap) and store the vertex with there departure time, and instead of poping from the stack we can get Max Departure Time Vertex.(This will increase the complexity).
 
-			ii) Tarjan's Algo: To find all Strongly connected component, we need to store the arrival and arrival time(lowest time) of all the backedges from 	the current vertex. For any node u, when DFS starts, Low will be set to it’s Disc 1st. Then later on DFS will be performed on each of it’s children v one by one, Low value of u can change it two case:
+			ii) Tarjan's Algo: To find all Strongly connected component, we need to store the arrival and arrival time(lowest time) of all the backedges from 	the current vertex. For any node u, when DFS starts, Low will be set to it's Disc 1st. Then later on DFS will be performed on each of it's children v one by one, Low value of u can change it two case:
 				Case1 (Tree Edge): If node v is not visited already, then after DFS of v is complete, then minimum of low[u] and low[v] will be updated to low[u].
 						low[u] = min(low[u], low[v]);
 				Case 2 (Back Edge): When child v is already visited, then minimum of low[u] and Disc[v] will be updated to low[u].
@@ -202,17 +200,17 @@ Note: Strongly connected is usually associated with directed graphs (one way edg
 23. Minimum Spanning Tree(MST): Given a connected and undirected graph, a spanning tree of that graph is a subgraph that is a tree and connects all the vertices together. A single graph can have many different spanning trees. A minimum spanning tree (MST) or minimum weight spanning tree for a weighted, connected and undirected graph is a spanning tree with weight less than or equal to the weight of every other spanning tree. The weight of a spanning tree is the sum of weights given to each edge of the spanning tree. If edge weight are distinct then we will have unique MST(minimum Spanning Tree) else we can have n number of MST with same length/weight. Number of MST can be n power (n-2), where n is vertices.
 		Algorithms to Find MST:
 			i) Kruskal's Algo(Greedy Algorithm):
-				Below are the steps for finding MST using Kruskal’s algorithm
+				Below are the steps for finding MST using Kruskal's algorithm
 					a)Sort all the edges in non-decreasing order of their weight.(Use Binary Heap)
 					b)Pick the smallest edge. Check if it forms a cycle with the spanning tree formed so far. If cycle is not formed, include this edge. Else, discard it(use Union-Find algorithm to detect cycle).  
 					c)Repeat step#2 until there are (V-1) edges in the spanning tree.
-			ii) Prim's Algo(Greedy Algorithms): It starts with an empty spanning tree. The idea is to maintain two sets of vertices. The first set contains the vertices already included in the MST, the other set contains the vertices not yet included. At every step, it considers all the edges that connect the two sets, and picks the minimum weight edge from these edges. After picking the edge, it moves the other endpoint of the edge to the set containing MST. A group of edges that connects two set of vertices in a graph is called cut in graph theory. So, at every step of Prim’s algorithm, we find a cut (of two sets, one contains the vertices already included in MST and other contains rest of the verices), pick the minimum weight edge from the cut and include this vertex to MST Set (the set that contains already included vertices).
+			ii) Prim's Algo(Greedy Algorithms): It starts with an empty spanning tree. The idea is to maintain two sets of vertices. The first set contains the vertices already included in the MST, the other set contains the vertices not yet included. At every step, it considers all the edges that connect the two sets, and picks the minimum weight edge from these edges. After picking the edge, it moves the other endpoint of the edge to the set containing MST. A group of edges that connects two set of vertices in a graph is called cut in graph theory. So, at every step of Prim's algorithm, we find a cut (of two sets, one contains the vertices already included in MST and other contains rest of the verices), pick the minimum weight edge from the cut and include this vertex to MST Set (the set that contains already included vertices).
 
 25. Eulerian Path and Cycle : Eulerian Path is a path in graph that visits every edge exactly once. Eulerian Circuit is an Eulerian Path which starts and ends on the same vertex.
 	A) How to check if a unDirected graph is eulerian?
 		i) Eulerian Cycle :
 			An undirected graph has Eulerian cycle if following two conditions are true.
-				a) All vertices with non-zero degree are connected. We don’t care about vertices with zero degree because they don’t belong to Eulerian Cycle or Path (we only consider all edges).
+				a) All vertices with non-zero degree are connected. We don't care about vertices with zero degree because they don't belong to Eulerian Cycle or Path (we only consider all edges).
 				b) All vertices have even degree.
 		ii) Eulerian Path :
 			An undirected graph has Eulerian Path if following two conditions are true.
@@ -234,16 +232,16 @@ Note: Strongly connected is usually associated with directed graphs (one way edg
 		In the mathematical theory of directed graphs, a graph is said to be strongly connected if every vertex is reachable from every other vertex. The strongly connected components of an arbitrary directed graph form a partition into subgraphs that are themselves strongly connected. A strongly connected component always forms a cycle.
 		Strongly Connected Component can be Detected using Below algo's
 		i) Kosarajus Algo: 
-			a) Create an empty stack ‘S’ and do DFS traversal of a graph. In DFS traversal, after calling recursive DFS for adjacent vertices of a vertex, push the vertex to stack. In the above graph, if we start DFS from vertex 0, we get vertices in stack as 1, 2, 4, 3, 0.
+			a) Create an empty stack 'S' and do DFS traversal of a graph. In DFS traversal, after calling recursive DFS for adjacent vertices of a vertex, push the vertex to stack. In the above graph, if we start DFS from vertex 0, we get vertices in stack as 1, 2, 4, 3, 0.
 			b) Reverse directions of all arcs to obtain the transpose graph.
-			c) One by one pop a vertex from S while S is not empty. Let the popped vertex be ‘v’. Take v as source and do DFS (call DFSUtil(v)). The DFS starting from v prints strongly connected component of v. In the above example, we process vertices in order 0, 3, 4, 2, 1 (One by one popped from stack).
+			c) One by one pop a vertex from S while S is not empty. Let the popped vertex be 'v'. Take v as source and do DFS (call DFSUtil(v)). The DFS starting from v prints strongly connected component of v. In the above example, we process vertices in order 0, 3, 4, 2, 1 (One by one popped from stack).
 
 			Note: Here instead of using Stack we can also use BinaryHeap(Max Heap) and store the vertex with there departure time, and instead of poping from the stack we can get Max Departure Time Vertex.(This will increase the complexity).
 
-		ii) Tarjan's Algo: To find all Strongly connected component, we need to store the arrival and arrival time(lowest time) of all the backedges from the current vertex. For any node u, when DFS starts, Low will be set to it’s Disc 1st. Then later on DFS will be performed on each of it’s children v one by one, Low value of u can change it two case:
+		ii) Tarjan's Algo: To find all Strongly connected component, we need to store the arrival and arrival time(lowest time) of all the backedges from the current vertex. For any node u, when DFS starts, Low will be set to it's Disc 1st. Then later on DFS will be performed on each of it's children v one by one, Low value of u can change it two case:
 					Case1 (Tree Edge): If node v is not visited already, then after DFS of v is complete, then minimum of low[u] and low[v] will be updated to low[u].
 							low[u] = min(low[u], low[v]);
 					Case 2 (Back Edge): When child v is already visited, then minimum of low[u] and Disc[v] will be updated to low[u].
 							low[u] = min(low[u], disc[v]);
 
-29. Cut In Graph: In graph theory, a cut is a partition of the vertices of a graph into two disjoint subsets. Any cut determines a cut-set, the set of edges that have one endpoint in each subset of the partition. These edges are said to cross the cut. In a flow network, an s–t cut is a cut that requires the source and the sink to be in different subsets, and its cut-set only consists of edges going from the source's side to the sink's side. The capacity of an s–t cut is defined as the sum of capacity of each edge in the cut-set.
+29. Cut In Graph: In graph theory, a cut is a partition of the vertices of a graph into two disjoint subsets. Any cut determines a cut-set, the set of edges that have one endpoint in each subset of the partition. These edges are said to cross the cut. In a flow network, an s-t cut is a cut that requires the source and the sink to be in different subsets, and its cut-set only consists of edges going from the source's side to the sink's side. The capacity of an s-t cut is defined as the sum of capacity of each edge in the cut-set.

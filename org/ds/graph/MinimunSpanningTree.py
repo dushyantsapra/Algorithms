@@ -3,9 +3,12 @@ Created on Aug 14, 2016
 
 @author: Dushyant Sapra
 '''
+from os.path import os
+
 from org.ds.graph.DisjointSet import DisjointSet
 from org.ds.graph.UndirectedGraph import UnDirectedGraph
 from org.ds.tree.BinaryHeap import BinaryHeapUsingArray
+
 
 class MinimumSpanningTree:
     def kruskalsAlgo(self, graph):
@@ -13,21 +16,25 @@ class MinimumSpanningTree:
         disjointSet = DisjointSet();
         mstEdgeList = [];
 
-        for value in graph.getEdgeMap().itervalues():
+        for value in graph.getEdgeMap().values():
             sortedEdgeList.append(value);
 
         sortedEdgeList = sorted(sortedEdgeList, key=lambda edge: edge.getWeight());
 
-        for key in g.getVertexMap().iterkeys():
+        for key in g.getVertexMap().keys():
             disjointSet.makeSet(key);
 
         for edge in sortedEdgeList:
             if disjointSet.union(edge.getFromVertex().getName(), edge.getToVertex().getName()):
                 mstEdgeList.append(edge);
 
+        print(disjointSet.disjointSetNodeMap);
         print("Minimum Spanning Tree(kruskalsAlgo) Edges  are : ");
         for edge in mstEdgeList:
             print(edge);
+        
+        print("Length is : " + str(len(mstEdgeList)))
+            
 
     def primsAlgoUsingVertices(self, graph):
         visitedVertexMap = {};
@@ -35,7 +42,7 @@ class MinimumSpanningTree:
         vertexEdgeMap = {};
         mstEdgeList = [];
 
-        vertex = graph.getVertexMap().values()[3];
+        vertex = list(graph.getVertexMap().values())[3];
 
 #         visitedVertexMap[vertex] = 1;
         for tempVertex in graph.getVertexMap().values():
@@ -138,35 +145,64 @@ if __name__ == '__main__':
     mst = MinimumSpanningTree();
 #     mst.kruskalsAlgo(g);
 
+    path = os.path.join("C:\\Users\\xdussap\\workspace\\", "input.txt");
+    inputfile = open(path);
+
+    vertexCount, edgeCount = inputfile.readline().strip().split(" ");
+    vertexCount, edgeCount = int(vertexCount) + 1, int(edgeCount);
+
+#     print(str(datetime.now()))
     g = UnDirectedGraph();
-    g.addVertex("V1");
-    g.addVertex("V2");
-    g.addVertex("V3");
-    g.addVertex("V4");
-    g.addVertex("V5");
-    g.addVertex("V6");
-    g.addVertex("V7");
-    g.addVertex("V8");
+#     print(str(datetime.now()))
 
-    g.addEdge("V1", "V2", "E1", 9);
-    g.addEdge("V1", "V3", "E2", 12);
-
-    g.addEdge("V2", "V3", "E3", 8);
-    g.addEdge("V2", "V4", "E4", 2);
-    g.addEdge("V2", "V8", "E5", 1);
-
-    g.addEdge("V3", "V4", "E6", 7);
-    g.addEdge("V3", "V5", "E7", 6);
-
-    g.addEdge("V4", "V5", "E8", 5);
-    g.addEdge("V4", "V6", "E9", 13);
-    g.addEdge("V4", "V8", "E10", 3);
-
-    g.addEdge("V5", "V7", "E11", 4);
-
-    g.addEdge("V6", "V7", "E12", 10);
-    g.addEdge("V6", "V8", "E13", 11);
-
+    for iLoop in range(1, vertexCount):
+        g.addVertex("V" + str(iLoop));
+    
+    for iLoop in range(edgeCount):
+        sVertex, eVertex, edgeWeight = inputfile.readline().strip().split(" ");
+#         sVertex, eVertex, edgeWeight = int(sVertex), int(eVertex) - 1, int(edgeWeight);
+        
+        g.addEdge("V" + sVertex, "V" + eVertex, "E" + str((iLoop + 1)), int(edgeWeight));
     mst = MinimumSpanningTree();
     mst.kruskalsAlgo(g);
-    mst.primsAlgo(g);
+
+#         g.vertexMap[sVertex].add((eVertex, edgeWeight));
+#         g.vertexMap[eVertex].add((sVertex, edgeWeight));
+#     print(str(datetime.now()))
+
+#     g.calculateMinimalPenalty(0, vertexCount - 1, vertexCount);
+
+
+
+#     g = UnDirectedGraph();
+#     g.addVertex("V1");
+#     g.addVertex("V2");
+#     g.addVertex("V3");
+#     g.addVertex("V4");
+#     g.addVertex("V5");
+#     g.addVertex("V6");
+#     g.addVertex("V7");
+#     g.addVertex("V8");
+# 
+#     g.addEdge("V1", "V2", "E1", 9);
+#     g.addEdge("V1", "V3", "E2", 12);
+# 
+#     g.addEdge("V2", "V3", "E3", 8);
+#     g.addEdge("V2", "V4", "E4", 2);
+#     g.addEdge("V2", "V8", "E5", 1);
+# 
+#     g.addEdge("V3", "V4", "E6", 7);
+#     g.addEdge("V3", "V5", "E7", 6);
+# 
+#     g.addEdge("V4", "V5", "E8", 5);
+#     g.addEdge("V4", "V6", "E9", 13);
+#     g.addEdge("V4", "V8", "E10", 3);
+# 
+#     g.addEdge("V5", "V7", "E11", 4);
+# 
+#     g.addEdge("V6", "V7", "E12", 10);
+#     g.addEdge("V6", "V8", "E13", 11);
+# 
+#     mst = MinimumSpanningTree();
+#     mst.kruskalsAlgo(g);
+#     mst.primsAlgo(g);
