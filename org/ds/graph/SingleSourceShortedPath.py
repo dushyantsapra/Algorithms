@@ -119,7 +119,7 @@ class ShortestPath:
         return sourceDistanceMap;
 
     def allPairShortedPathUsingFloydWarshalls(self, graph):
-        dist = [[0 for y in range(graph.getVertexCount())] for x in range(graph.getVertexCount())];
+        dist = [[0 for _ in range(graph.getVertexCount())] for _ in range(graph.getVertexCount())];
 
         for iLoop in range(graph.getVertexCount()):
             for jLoop in range(graph.getVertexCount()):
@@ -170,7 +170,7 @@ class ShortestPath:
             for key, value in sourceShortedPathWeightMap.items():
                 print("Source Vertex : " + rootVertex.getName() + ", To Vertex : " + key.getName() + ", with length : " + str(value));
             print("\n");
-            
+
     def singleSourceShortedPathInDAG(self, graph, rootVertexName=None, isPrint=True):
         rootVertex = None;
         if rootVertexName is None:

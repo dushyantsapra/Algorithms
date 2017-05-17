@@ -80,3 +80,9 @@ if __name__ == '__main__':
     
     print(s.findSet("V1").getData());
     print(s.findSet("V1").getRank());
+    
+    
+    
+    s = DisjointSet();
+    s.makeSet(1);
+    

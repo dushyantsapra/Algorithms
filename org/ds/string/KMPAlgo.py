@@ -59,6 +59,7 @@ if __name__ == '__main__':
     KMPAlgo.kmpAlgo("AABAACAADAABAAABAA", "AABA");
     KMPAlgo.kmpAlgo("ABABABCABABABCABABABC", "ABABAC");
     KMPAlgo.kmpAlgo("ABABDABACDABABCABAB", "ABABCABAB");
+    KMPAlgo.kmpAlgo("13213013201", "1320")
     
     
     

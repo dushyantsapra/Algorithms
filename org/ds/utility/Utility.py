@@ -3,6 +3,7 @@ Created on 21-Jun-2016
 
 @author: Dushyant Sapra
 '''
+from nt import stat
 
 #                        _oo0oo_
 #                       o8888888o
@@ -138,8 +139,47 @@ class Utility:
             minimum -= 1;
 
         print("GCD(Using Modulus) is " + str(minimum));
+    
+    @staticmethod
+    def multiplication(multiplier, final_array, current_array_size):
+        carry_forward = 0
+        for index in range(current_array_size):
+            prod = int(int(final_array[index] * multiplier) + carry_forward);
+            final_array[index] = int(prod % 10);
+            carry_forward = int(prod / 10);
+        
+        while carry_forward > 0:
+            final_array[current_array_size] = int(carry_forward % 10);
+            carry_forward = int(carry_forward / 10);
+            current_array_size += 1;
+        
+        return current_array_size;
+    
+    @staticmethod
+    def factorial(number):
+        MAX_SIZE = 500;
+        
+        final_array = [1 for _ in range(MAX_SIZE)];
+    
+        current_array_size = 1;
+        
+        for multiplier in range(2, number + 1):
+            current_array_size = Utility.multiplication(multiplier, final_array, current_array_size);
+        
+        string_array = [];
+        for index in reversed(range(current_array_size)):
+            string_array.append(str(final_array[index]));
+        
+        print(''.join(string_array))
+        return ''.join(string_array);
+    
+    @staticmethod
+    def compute_combination(n, r):
+        print()
 
 if __name__ == '__main__':
-    Utility.gcdUsingSubtraction(5, 7);
-    Utility.gcdUsingModulus(4, 8);
-    Utility.mergeTwoSortedArray([1, 5, -1, -1, 20, -1, 35], [2, 11, 25]);
+#     Utility.gcdUsingSubtraction(5, 7);
+#     Utility.gcdUsingModulus(4, 8);
+#     Utility.mergeTwoSortedArray([1, 5, -1, -1, 20, -1, 35], [2, 11, 25]);
+
+    Utility.factorial(25)
