@@ -13,7 +13,9 @@ class Sorting:
 
         print("Insertion Sort");
         for iValue in tempList:
-            print(iValue);
+            print(iValue, end=" ");
+        
+        print()
 
     # Select Smallest Number on Every Iteration.
     @staticmethod
@@ -30,7 +32,8 @@ class Sorting:
 
         print("Selection Sort");
         for iValue in tempList:
-            print(iValue);
+            print(iValue, end=" ");
+        print()
 
 # Compare Adjacent Pairs
     @staticmethod
@@ -43,8 +46,9 @@ class Sorting:
 
         print("Bubble Sort");
         for iValue in tempList:
-            print(iValue);
-
+            print(iValue, end=" ");
+        print()
+        
     @staticmethod
     def mergeHelper(sIndex, midIndex, eIndex, orgList):
         tempList = [];
@@ -92,27 +96,28 @@ class Sorting:
         if isPrint:
             print("Merge Sort");
             for iValue in tempList:
-                print(iValue);
-
+                print(iValue, end=" ");
+        print()
+    
     @staticmethod
     def quickSortPartition(sIndex, eIndex, orgList):
         pivot = orgList[eIndex];
         iValue = sIndex - 1;
         for jValue in range(sIndex, eIndex):
-            if orgList[jValue] < pivot:
+            if orgList[jValue] <= pivot:
                 iValue += 1;
-                if iValue != jValue:
-                    Utility.swap(iValue, jValue, orgList);
-        Utility.swap((iValue + 1), eIndex, orgList);
-        return (iValue + 1);
+                orgList[iValue], orgList[jValue] = orgList[jValue], orgList[iValue] 
+        iValue += 1;
+        orgList[iValue], orgList[eIndex] = orgList[eIndex], orgList[iValue]
+        print(orgList)
+        return iValue;
 
     @staticmethod
     def quickSortHelper(sIndex, eIndex, orgList):
         if(sIndex < eIndex):
             pivotIndex = Sorting.quickSortPartition(sIndex, eIndex, orgList);
-            Sorting.quickSortPartition(sIndex, pivotIndex - 1, orgList);
-            Sorting.quickSortPartition(pivotIndex + 1, eIndex, orgList);
-            return None;
+            Sorting.quickSortHelper(sIndex, pivotIndex - 1, orgList);
+            Sorting.quickSortHelper(pivotIndex + 1, eIndex, orgList);
 
     @staticmethod
     def quickSort(tempList):
@@ -120,13 +125,15 @@ class Sorting:
 
         print("Quick Sort");
         for value in tempList:
-            print(value);
-        return None;
+            print(value, end=" ");
+        print()
 
 if __name__ == '__main__':
-    Sorting.insertionSort([6, 5, 3, 1, 8, 7, 2, 4]);
-    Sorting.selectionSort([6, 5, 3, 1, 8, 7, 2, 4]);
-    Sorting.bubbleSort([6, 5, 3, 1, 8, 7, 2, 4]);
-    Sorting.mergeSort([6, 5, 3, 1, 8, 7, 2, 4]);
-    # Sorting.quickSort([1, 2, 3, 4]);
+#     Sorting.insertionSort([6, 5, 3, 1, 8, 7, 2, 4]);
+#     Sorting.selectionSort([6, 5, 3, 1, 8, 7, 2, 4]);
+#     Sorting.bubbleSort([6, 5, 3, 1, 8, 7, 2, 4]);
+#     Sorting.mergeSort([6, 5, 3, 1, 8, 7, 2, 4]);
+    Sorting.quickSort([1, 2, 3, 4, 5])
+    Sorting.quickSort([6, 5, 3, 1, 8, 7, 2, 4])
+    Sorting.quickSort([1, 3, 9, 8, 2, 7, 5])
 
