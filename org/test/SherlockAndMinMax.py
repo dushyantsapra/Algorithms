@@ -3,95 +3,54 @@ Created on May 17, 2017
 
 @author: sapra
 '''
-"""if __name__ == '__main__':
-    print(datetime.now())
-    for _ in range(70283784, 302962360):
-        pass
-    print(datetime.now())
-    print("Hello")"""
-
-from _datetime import datetime
-from os.path import os
-
 
 if __name__ == '__main__':
-    path = os.path.join("C:\\Users\\xdussap\\workspace\\", "input.txt");
-    inputfile = open(path);
+    inputfile = open("/home/sapra/input.txt");
     arrLen = int(inputfile.readline().strip());
-#     print(arrLen)
-    
+
     originlArr = list(map(int, inputfile.readline().strip().split(" ")));
     originlArr = sorted(originlArr)
-    originalArrMap = {};
-    for e in originlArr:
-        originalArrMap[e] = True
-#     print(originlArr)
+
+    print(originlArr)
 
     startrange, endrange = list(map(int, inputfile.readline().strip().split(" ")));
 
-    i = 0;
-    mergedArr = [];
-    currentIndex = 0
-    elementIndexMap = {};
-    while originlArr[i] < startrange:
-        mergedArr.append(originlArr[i])
-        currentIndex += 1;
-        i += 1;
-
-    for element in range(startrange, (endrange + 1)):
-        mergedArr.append(element)
-        if element not in originalArrMap:
-            elementIndexMap[element] = currentIndex;
-        else:
-            i += 1;
-        currentIndex += 1;
-
-#     while i < arrLen and originlArr[i] <= endrange:
-#         i += 1;
-
-    while i < arrLen:
-        mergedArr.append(originlArr[i])
-#         elementIndexMap[originlArr[i]] = currentIndex;
-        currentIndex += 1;
-        i += 1;
-
-#     print(mergedArr)
-#     print(elementIndexMap)
-    
-    maxOfMin = float("-inf");
-    mergedArrLen = len(mergedArr)
-    minValueListMap = {};
-    for element, index in elementIndexMap.items():
-        currentMin = float("inf");
-        tempIndex = index;
-        while tempIndex > 0:
-            if mergedArr[tempIndex - 1] not in elementIndexMap:
-                currentMin = mergedArr[index] - mergedArr[tempIndex - 1];
-                break
-            tempIndex -= 1;
-        tempIndex = index;
-        while tempIndex < (mergedArrLen - 1): 
-            if mergedArr[tempIndex + 1] not in elementIndexMap:
-                diff = mergedArr[tempIndex + 1] - mergedArr[index]
-                currentMin = currentMin if currentMin < diff else diff;
-                break
-            tempIndex += 1;
+    maxOfMin = (float("-inf"), -1);
+#     Completely Covering
+    if originlArr[0] > startrange and originlArr[arrLen - 1] < endrange:
+        maxOfMin = ((originlArr[0] - startrange), startrange)
+        index = 1;
+        while index < arrLen - 1:
+            currdiff = int((originlArr[index] - originlArr[index - 1]) / 2)
+            if currdiff > maxOfMin[0]:
+                maxOfMin = (currdiff, (originlArr[index] + currdiff));
+        currdiff = int(endrange - originlArr[index])
+        if currdiff > maxOfMin[0]:
+            maxOfMin = (currdiff, (originlArr[index] + currdiff));
+#     Completely Covered
+    elif originlArr[0] < startrange and originlArr[arrLen - 1] > endrange:
+        index = 0;
+        startIndex = 0;
+        endIndex = 0;
+        while index < arrLen:
+            if originlArr[index] < startrange:
+                startIndex = index;
+            elif originlArr[index] > endrange:
+                endIndex = index;
+                break;
         
-        if currentMin == 0:
-            continue
+        diff1 = startrange - originlArr[startIndex];
+        diff2 = originlArr[startIndex + 1] - startrange
+        maxOfMin = (diff1, startrange) if diff1 < diff2 else (diff2, startrange)
         
-        if currentMin not in minValueListMap:
-            minValueListMap[currentMin] = [element]
-        else:
-            minValueListMap[currentMin].append(element);
+        index = startIndex + 1
         
-        if maxOfMin < currentMin:
-            maxOfMin = currentMin;
-    
-#     print(minValueListMap)
-#     print(maxOfMin)
-    
-    print(sorted(minValueListMap[maxOfMin])[0])
-    
-    
-    
+                
+#     start out, end in
+    elif originlArr[0] > startrange and originlArr[arrLen - 1] > endrange:
+        pass
+#     start in, end out
+    elif originlArr[0] < startrange and originlArr[arrLen - 1] < endrange:
+        pass
+
+    print(maxOfMin[1])
