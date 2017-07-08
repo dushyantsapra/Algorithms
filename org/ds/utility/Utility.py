@@ -3,7 +3,6 @@ Created on 21-Jun-2016
 
 @author: Dushyant Sapra
 '''
-from nt import stat
 
 #                        _oo0oo_
 #                       o8888888o

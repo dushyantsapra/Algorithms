@@ -35,7 +35,7 @@ class Sorting:
             print(iValue, end=" ");
         print()
 
-# Compare Adjacent Pairs
+    # Compare Adjacent Pairs
     @staticmethod
     def bubbleSort(tempList):
         listLen = len(tempList);
@@ -129,10 +129,10 @@ class Sorting:
         print()
 
 if __name__ == '__main__':
-#     Sorting.insertionSort([6, 5, 3, 1, 8, 7, 2, 4]);
-#     Sorting.selectionSort([6, 5, 3, 1, 8, 7, 2, 4]);
-#     Sorting.bubbleSort([6, 5, 3, 1, 8, 7, 2, 4]);
-#     Sorting.mergeSort([6, 5, 3, 1, 8, 7, 2, 4]);
+    Sorting.insertionSort([6, 5, 3, 1, 8, 7, 2, 4]);
+    Sorting.selectionSort([6, 5, 3, 1, 8, 7, 2, 4]);
+    Sorting.bubbleSort([6, 5, 3, 1, 8, 7, 2, 4]);
+    Sorting.mergeSort([6, 5, 3, 1, 8, 7, 2, 4]);
     Sorting.quickSort([1, 2, 3, 4, 5])
     Sorting.quickSort([6, 5, 3, 1, 8, 7, 2, 4])
     Sorting.quickSort([1, 3, 9, 8, 2, 7, 5])
