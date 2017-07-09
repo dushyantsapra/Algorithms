@@ -167,7 +167,9 @@ class BinaryHeapUsingArray:
 
             if "MIN_HEAP" is self.treeTpye:
                 self.heapifyDown(index);
+                self.heapifyUp(index);
             elif "MAX_HEAP" is self.treeTpye:
+                self.heapifyDown(index);
                 self.heapifyUp(index);
 
 #     HeapifyUp
@@ -212,7 +214,7 @@ class BinaryHeapUsingArray:
         return True;
 
 if __name__ == '__main__':
-    '''binaryHeapUsingArray = BinaryHeapUsingArray("MIN_HEAP");
+    binaryHeapUsingArray = BinaryHeapUsingArray("MAX_HEAP");
     binaryHeapUsingArray.insert("E1", 8);
     binaryHeapUsingArray.insert("E2", 4);
     binaryHeapUsingArray.insert("E3", 3);
@@ -229,18 +231,18 @@ if __name__ == '__main__':
     print("Traversing Again");
     binaryHeapUsingArray.traverseTree();"""
     
-    binaryHeapUsingArray.delete("E3");
+    binaryHeapUsingArray.delete("E4");
     print("Traversing Again");
-    binaryHeapUsingArray.traverseTree();'''
+    binaryHeapUsingArray.traverseTree();
     
-    binaryHeapUsingArray = BinaryHeapUsingArray("MIN_HEAP");
-    binaryHeapUsingArray.insert("E1", 2);
-    binaryHeapUsingArray.insert("E2", 100);
-    binaryHeapUsingArray.insert("E3", 8);
-    binaryHeapUsingArray.insert("E4", 1);
-    binaryHeapUsingArray.insert("E5", 17);
-    binaryHeapUsingArray.insert("E6", 25);
-    binaryHeapUsingArray.insert("E7", 100);
+#     binaryHeapUsingArray = BinaryHeapUsingArray("MIN_HEAP");
+#     binaryHeapUsingArray.insert("E1", 2);
+#     binaryHeapUsingArray.insert("E2", 100);
+#     binaryHeapUsingArray.insert("E3", 8);
+#     binaryHeapUsingArray.insert("E4", 1);
+#     binaryHeapUsingArray.insert("E5", 17);
+#     binaryHeapUsingArray.insert("E6", 25);
+#     binaryHeapUsingArray.insert("E7", 100);
 #     binaryHeapUsingArray.insert("E8", 5);
 #     binaryHeapUsingArray.insert("E9", 5);
 #     binaryHeapUsingArray.insert("E10", 5);
@@ -250,10 +252,10 @@ if __name__ == '__main__':
 #     binaryHeapUsingArray.insert("E14", 5);
 #     binaryHeapUsingArray.insert("E15", 5);
 
-    binaryHeapUsingArray.traverseTree();
-    binaryHeapUsingArray.delete("E4");
-    print("Traversing Again");
-    binaryHeapUsingArray.traverseTree();
+#     binaryHeapUsingArray.traverseTree();
+#     binaryHeapUsingArray.delete("E4");
+#     print("Traversing Again");
+#     binaryHeapUsingArray.traverseTree();
     
     
     

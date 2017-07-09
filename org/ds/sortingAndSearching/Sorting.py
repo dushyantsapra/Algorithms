@@ -3,18 +3,18 @@ from org.ds.utility.Utility import Utility
 class Sorting:
     @staticmethod
     def insertionSort(tempList):
-        tempValue = 0;
+        tempValue = 0
         for iValue in range(len(tempList)):
-            tempValue = iValue;
+            tempValue = iValue
             for jValue in reversed(range(iValue)):
                 if tempList[tempValue] < tempList[jValue]:
-                    Utility.swap(tempValue, jValue, tempList);
-                    tempValue = jValue;
+                    tempList[tempValue], tempList[jValue] = tempList[jValue], tempList[tempValue]
+                    tempValue = jValue
 
-        print("Insertion Sort");
+        print("Insertion Sort")
+
         for iValue in tempList:
-            print(iValue, end=" ");
-        
+            print(iValue, end=" ")
         print()
 
     # Select Smallest Number on Every Iteration.
@@ -28,7 +28,7 @@ class Sorting:
                 if tempList[minIndex] > tempList[jValue]:
                     minIndex = jValue;
             if minIndex != iValue:
-                Utility.swap(minIndex, iValue, tempList);
+                tempList[minIndex], tempList[iValue] = tempList[iValue], tempList[minIndex]
 
         print("Selection Sort");
         for iValue in tempList:
@@ -38,17 +38,17 @@ class Sorting:
     # Compare Adjacent Pairs
     @staticmethod
     def bubbleSort(tempList):
-        listLen = len(tempList);
+        listLen = len(tempList)
         for iValue in range(listLen):
             for jValue in range(listLen - 1 - iValue):
                 if(tempList[jValue] > tempList[jValue + 1]):
-                    Utility.swap(jValue, jValue + 1, tempList);
+                    tempList[jValue], tempList[jValue + 1] = tempList[jValue + 1], tempList[jValue]
 
-        print("Bubble Sort");
+        print("Bubble Sort")
         for iValue in tempList:
-            print(iValue, end=" ");
+            print(iValue, end=" ")
         print()
-        
+
     @staticmethod
     def mergeHelper(sIndex, midIndex, eIndex, orgList):
         tempList = [];
