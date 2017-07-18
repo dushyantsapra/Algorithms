@@ -3,9 +3,12 @@ Created on May 31, 2017
 
 @author: sapra
 '''
+from os.path import os
+
 
 if __name__ == '__main__':
-    inputfile = open("/home/sapra/input.txt");
+    path = os.path.join("C:\\Users\\xdussap\\workspace\\", "input.txt");
+    inputfile = open(path);
     game_count = int(inputfile.readline().strip())
     
     for _ in range(game_count):
