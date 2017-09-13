@@ -1,4 +1,3 @@
-from org.ds.utility.Utility import Utility
 
 class Sorting:
     @staticmethod
@@ -127,7 +126,7 @@ class Sorting:
         for value in tempList:
             print(value, end=" ");
         print()
-
+    
 if __name__ == '__main__':
     Sorting.insertionSort([6, 5, 3, 1, 8, 7, 2, 4]);
     Sorting.selectionSort([6, 5, 3, 1, 8, 7, 2, 4]);

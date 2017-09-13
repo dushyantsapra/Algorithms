@@ -12,6 +12,24 @@ from org.ds.linkedList.DoublyLinkedList import DoublyLinkedList
 
 class LinkedListQuestions:
     @staticmethod
+#     Pass Head pointer of the ll
+    def reverseLinkedListByIteration(currentNode):
+        if currentNode:
+            newHead = currentNode
+            currentNode = currentNode.next
+            newHead.next = None
+            while(currentNode is not None):
+                tempNode = currentNode
+                currentNode = currentNode.next
+                
+                tempNode.next = newHead
+                newHead = tempNode
+            
+            while(newHead):
+                print(newHead.data)
+                newHead = newHead.next
+    
+    @staticmethod
     def reverseSingleLinkedListByReference(ll):
         if ll.head:
             tempNode = ll.head;
@@ -649,7 +667,9 @@ if __name__ == '__main__':
     ll.add("2");
     ll.add("3");
 
-    LinkedListQuestions.reverseSingleLinkedList(ll);
+    LinkedListQuestions.reverseSingleLinkedListByReference(ll)
+    ll.displayIterative()
+#     LinkedListQuestions.reverseSingleLinkedList(ll);
 
     ll = SinglyLinkedList();
     ll.add(1);
@@ -664,7 +684,7 @@ if __name__ == '__main__':
     ll.add(9);
     ll.add(10);
     ll.tail.next = node;
-    LinkedListQuestions.detectAndRemoveLoopInLinkedList(ll);
+#     LinkedListQuestions.detectAndRemoveLoopInLinkedList(ll);
     
     list1 = SinglyLinkedList();
     list1.add(1);
