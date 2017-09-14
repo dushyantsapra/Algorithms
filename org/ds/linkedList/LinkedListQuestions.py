@@ -51,6 +51,20 @@ class LinkedListQuestions:
         LinkedListQuestions.reverseSingleLinkedListByReference(ll);
         print("\nReversed LL")
         ll.displayIterative();
+        
+    @staticmethod
+    def reverseLLMethod2Helper(currNode, prevnode):
+        next = currNode.next
+        currNode.next = prevnode
+        if next is None:
+            return currNode
+        return LinkedListQuestions.reverseLLMethod2Helper(next, currNode)
+    
+    @staticmethod
+    def reverseLLMethod2(ll):
+        ll.head = LinkedListQuestions.reverseLLMethod2Helper(ll.head, None)
+        print("\nReversed LL Method 2")
+        ll.displayIterative();
 
     @staticmethod
     def reverseFirstKElementOfSingleLinkedListHelper(ll, size, loopCount=0):
@@ -667,9 +681,8 @@ if __name__ == '__main__':
     ll.add("2");
     ll.add("3");
 
-    LinkedListQuestions.reverseSingleLinkedListByReference(ll)
-    ll.displayIterative()
-#     LinkedListQuestions.reverseSingleLinkedList(ll);
+    LinkedListQuestions.reverseSingleLinkedList(ll)
+    LinkedListQuestions.reverseLLMethod2(ll)
 
     ll = SinglyLinkedList();
     ll.add(1);
